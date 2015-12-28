@@ -26,10 +26,9 @@ function onLoad() {
             req.open('GET', file.download_url, false); 
             req.send(null);
             if (req.status === 200) {
-                var resp = req.responseText,
-                    regexp = new RegExp("<title>(.*?)</title>"),
-                    title = resp.match(regexp)[1];
-                    out.push("<li><a href='" + file.name + "'>" + title + "</a></li>");
+                var regexp = new RegExp("<title>(.*?)</title>"),
+                    title = req.responseText.match(regexp)[1];
+                out.push("<li><a href='" + file.name + "'>" + title + "</a></li>");
             }
         }
     }
