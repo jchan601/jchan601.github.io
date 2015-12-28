@@ -8,7 +8,7 @@ function $(id) { // shortcut for document.getElementById
 function find_time(year, month, day, hours, minutes, seconds) { 
 	var milliseconds = 0;
 	var date = new Date(year, month, day, hours, minutes, seconds, milliseconds);
-	return "<b>" + date.getTime() + "</b> <br> UTC Time: " + date.toUTCString() + "<br> Local Time: " + date.toString(); 
+	return "<b>" + date.getTime() + "</b> <br/><br/> UTC Time: " + date.toUTCString() + "<br/> Local Time: " + date.toString(); 
 };
 
 function output() {
@@ -21,7 +21,7 @@ function output() {
 <body>
 
 Year: 
-<input type="number" id="year" min="1970" max="9999"/>
+<input type="number" id="year" min="1970" max="9999" value="1970"/>
 
 <br/>
 
@@ -44,22 +44,22 @@ Month:
 <br/>
 
 Day:
-<input type="number" id="day" min="1" max="31"/>
+<input type="number" id="day" min="1" max="31" value="1"/>
 
 <br/>
 
 Hour: 
-<input type="number" id="hour" min="0" max="23"/>
+<input type="number" id="hour" min="0" max="23" value="0"/>
 
 <br/>
 
 Minutes: 
-<input type="number" id="minutes" min="0" max="59"/>
+<input type="number" id="minutes" min="0" max="59" value="0"/>
 
 <br/>
 
 Seconds: 
-<input type="number" id="seconds" min="0" max="59"/>
+<input type="number" id="seconds" min="0" max="59" value="0"/>
 
 <br/><br/>
 
@@ -67,6 +67,6 @@ Seconds:
 
 <br/><br/>
 
-<div id="time">&nbsp;</div>
+<div id="time"></div>
 
 </body>
