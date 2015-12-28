@@ -19,7 +19,7 @@ function onLoad() {
         var files = JSON.parse(xhr.responseText);
         for (var i = 0; i < files.length; i++) {
             var file = files[i];
-            if (["_unix.html", "index.html"].indexOf(file.name) !== -1 || file.name.indexOf(".txt") !== -1) {
+            if (["_unix.html", "index.html"].indexOf(file.name) !== -1) {
                 continue;
             }
             var req = new XMLHttpRequest();
