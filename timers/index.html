@@ -1,17 +1,47 @@
 <head>
-    <title>Countdown Timers</title>
+<title>Countdown Timers</title>
+<script>
+function $(id) { // shortcut for document.getElementById
+    return document.getElementById(id);
+}
+
+function stripHtml(string) {
+    var regex = /(<([^>]+)>)/ig;
+    string = string.replace(regex, "");
+    return string;
+}
+
+function onLoad() {
+    var xhr = new XMLHttpRequest(), out = ["<ul>"];
+    xhr.open('GET', 'https://api.github.com/repos/jchan601/jchan601.github.io/contents/timers', false);
+    xhr.send(null);
+    if (xhr.status === 200) {
+        var files = JSON.parse(xhr.responseText);
+        for (var i = 0; i < files.length; i++) {
+            var file = files[i];
+            if (["_unix.html", "index.html"].indexOf(file.name) !== -1 || file.name.indexOf(".txt") !== -1) {
+                continue;
+            }
+            var req = new XMLHttpRequest();
+            req.open('GET', file.download_url, false); 
+            req.send(null);
+            if (req.status === 200) {
+                var resp = req.responseText,
+                    regexp = new RegExp("<title>(.*?)</title>"),
+                    title = resp.match(regexp)[1];
+                    out.push("<li><a href='" + file.name + "'>" + title + "</a></li>");
+            }
+        }
+    }
+    out.push("</ul>");
+    $("timers").innerHTML = out.join("");
+}
+</script>
 </head>
 
-<!-- TO-DO: Maybe have this change dynamically? -->
-<body>
+
+<body onload='onLoad()'>
     <strong>Timers:</strong>
     <br/>
-    <ul>
-        <li><a href='mp2.html'>End of Second Marking Period</a></li>
-        <li><a href='mp3.html'>End of Third Marking Period</a></li>
-        <li><a href='mp4.html'>End of Fourth Marking Period</a></li>
-        <li><a href='college.html'>National College Decision Day</a></li>
-        <li><a href='last.html'>Last Day of School</i>
-        <li><a href='graduation.html'>Graduation</i>
-    </ul>
+    <div id='timers'>Loading...</div>
 </body>
