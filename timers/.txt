@@ -1,1 +1,1 @@
-File goes at bottom of directory, used in index.html to set links dynamically
+File goes at bottom of directory, used in index.html to set links dynamically.
