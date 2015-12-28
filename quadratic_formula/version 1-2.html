@@ -1,0 +1,219 @@
+﻿<head>
+<script>
+function $(id) { // shortcut for document.getElementById
+	return document.getElementById(id);
+};
+function onLoad() {
+	if (location.search !== "") {
+		var parameters = location.search.substr(1).split("&");
+		var obj = {};
+		for (var i = 0; i < parameters.length; i++) {
+			var variables = parameters[i].split("=");
+			obj[variables[0].toLowerCase()] = variables[1];
+		};
+		["a", "b", "c"].forEach(function(x) {
+			if (obj.hasOwnProperty(x) && !isNaN(obj[x])) {
+				$(x).value = parseInt(obj[x], 10);
+			};
+		});
+		if ($("a").value !== "" && $("b").value !== "" && $("c").value !== "") {
+			output();
+		};
+	};
+};
+function getPrimeFactorization(number) {
+	var factors = [], num = number;
+	for (var i = 2; i <= Math.floor(number / 2); i++) {
+		if (num % i === 0) {
+			factors.push(i);
+			num /= i; 
+			i--; 
+		}
+		if (num === 1) break; 
+	}
+	if (factors.length === 0)
+		factors.push(number);
+	return factors;
+};
+function simplify(number) {
+	var coefficient = 1,
+		radicand = number,
+		primeFactors = getPrimeFactorization(number);
+	/*for (var i = 0; Math.pow(i, 2) <= Math.floor(Math.sqrt(number)); i++) {
+		if (radicand % Math.pow(i, 2) === 0) {
+			coefficient *= i;
+			radicand /= Math.pow(i, 2);
+		};
+	};*/
+	for (var i = 0; i < primeFactors.length; i++) {
+		if (primeFactors[i] === primeFactors[i + 1]) {
+			var factor = primeFactors[i];
+			coefficient *= factor;
+			radicand /= Math.pow(factor, 2);
+			primeFactors.splice(i, 2);
+		};
+	};
+	return [coefficient, radicand];
+};
+function GCF(numerator, denominator) {
+  var gcd = function gcd(a, b){
+    return b ? gcd(b, a%b) : a;
+  };
+  return gcd(numerator,denominator);
+};
+function isWholeNumber(number) {
+	number = Math.abs(number);
+	return number - Math.floor(number) === 0;
+};
+function stripHTML(string) {
+	return string.replace(/(<([^>]+)>)/ig,"");
+};
+function fraction(numerator, denominator) {
+	numerator = numerator.toString(), denominator = denominator.toString();
+	if (denominator == "1")
+		return "<td style='text-align:center;'>" + numerator + "</td>";
+	var out = ["<td style='text-align:center;'>" + numerator + "</td></tr><tr><td style='text-align:center;'><span style='text-decoration:overline;'>"]
+	var nlength = stripHTML(numerator).replace("~i", "i").length;
+		dlength = denominator.length;
+	var max = Math.floor((nlength - dlength) / 2);
+	for (var i = 0; i < max; i++) {
+		out.push("&nbsp;");
+	};
+	out.push(denominator)
+	for (var j = 0; j < max; j++) {
+		out.push("&nbsp;");
+	};	
+	out.push("</span></td>");
+	return out.join("");
+};
+function radical(coefficient, radicand) {
+	return (coefficient == "1" ? "" : (coefficient == "1<i>i</i>" ? "<i>i</i>"  : coefficient)) + "&radic;<span style='text-decoration:overline'>" + radicand + "</span>";
+};
+function quadratic(a, b, c, decimal) {
+	var root, answer1, answer2, discriminant, numerator1, numerator2, denominator, radical, decimal_answer1, decimal_answer2, gcd, gcd1, gcd2, imaginary = false, i;
+		
+	discriminant = Math.pow(b, 2) - 4 * a * c;
+	if (discriminant < 0) {
+		imaginary = true;
+		discriminant = -discriminant;
+	};
+	root = Math.sqrt(discriminant);
+	i = imaginary ? "~i" : "";
+	denominator = 2 * a
+	
+	decimal_answer1 = (-b + root) / denominator;
+	decimal_answer2 = (-b - root) / denominator;
+	if (decimal || (isWholeNumber(decimal_answer1) && isWholeNumber(decimal_answer2))) {
+		if (imaginary) {
+			if (b === 0) return ["-" + root.toString() + i, + root.toString() + i,  "decimal"];
+			else return [-b / denominator + " &minus; " + root.toString() + i, -b / denominator + " &plus; " + root.toString() + i,  "decimal"];
+		} else {
+			if (root === 0)
+				return [[decimal_answer1], null, "decimal"]
+			else if (decimal_answer1 < decimal_answer2)
+				return [decimal_answer1, decimal_answer2, "decimal"];
+			else return [decimal_answer2, decimal_answer1, "decimal"];
+		}
+	};
+	
+	if (isWholeNumber(root)) {
+		denominator = 2 * a;
+		if (!imaginary) {
+			numerator1 = -b + root;
+			numerator2 = -b - root;
+			gcd1 = GCF(numerator1, denominator);
+			gcd2 = GCF(numerator2, denominator);
+			if (root === 0)
+				return [[numerator1 / gcd1, denominator / gcd1], null, "rational"];
+			else if (decimal_answer1 < decimal_answer2)
+				return [[numerator1 / gcd1, denominator / gcd1], [numerator2 / gcd2, denominator / gcd2], "rational"];
+			else return [[numerator2 / gcd2, denominator / gcd2], [numerator1 / gcd1, denominator / gcd1], "rational"];
+		} else {
+			gcd = Math.min(GCF(b, denominator), GCF(root, denominator));
+			numerator1 = (b === 0 ? "" : -(b / gcd) + " &plus; ") + (root / gcd) + i;
+			numerator2 = (b === 0? "-" : -(b / gcd) + " &minus; ") + (root / gcd) + i;
+			if (decimal_answer1 < decimal_answer2)
+				return [[numerator1, denominator / gcd], [numerator2, denominator / gcd], "rational"];
+			else return [[numerator2, denominator / gcd], [numerator1, denominator / gcd], "rational"];
+		}
+	} else {
+		radical = simplify(discriminant);
+		denominator = 2 * a;
+		if (b === 0) {
+			return [[radical[0] + i, radical[1]], denominator, "nolinear"];
+		} else {
+			gcd = Math.min(GCF(Math.abs(b), denominator), GCF(radical[0], denominator));
+			return [-b / gcd, radical[0] / gcd + i, radical[1], denominator / gcd];
+		}
+	};
+};
+function output() {
+	var a = parseInt($("a").value, 10),
+		b = parseInt($("b").value, 10),
+		c = parseInt($("c").value, 10);
+	if (isNaN(a) || isNaN(b) || isNaN(c)) {
+		alert("ERROR: a, b, and c values must be numbers!");
+		return;
+	}
+	if (a === 0) {
+		alert("This is not a quadratic if a = 0!");
+		return;
+	}
+	var answer = quadratic(a, b, c, $("decimal").checked);
+	var i = "<i>i</i>";
+	switch (answer[2]) {
+		case "decimal":
+			$("answer").innerHTML = "<i>x</i> &equals; " + answer[0].toString().replace("~i", i) + (answer[1] === null ? "" : ", " + answer[1].toString().replace("~i", i));
+		break;
+		case "rational":
+			$("answer").innerHTML = "<table style='display: inline-block;'><td rowspan=3><i>x</i> &equals;</td> " + fraction(answer[0][0].toString().replace("~i", i), answer[0][1]) + "</table>" + (answer[1] === null ? "" : "<table style='display: inline-block;'><td rowspan=3>, </td>" + fraction(answer[1][0].toString().replace("~i", i), answer[1][1])) + "</table>";
+		break;
+		case "nolinear":
+			$("answer").innerHTML = "<table style='display: inline-block;'><td rowspan=3><i>x</i> &equals;</td> " + fraction(radical("-" + answer[0][0].toString().replace("~i", i), answer[0][1]), answer[1]) + "</table><table style='display: inline-block;'><td rowspan=3>, </td> " + fraction(radical(answer[0][0].toString().replace("~i", i), answer[0][1]), answer[1]) + "</table>";
+		break;
+		default:
+			$("answer").innerHTML = "<table style='display: inline-block;'><td rowspan=3><i>x</i> &equals;</td> " + fraction(answer[0] + " &minus; " + radical(answer[1].toString().replace("~i", i), answer[2]), answer[3]) + "</table><table style='display: inline-block;'><td rowspan=3>, </td> " + fraction(answer[0] + " &plus; " + radical(answer[1].toString().replace("~i", i), answer[2]), answer[3]) + "</table>";
+	}
+};
+</script>
+</head>
+
+<body onLoad="onLoad()">
+
+<font size=4><strong>a<i>x</i><sup>2</sup> &plus; b<i>x</i> &plus; c &equals; 0</strong></font>
+<br/><br/>
+
+a = <input type="number" id="a" min="0" max="99"/>
+<br/>
+b = <input type="number" id="b" min="0" max="99"/>
+<br/>
+c = <input type="number" id="c" min="0" max="99"/>
+<br/><br/>
+
+<div id="answer">
+	<table>
+		<tr>
+			<td rowspan=3>
+				<i>x</i> &equals; 
+			</td>
+		</tr>
+		<tr>
+			<td>-b &plusmn; &radic;<span style="text-decoration:overline">
+				b<span style="font-size: 10px;vertical-align:+40%;">2</span> &minus; 4ac&nbsp;
+			</span></td>
+		</tr>
+		<tr>
+			<td style="text-align:center;">
+				<span style="text-decoration:overline;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 2a &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<br/>
+<input type="checkbox" id="decimal"> Give answer as decimal
+<br/>
+<input type="button" value=" Calculate " onClick="output()"> 
+<br/>
+<font color="red" size=2><i>*** Note: Only whole number values for a, b, and c are calculated</i></font>
+</body>
