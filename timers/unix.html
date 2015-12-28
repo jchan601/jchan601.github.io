@@ -1,0 +1,72 @@
+﻿<head>
+
+<script>
+function $(id) { // shortcut for document.getElementById
+	return document.getElementById(id);
+};
+
+function find_time(year, month, day, hours, minutes, seconds) { 
+	var milliseconds = 0;
+	var date = new Date(year, month, day, hours, minutes, seconds, milliseconds);
+	return "<b>" + date.getTime() + "</b> <br> UTC Time: " + date.toUTCString() + "<br> Local Time: " + date.toString(); 
+};
+
+function output() {
+	$("time").innerHTML = find_time($("year").value, $("month").value, $("day").value, $("hour").value, $("minutes").value, $("seconds").value);
+};
+</script>
+
+</head>
+
+<body>
+
+Year: 
+<input type="number" id="year" min="1970" max="9999"/>
+
+<br/>
+
+Month:
+<select id="month">
+	<option value=0>January</option>
+	<option value=1>February</option>
+	<option value=2>March</option>
+	<option value=3>April</option>
+	<option value=4>May</option>
+	<option value=5>June</option>
+	<option value=6>July</option>
+	<option value=7>August</option>
+	<option value=8>September</option>
+	<option value=9>October</option>
+	<option value=10>November</option>
+	<option value=11>December</option>
+</select>
+
+<br/>
+
+Day:
+<input type="number" id="day" min="1" max="31"/>
+
+<br/>
+
+Hour: 
+<input type="number" id="hour" min="0" max="23"/>
+
+<br/>
+
+Minutes: 
+<input type="number" id="minutes" min="0" max="59"/>
+
+<br/>
+
+Seconds: 
+<input type="number" id="seconds" min="0" max="59"/>
+
+<br/><br/>
+
+<input type="button" value=" Find Time " onClick="output()"> 
+
+<br/><br/>
+
+<div id="time">&nbsp;</div>
+
+</body>

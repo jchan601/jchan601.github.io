@@ -1,0 +1,145 @@
+﻿<head>
+<script>
+function $(id) { // shortcut for document.getElementById
+	return document.getElementById(id);
+};
+function cap(string) { // capitalizes a string
+	if ($("case").checked)
+		return string.toLowerCase().replace(/(^\s*\w{1}|\.\s*\w{1})/gi, function(letter) {	return letter.toUpperCase(); });
+	else return string;
+};
+function group(string) { // separates string into groups of 5 letters
+	var groupLength = 5;
+	if (!$("group").checked) {
+		return string;
+	} else {
+		var i = 0;
+		return string.replace(/\W/g, "").replace(/\w/g, function(letter) { 
+			if (++i % groupLength === 0)
+				return letter + " ";
+			else return letter;
+		});
+	};
+};
+function isRelativelyPrime(x, y) { // Stolen from http://stackoverflow.com/questions/6444918/relatively-prime-numbers
+	return (x < y) ? isRelativelyPrime(y, x) : !(x % y) ? (y === 1) : isRelativelyPrime(y, x % y);
+};
+function getMultiplicativeInverse(x, y) { // Gets multiplicative inverse of x (mod y)
+	var res = null;
+	for (var i = 0; i < y; i++) {
+		if (x * i % y === 1) {
+			res = i;
+			break;
+		};
+	};
+	return res;
+};
+
+function encode(text, shift, multiplier) {
+	text = text.toUpperCase();
+	var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	return text.replace(/\w/gi, function (letter) {
+		var index = multiplier * alphabet.indexOf(letter) + shift;
+		while (index < 0)
+			index += alphabet.length;
+		index = index % alphabet.length;
+		return alphabet[index];
+	});
+};
+
+function output_encryption() {
+	var text = $("input").value, 
+		shift = parseInt($("shift").value, 10) % 26,
+		multiplier = parseInt($("multiplier").value, 10);
+	if (isNaN(shift)) {
+		alert("ERROR: Shift must be an integer!");
+		return;
+	};
+	if (isNaN(multiplier)) {
+		alert("ERROR: Multiplier must be an integer!");
+		return;
+	};
+	if (multiplier <= 0) {
+		alert("ERROR: Only positive multipliers are accepted!");
+		return;
+	};
+	if (!isRelativelyPrime(26, multiplier)) {
+		alert("ERROR: Multiplier must be relatively prime to 26!");
+		return;
+	};
+	var encryption = encode(text, shift, multiplier);
+	$("output").innerHTML = cap(text) + "<br/><br/><b><i>with a <font color=red>multiplier of " + multiplier +  "</font> and <font color=blue>shifted " + shift + " letter" + (shift === 1 ? "" : "s") + ":</font></i></b><br/><br/>" + group(cap(encryption)) + (shift === 0 ? "<br/><b><i>Note: Your shift is set to 0.</i></b>" : "") + (multiplier === 0 ? "<br/><b><i>Note: Your multiplier is set to 0.</i></b>" : "");
+};
+
+function decode(text, shift, multiplier) {
+	text = text.toUpperCase();
+	var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	return text.replace(/\w/gi, function (letter) {
+		var index = getMultiplicativeInverse(multiplier, alphabet.length) * (alphabet.indexOf(letter) - shift);
+		while (index < 0)
+			index += alphabet.length;
+		index = index % alphabet.length
+		return alphabet[index];
+	});
+};
+
+function output_decryption() {
+	var text = $("input_d").value, 
+		shift = parseInt($("shift_d").value, 10) % 26,
+		multiplier = parseInt($("multiplier_d").value, 10);
+	if (isNaN(shift)) {
+		alert("ERROR: Shift must be an integer!");
+		return;
+	};
+	if (isNaN(multiplier)) {
+		alert("ERROR: Multiplier must be an integer!");
+		return;
+	};
+	if (multiplier <= 0) {
+		alert("ERROR: Only positive multipliers are accepted!");
+		return;
+	};
+	if (!isRelativelyPrime(26, multiplier)) {
+		alert("ERROR: Multiplier must be relatively prime to 26!");
+		return;
+	};
+	$("output_d").innerHTML = decode(text, shift, multiplier) + (shift === 0 ? "<br/><b><i>Note: Your shift is set to 0.</i></b>" : "") + (multiplier === 0 ? "<br/><b><i>Note: Your multiplier is set to 0.</i></b>" : "");
+};
+</script>
+</head>
+
+<body>
+
+<font size=5 color=red><b>Affine Cipher</b></font>
+<br/><br/>
+<font size=4><strong>ENCODER:</strong></font>
+<br/><br/>
+<input type="text" id="input" onkeydown="if(event.keyCode==13) output_encryption();" style="width: 1000;" placeholder="Enter text here."/>
+<button onClick="output_encryption()">Submit</button>
+<br/><br/>
+Shift: <input type="number" id="shift" min="-25" max="25" value="0" onkeydown="if(event.keyCode==13) output_encryption()"/>
+<br/>
+Multiplier: <input type="number" id="multiplier" min="0" max="25" value="0" onkeydown="if(event.keyCode==13) output_encryption()"/>
+<br/>
+<input type="checkbox" id="case"/>Convert to Sentence Case
+<br/>
+<input type="checkbox" id="group"/>Group in Fives
+
+<br/><br/>
+
+<div id="output"></div>
+
+<br/><hr/><br/>
+
+<font size=4><strong>DECODER:</strong></font>
+<br/><br/>
+<input type="text" id="input_d" onkeydown="if(event.keyCode==13) output_decryption();" style="width: 1000;" placeholder="Enter text here."/>
+<button onClick="output_decryption()">Submit</button>
+<br/><br/>
+Shift: <input type="number" id="shift_d" min="-25" max="25" value="0" onkeydown="if(event.keyCode==13) output_decryption()"/>
+<br/>
+Multiplier: <input type="number" id="multiplier_d" min="0" max="25" value="0" onkeydown="if(event.keyCode==13) output_decryption()"/>
+<br/><br/>
+<div id="output_d"></div>
+
+</body>

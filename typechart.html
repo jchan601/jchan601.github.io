@@ -1,0 +1,127 @@
+﻿<script>
+var types = {
+	Normal: {
+		weaknesses: ["Fighting"],
+		resistances: [],
+		immunities: ["Ghost"]
+	},
+	Fire: {
+		weaknesses: ["Water", "Ground", "Rock"],
+		resistances: ["Fire", "Grass", "Ice", "Bug", "Steel", "Fairy"]
+	},
+	Water: {
+		weaknesses: ["Electric", "Grass"],
+		resistances: ["Fire", "Water", "Ice", "Steel"]
+	},
+	Electric: {
+		weaknesses: ["Ground"],
+		resistances: ["Electric", "Flying", "Steel"]
+	},
+	Grass: {
+		weaknesses: ["Fire", "Ice", "Poison", "Flying", "Bug"],
+		resistances: ["Water", "Electric", "Grass", "Ground"],
+	},
+	Ice: {
+		weaknesses: ["Fire", "Fighting", "Rock", "Steel"],
+		resistances: ["Ice"]
+	},
+	Fighting: {
+		weaknesses: ["Flying", "Psychic"],
+		resistances: ["Bug", "Rock", "Dark"]
+	},
+	Poison: {
+		weaknesses: ["Ground", "Fighting"],
+		resistances: ["Grass", "Fighting", "Poison", "Bug", "Fairy"]
+	},
+	Ground: {
+		weaknesses: ["Water", "Grass", "Ice"],
+		resistances: ["Poison", "Rock"],
+		immunities: ["Electric"]
+	},
+	Flying: {
+		weaknesses: ["Electric", "Ice"],
+		resistances: ["Grass", "Fighting", "Bug"],
+		immunities: ["Ground"]
+	},
+	Psychic: {
+		weaknesses: ["Bug", "Ghost", "Dark"],
+		resistances: ["Fighting", "Psychic"]
+	},
+	Bug: {
+		weaknesses: ["Fire", "Flying", "Rock"],
+		resistances: ["Grass", "Fighting", "Ground"]
+	},
+	Rock: {
+		weaknesses: ["Water", "Grass", "Fighting", "Ground"],
+		resistances: ["Normal", "Fire", "Poison", "Flying"]
+	},
+	Ghost: {
+		weaknesses: ["Dark", "Ghost"],
+		resistances: ["Poison", "Bug"],
+		immunities: ["Normal", "Fighting"]
+	},
+	Dragon: {
+		weaknesses: ["Ice", "Dragon", "Fairy"],
+		resistances: ["Fire", "Water", "Electric", "Grass"]
+	},
+	Dark: {
+		weaknesses: ["Fighting", "Bug", "Fairy"],
+		resistances: ["Ghost", "Dark"],
+		immunities: ["Psychic"]
+	},
+	Steel: {
+		weaknesses: ["Fire", "Fighting", "Ground"],
+		resistances: ["Normal", "Grass", "Ice", "Flying", "Psychic", "Bug", "Rock", "Dragon", "Steel", "Fairy"],
+		immunities: ["Poison"]
+	},
+	Fairy: {
+		weaknesses: ["Poison", "Steel"],
+		resistances: ["Fighting", "Bug", "Dark"],
+		immunities: ["Dragon"]
+	}
+};
+var combinations = [], typeNames = Object.keys(types);
+for (var i = 0; i < typeNames.length; i++) {
+	for (var j = 0; j < typeNames.length; j++) {
+		if (i === j) continue;
+		var type1 = typeNames[i], type2 = typeNames[j];
+		var eff = {	types: type1 + "/" + type2 };
+		for (var k = 0; k < typeNames.length; k++) {
+			var att = typeNames[k];
+			if ((types[type1].hasOwnProperty("immunities") && types[type1].immunities.indexOf(att) !== -1) || (types[type2].hasOwnProperty("immunities") && types[type2].immunities.indexOf(att) !== -1))
+				eff[att] = 0;
+			else if (types[type1].weaknesses.indexOf(att) !== -1 && types[type2].weaknesses.indexOf(att) !== -1)
+				eff[att] = 4;
+			else if (types[type1].resistances.indexOf(att) !== -1 && types[type2].resistances.indexOf(att) !== -1)
+				eff[att] = "¼";
+			else if (types[type1].weaknesses.indexOf(att) !== -1 && types[type2].resistances.indexOf(att) === -1)
+				eff[att] = 2;
+			else if (types[type2].weaknesses.indexOf(att) !== -1 && types[type1].resistances.indexOf(att) === -1)
+				eff[att] = 2;
+			else if (types[type1].resistances.indexOf(att) !== -1 && types[type2].weaknesses.indexOf(att) === -1)
+				eff[att] = "½";
+			else if (types[type2].resistances.indexOf(att) !== -1 && types[type1].weaknesses.indexOf(att) === -1)
+				eff[att] = "½";
+			else eff[att] = 1;
+		};
+		combinations.push(eff);
+	};
+};
+var table = '<table border="1" cellpadding="5" cellspacing="0"><tr><th colspan="19"><center>Attacking</center></th></tr><tr><th>Defending</th>';
+for (var y = 0; y < typeNames.length; y++) {
+	table += "<td>" + typeNames[y] + "</td>";
+};
+table += "</tr>";
+for (var x = 0; x < combinations.length; x++) {
+	table += "<tr><td>" + combinations[x].types + "</td>";
+	for (var z = 0; z < Object.keys(combinations[x]).length - 1; z++) {
+		table += "<td><span title='" + typeNames[z] + "'><center>" + combinations[x][typeNames[z]] + "</center></span></td>";
+	};
+	table += "</tr>";
+};
+table += "</table>";
+window.onload = function() {
+	document.getElementById("chart").innerHTML = table;
+};
+</script>
+<div id = "chart"></div>

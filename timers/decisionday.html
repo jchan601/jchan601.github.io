@@ -1,0 +1,67 @@
+﻿<html>
+
+<head>
+<script type="text/javascript">
+/* stolen from here: http://stackoverflow.com/questions/610406/javascript-equivalent-to-printf-string-format */	
+String.prototype.format = function() {
+    var formatted = this;
+    for (var i = 0; i < arguments.length; i++) {
+        var regexp = new RegExp('\\{'+i+'\\}', 'gi');
+        formatted = formatted.replace(regexp, arguments[i]);
+    }
+    return formatted;
+};
+
+// Setting font colors
+var o = Math.round(Math.random()); // to randomize flashing text start
+var color1 = o === 0 ? "black" : "red", 
+	color2 = o === 0 ? "red" : "black",
+	font_color = "black",
+	change_color = "blue";
+
+function updateCounter() {
+	// var find_time = function(year, month, day, hours, minutes, seconds) { if (isNaN(month)) { month = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"].indexOf(month.toLowerCase()); }; var date = new Date(year, month, day, hours, minutes, seconds, 0); return date.getTime() + "<br> UTC Time: " + date.toUTCString() + "<br> Local Time: " + date.toString(); }; find_time(y, mo, d, h, min, s);
+	var date = 1462075200000, // Sun May 01 2016 00:00:00 GMT-0400 (Eastern Daylight Time))
+		time = Math.floor((date - new Date().getTime()) / 1000);
+	
+	var n, t = time, s = [], d = [[24*60*60, "DAY"], [60*60, "HOUR"], [60, "MINUTE"], [1, "SECOND"]];
+
+	for (var i = 0; i < d.length; ++i) {
+		n = parseInt(t / d[i][0], 10);
+		if (n > 0) {
+			//s.push((n + " " + d[i][1] + (n != 1 ? "s" : "")));
+			s.push([n, d[i][1] + (n != 1 ? "S" : "")]);
+			t -= n * d[i][0];
+		} else {
+			s.push([0, d[i][1] + "S"]);
+		}
+	};
+	
+	var scolor = time % 2 === 0 ? color1 : color2; // for making seconds column flash
+	var mcolor = font_color, hcolor = font_color, dcolor = font_color;
+	if (s[3][0] === 59) {
+		mcolor = change_color;
+		if (s[2][0] === 59) {
+			hcolor = change_color;
+			if (s[1][0] === 23) {
+				dcolor = change_color;
+			};
+		};
+	};
+	
+	var table = "<table cellpadding='5' cellspacing='0' style='table-layout: fixed; width: 100%'><tr><td><center><font size=10 color='" + dcolor + "'><b>{0}</b></font></font></center></td><td><center><font size=10 color='" + hcolor + "'><b>{1}</b></font></center></td><td><center><font size=10 color='" + mcolor + "'><b>{2}</b></font></center></td><td><center><font size=10 color='" + scolor + "'><b>{3}</b></font></center></td></tr><tr><td><center><font size=10 color='" + dcolor + "'>{4}</font></center></td><td><center><font size=10 color='" + hcolor + "'>{5}</font></center></td><td><center><font size=10 color='" + mcolor + "'>{6}</font></center></td><td><center><font size=10 color='" + scolor + "'>{7}</font></center></td></tr></table>";
+
+	document.getElementById("countdown").innerHTML = table.format(s[0][0], s[1][0], s[2][0], s[3][0], s[0][1], s[1][1], s[2][1], s[3][1]);
+};
+</script>
+</head>
+
+<body onload="updateCounter(); setInterval('updateCounter()', 1000 )">
+	<font size=10 color="red"><b>Time Until National College Decision Day</b></font>
+	<br>
+	<font size=5><i>(May 1, 2016)</i></font>
+	<br><br>
+	<span id="countdown">&nbsp;</span>
+</body>
+
+</html>

@@ -1,0 +1,97 @@
+﻿<head>
+<script>
+function $(id) { // shortcut for document.getElementById
+	return document.getElementById(id);
+};
+function cap(string) { // capitalizes a string
+	if ($("case").checked)
+		return string.toLowerCase().replace(/(^\s*\w{1}|\.\s*\w{1})/gi, function(letter) {	return letter.toUpperCase(); });
+	else return string;
+};
+function group(string) { // separates string into groups of 5 letters
+	var groupLength = 5;
+	if (!$("group").checked) {
+		return string;
+	} else {
+		var i = 0;
+		return string.replace(/\W/g, "").replace(/\w/g, function(letter) { 
+			if (++i % groupLength === 0)
+				return letter + " ";
+			else return letter;
+		});
+	};
+};
+function encrypt(text, shift) { // encodes text with shift (why did I name this function encrypt?)
+	text = text.toUpperCase();
+	var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	return text.replace(/\w/gi, function (letter) {
+		var index = (alphabet.indexOf(letter) + shift) % alphabet.length;
+		if (index < 0)
+			index += alphabet.length;
+		return alphabet[index];
+	});
+};
+function output() { // Encoder
+	var text = $("input").value, 
+		shift = parseInt($("shift").value, 10) % 26;
+	if (isNaN(shift)) {
+		alert("ERROR: Shift must be an integer!");
+		return;
+	};
+	var encryption = encrypt(text, shift);
+	$("output").innerHTML = cap(text) + "<br/><br/><b><i><font color=blue>shifted " + shift + " letter" + (shift === 1 ? "" : "s") + ":</font></i></b><br/><br/>" + group(cap(encryption)) + (shift == 0 ? "<br/><b><i>Note: Your shift is set to 0.</i></b>" : "");
+};
+
+function decode(text, shift) { // decodes text
+	text = text.toUpperCase();
+	var alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	return text.replace(/\w/gi, function (letter) {
+		var index = (alphabet.indexOf(letter) - shift) % alphabet.length;
+		if (index < 0)
+			index += alphabet.length;
+		return alphabet[index];
+	});
+};
+function output2() { // Decoder
+	var text = $("input2").value, 
+		shift = parseInt($("shift2").value, 10) % 26;
+	if (isNaN(shift)) {
+		alert("ERROR: Shift must be an integer!");
+		return;
+	};
+	var decryption = decode(text, shift);
+	$("output2").innerHTML = decryption + (shift == 0 ? "<br/><b><i>Note: Your shift is set to 0.</i></b>" : "");
+};
+</script>
+</head>
+
+<body>
+<font size=5 color=blue><b>Shift Cipher</b></font>
+<br/><br/>
+<font size=4><strong>ENCODER:</strong></font>
+<br/><br/>
+<input type="text" id="input" onkeydown="if(event.keyCode==13) output();" style="width: 1000;" placeholder="Enter text here."/>
+<button onClick="output()">Submit</button>
+<br/><br/>
+Shift: <input type="number" id="shift" min="-25" max="25" value="0" onkeydown="if(event.keyCode==13) output()"/>
+<br/>
+<input type="checkbox" id="case"/>Convert to Sentence Case
+<br/>
+<input type="checkbox" id="group"/>Group in Fives
+
+<br/><br/>
+
+<div id="output"></div>
+
+<br/><hr/><br/>
+
+<font size=4><strong>DECODER:</strong></font>
+<br/><br/>
+<input type="text" id="input2" onkeydown="if(event.keyCode==13) output2();" style="width: 1000;" placeholder="Enter text here."/>
+<button onClick="output2()">Submit</button>
+<br/><br/>
+Shift: <input type="number" id="shift2" min="-25" max="25" value="0" onkeydown="if(event.keyCode==13) output2()"/>
+<br/><br/>
+<div id="output2"></div>
+
+</body>
