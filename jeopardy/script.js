@@ -5,9 +5,8 @@
 * Timer
 * Load Jeopardy from JSON
 * Start page
-* Move to GitHub
+* Unlimited rounds?
 */
-// Final Jeopardy idea: Author of Nectar in a Sieve or Indian mathematicians/prime ministers mentioned in power guide
 
 var currentMode = null,
     pointsAdd = 0,
@@ -19,7 +18,7 @@ var currentMode = null,
     colors = ["#00FFFF", "#00FF00", "#FF00FF", "#ADD8E6", "#C0C0C0", "#95B9C7", "#6698FF", "#CDFFFF", "#ADDFFF", "#7FFFD4", "#52D017", "#99C68E", "#7FE817", "#5EFB6E", "#8AFB17", "#CCFB5D", "#B1FB17", "#FFFF00", "#FFF380", "#FFE87C", "#EDDA74", "#F5F5DC", "#FFDB58", "#FFD801", "#FDD017", "#E9AB17", "#FFA62F", "#FFCBA4", "#E8A317", "#D4A017", "#FFA500", "#F87217", "#FF8040", "#F9966B", "#FF7F50", "#FF0000", "#E77471", "#E8ADAA", "#FCDFFF", "#FAAFBE", "#F778A1", "#F660AB", "#F52887", "#F433FF", "#A74AC7", "#8E35EF", "#8467D7", "#C45AEC", "#E238EC", "#E9CFEC", "#E3E4FA", "#FEFCFF", "#FFFFFF"],
     teams = [],
     jeopardy = {
-        "categories": [
+        "round1": [
             {
                 "name": "FILL IN THE BLANK CANVAS",
                 "questions": [
@@ -415,9 +414,9 @@ function setWager(id) {
 }
 
 function handleDailyDouble(id) {
-    var category = !doubleJeopardy ? jeopardy.categories[Math.floor(id / 10)] : jeopardy.round2[Math.floor(id / 10)],
+    var category = !doubleJeopardy ? jeopardy.round1[Math.floor(id / 10)] : jeopardy.round2[Math.floor(id / 10)],
         question = category.questions[id % 10];
-    $("display").innerHTML = "<table style='width:100%; height:90%' class='game'><th><img src='daily_double.png' onclick='setWager(" + id + ")'/><br/><br/><font color='#E5915C' size=5>Enter Wager:</font>&nbsp;&nbsp;<input type='number' id='dailyDouble' step='100' min='0' max='17800' value='" + question.value + "'/></th></table>";
+    $("display").innerHTML = "<table style='width:100%; height:90%' class='game'><th><img src='daily_double.png' onclick='setWager(" + id + ")'/><br/><br/><font color='#E5915C' size=5>Enter Wager:&nbsp;$&nbsp;</font><input type='number' id='dailyDouble' step='100' min='0' max='17800' value='" + question.value + "'/></th></table>";
 }
 
 function showQuestion(id) {
@@ -428,7 +427,7 @@ function showQuestion(id) {
         usedQs.push(id);
     }
     currentMode = "question";
-    var category = !doubleJeopardy ? jeopardy.categories[Math.floor(id / 10)] : jeopardy.round2[Math.floor(id / 10)],
+    var category = !doubleJeopardy ? jeopardy.round1[Math.floor(id / 10)] : jeopardy.round2[Math.floor(id / 10)],
         question = category.questions[id % 10],
         out = ["<table style='width:100%; height:90%' class='game'><tr><td onclick='showAnswer(\"" + id + "\")'>"];
     if (question.dailyDouble === true && wager === 0) {
@@ -461,7 +460,7 @@ function showQuestion(id) {
 }
 
 function editPoints(id, sign) {
-    var category = !doubleJeopardy ? jeopardy.categories[Math.floor(id / 10)] : jeopardy.round2[Math.floor(id / 10)],
+    var category = !doubleJeopardy ? jeopardy.round1[Math.floor(id / 10)] : jeopardy.round2[Math.floor(id / 10)],
         question = category.questions[id % 10],
         value = question.value;
     if (question.dailyDouble === true) {
@@ -480,7 +479,7 @@ function addPoints(team) {
 
 function showAnswer(id) {
     currentMode = "answer";
-    var category = !doubleJeopardy ? jeopardy.categories[Math.floor(id / 10)] : jeopardy.round2[Math.floor(id / 10)],
+    var category = !doubleJeopardy ? jeopardy.round1[Math.floor(id / 10)] : jeopardy.round2[Math.floor(id / 10)],
         question = category.questions[id % 10],
         answer = question.answer,
         out = ["<table style='width:100%; height:90%' class='game'><tr style='height:90%'><td colspan=2 onclick='createJeopardyBoard()'>"];
@@ -515,6 +514,10 @@ function back() {
     }
 }
 
+function skip() {
+    alert("This function is not coded yet");
+}
+
 function initDoubleJeopardy() {
     doubleJeopardy = true;
     usedQs = [];
@@ -525,13 +528,14 @@ function initFinalJeopardy() {
 }
 
 function end() {
+    alert("This function is not coded yet");
 }
 
 function createJeopardyBoard() {
     currentMode = "board";
     wager = 0;
     var out = ["<table style='width:100%; height:90%' class='game'><tr>"],
-        categories = (!doubleJeopardy ? jeopardy.categories : jeopardy.round2),
+        categories = (!doubleJeopardy ? jeopardy.round1 : jeopardy.round2),
         width = Math.floor(100 / categories.length);
     if (!doubleJeopardy && usedQs.length === categories.length * categories[0].questions.length) {
         if (jeopardy.hasOwnProperty("round2")) {
@@ -588,13 +592,13 @@ function editTeams() {
             if (team.color === "#000000") {
                 team.color = colors[rand(0, colors.length)];
             }
-            out.push("<th><input id='team" + i + "' value='" + team.name + "'></input></th>");
+            out.push("<th><input id='team" + i + "' value='" + team.name + " | " + team.color + "'></input></th>");
         }
         out.push("<th style='width:2%'><a href='javascript:;' style='color:green; text-decoration: none' onclick='addTeam()'>+</a></th>");
         out.push("<th style='width:13%' rowspan=2>");
         out.push("<a href='javascript:;' style='color:#E5915C' onclick='back()'>Back</a> &nbsp;&nbsp;&nbsp;");
-        out.push("<a href='javascript:;' style='color:#E5915C' onclick='alert(\"hi\")'>Skip</a> &nbsp;&nbsp;&nbsp;");
-        out.push("<a href='javascript:;' style='color:#E5915C' onclick='alert(\"hi\")'>End</a><br/>");
+        out.push("<a href='javascript:;' style='color:#E5915C' onclick='skip()'>Skip</a> &nbsp;&nbsp;&nbsp;");
+        out.push("<a href='javascript:;' style='color:#E5915C' onclick='end()'>End</a><br/>");
         out.push("<a href='javascript:;' style='color:#E5915C' onclick='editTeams()'>Edit</a> &nbsp;&nbsp;&nbsp;");
         out.push("<a href='javascript:;' style='color:#E5915C' onclick='test_eval()'>Eval</a></th></tr><tr>");
         for (var i = 0; i < teams.length; i++) {
@@ -611,11 +615,10 @@ function editTeams() {
                 name, color,
                 input = $("team" + i).value, 
                 points = parseInt($("points" + i).value, 10);
-            input = input.replace(/[\s]{0,1};[\s]{0,1}color[\s]{0,1}=[\s]{0,1}/g, ";color=");
-            var lastIndex = input.lastIndexOf(";color=");
+            var lastIndex = input.lastIndexOf(" | ");
             if (lastIndex !== -1) {
                 name = input.substring(0, lastIndex);
-                color = input.slice(lastIndex + 7);
+                color = input.slice(lastIndex + 3);
             } else {
                 name = input;
                 color = null;
@@ -675,8 +678,8 @@ function updateScoreBoard() {
     }
     out.push("<th style='width:15%' rowspan=2>");
     out.push("<a href='javascript:;' style='color:#E5915C' onclick='back()'>Back</a> &nbsp;&nbsp;&nbsp;");
-    out.push("<a href='javascript:;' style='color:#E5915C' onclick='alert(\"hi\")'>Skip</a> &nbsp;&nbsp;&nbsp;");
-    out.push("<a href='javascript:;' style='color:#E5915C' onclick='alert(\"hi\")'>End</a><br/>");
+    out.push("<a href='javascript:;' style='color:#E5915C' onclick='skip()'>Skip</a> &nbsp;&nbsp;&nbsp;");
+    out.push("<a href='javascript:;' style='color:#E5915C' onclick='end()'>End</a><br/>");
     out.push("<a href='javascript:;' style='color:#E5915C' onclick='editTeams()'>Edit</a> &nbsp;&nbsp;&nbsp;");
     out.push("<a href='javascript:;' style='color:#E5915C' onclick='test_eval()'>Eval</a></th></tr><tr>");
     for (var i = 0; i < teams.length; i++) {
