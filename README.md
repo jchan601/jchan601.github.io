@@ -1,2 +1,3 @@
 # jchan601.github.io
-For Justin's projects
+Stuff that Justin coded
+See main page at http://jchan601.github.io
