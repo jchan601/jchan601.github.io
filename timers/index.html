@@ -27,7 +27,7 @@ function onLoad() {
             req.send(null);
             if (req.status === 200) {
                 var regexp = new RegExp("<title>(.*?)</title>"),
-                    title = file.download_url,
+                    title = file.html_url,
                     match = req.responseText.match(regexp);
                 if (match !== null && Array.isArray(match) && match.length > 1) {
                     title = match[1];
