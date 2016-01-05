@@ -1,6 +1,7 @@
 /** TO-DO:
 * Have twice, one with team on bottom and one with team on top, or put on GitHub with one being pull request
 * Final Jeopardy
+* Skip
 * End
 * Timer
 * Load Jeopardy from JSON
@@ -12,7 +13,8 @@ var currentMode = null,
     pointsAdd = 0,
     wager = 0,
     usedQs = [],
-    doubleJeopardy = false,
+    doubleJeopardy = false, // condense into round variable
+    finalJeopardy = false,
     teamEdit = false,
     alphabet = "abcdefghijklmnopqrstuvwxyz",
     colors = ["#00FFFF", "#00FF00", "#FF00FF", "#ADD8E6", "#C0C0C0", "#95B9C7", "#6698FF", "#CDFFFF", "#ADDFFF", "#7FFFD4", "#52D017", "#99C68E", "#7FE817", "#5EFB6E", "#8AFB17", "#CCFB5D", "#B1FB17", "#FFFF00", "#FFF380", "#FFE87C", "#EDDA74", "#F5F5DC", "#FFDB58", "#FFD801", "#FDD017", "#E9AB17", "#FFA62F", "#FFCBA4", "#E8A317", "#D4A017", "#FFA500", "#F87217", "#FF8040", "#F9966B", "#FF7F50", "#FF0000", "#E77471", "#E8ADAA", "#FCDFFF", "#FAAFBE", "#F778A1", "#F660AB", "#F52887", "#F433FF", "#A74AC7", "#8E35EF", "#8467D7", "#C45AEC", "#E238EC", "#E9CFEC", "#E3E4FA", "#FEFCFF", "#FFFFFF"],
@@ -20,375 +22,401 @@ var currentMode = null,
     jeopardy = {
         "round1": [
             {
-                "name": "FILL IN THE BLANK CANVAS",
+                "name": "ART",
                 "questions": [
                     {
                         "value": 200,
-                        "question": "Van Gogh's \"Self-Portrait with Pipe and Bandaged ____\"",
-                        "answer": "Ear"
+                        "question": "The painting technique of sfumato involves",
+                        "choices": [
+                            "splattering",
+                            "blending",
+                            "layering",
+                            "shading",
+                            "glazing"
+                        ],
+                        "answer": "blending"
                     },
                     {
                         "value": 400,
-                        "question": "Jonathan Buttall is thought to be Gainsborough's model for \"The ____ Boy\"",
-                        "answer": "Blue"
+                        "question": "Mahayana is a branch of",
+                        "choices": [
+                            "Jainism",
+                            "Buddhism",
+                            "Islam",
+                            "Hinduism",
+                            "Christianity"
+                        ],
+                        "answer": "Buddhism"
                     },
                     {
                         "value": 600,
-                        "question": "Seurat got to the point in \"A ____ Afternoon on the Island of La Grande Jatte\"",
-                        "answer": "Sunday"
+                        "question": "Which nation was MOST influential in the development of miniature painting?",
+                        "choices": [
+                            "Egypt",
+                            "Turkey",
+                            "China",
+                            "Persia",
+                            "Italy"
+                        ],
+                        "answer": "Persia"
                     },
                     {
                         "value": 800,
-                        "question": "Duchamp caused a scandal with his \"Nude Descending a ____, No. 2\"",
-                        "answer": "Staircase"
+                        "question": "The <i>Upanishads</i> envisions the universe as a",
+                        "choices": [
+                            "body",
+                            "garden",
+                            "fabric",
+                            "wheel",
+                            "dish"
+                        ],
+                        "answer": "fabric"
                     },
                     {
                         "value": 1000,
-                        "question": "Dali gave it a name that stuck: \"The Persistence of ____\"",
-                        "answer": "Memory"
+                        "question": "In paint, linseed oil is sometimes used as a",
+                        "choices": [
+                            "wash",
+                            "slip",
+                            "pigment",
+                            "binder",
+                            "solvent"
+                        ],
+                        "answer": "binder"
                     }
                 ]
             },
             {
-                "name": "MOVIE CAMEOS",
+                "name": "ECONOMICS",
                 "questions": [
                     {
                         "value": 200,
-                        "question": "Dan Patrick's good friend Adam Sandler has cast Patrick in 9 of his films, including \"Grown Ups 2\" in which Patrick played a gym teacher dressed as this 1980s Celtics legend",
-                        "answer": "Larry Bird"
+                        "question": "Which of the following forms of money is the LEAST liquid?",
+                        "choices": [
+                            "savings accounts",
+                            "gold",
+                            "M2",
+                            "currency",
+                            "traveler’s checks"
+                        ],
+                        "answer": "gold"
                     },
                     {
                         "value": 400,
-                        "question": "In \"Twilight\" this author has a cameo as a customer in a diner with a veggie plate",
-                        "answer": "Stephenie Meyer"
+                        "question": "Net imports equal the level of",
+                        "choices": [
+                            "portfolio investment",
+                            "net exports",
+                            "net capital outflow",
+                            "foreign direct investment",
+                            "net capital inflow"
+                        ],
+                        "answer": "net capital inflow"
                     },
                     {
                         "value": 600,
-                        "question": "Well, Al Michaels didn't win an Oscar playing myself in this 1996 movie but Cuba Gooding Jr. did for his performance as a wide receiver for the Cardinals",
-                        "answer": "<i>Jerry Maguire</i>"
+                        "question": "Which of the following adjectives does NOT describe economic models?",
+                        "choices": [
+                            "graphical",
+                            "mathematical",
+                            "generalized",
+                            "simplified",
+                            "descriptive"
+                        ],
+                        "answer": "descriptive"
                     },
                     {
                         "value": 800,
-                        "question": "Julia Roberts played this title crusader in a 2000 film while the real woman had a cameo as a waitress",
-                        "answer": "Erin Brockovich"
-                    },
-                    {
-                        "value": 1000,
-                        "question": "From \"Rebecca\" on, this director appeared in all of his films; he sat next to Cary Grant on a bus in \"To Catch a Thief\"",
-                        "answer": "Alfred Hitchcock"
-                    }
-                ]
-            },
-            {
-                "name": "ANAGRAMMED FORMER WORLD LEADERS",
-                "questions": [
-                    {
-                        "value": 200,
-                        "question": "A sari wearer:<br/>HI, GRAND INDIA!",
-                        "answer": "Indira Gandhi"
-                    },
-                    {
-                        "value": 400,
-                        "question": "In Italy:<br/>VIRILE SLOB COUSIN",
-                        "answer": "Silvio Berlusconi"
-                    },
-                    {
-                        "value": 600,
-                        "question": "Uh oh! Panama!:<br/>GENUINE AMORAL",
-                        "answer": "Manuel Moriega"
-                    },
-                    {
-                        "value": 800,
-                        "question": "He Laboured over Britain:<br/>BRAINY LOT",
-                        "answer": "Tony Blair"
-                    },
-                    {
-                        "value": 1000,
-                        "question": "Late Israeli leader:<br/>SOLAR HERNIA",
-                        "answer": "Ariel Sharon"
-                    }
-                ]
-            },
-            {
-                "name": "NUT-TRITION",
-                "questions": [
-                    {
-                        "value": 200,
-                        "question": "Almonds are an excellent source of fiber & this bone-building element--got milk?",
-                        "answer": "Calcium"
-                    },
-                    {
-                        "value": 400,
-                        "question": "These biggies from the Amazon basin have many health benefits, but with their high selenium content, too many can be harmful",
-                        "answer": "Brazil Nuts"
-                    },
-                    {
-                        "value": 600,
-                        "question": "A key ingredient in pesto, these nuts are an excellent source of vitamin E",
-                        "answer": "Pine Nuts"
-                    },
-                    {
-                        "value": 800,
-                        "question": "Pistachios get their green color mostly from lutein, which is essential to this one of the 5 senses",
-                        "answer": "Vision"
-                    },
-                    {
-                        "value": 1000,
-                        "question": "Have some hazelnuts before bed; they're high in this sleep-aiding amino acid that's also found in turkey",
-                        "answer": "Tryptophan"
-                    }
-                ]
-            },
-            {
-                "name": "CEREMONIES",
-                "questions": [
-                    {
-                        "value": 200,
-                        "question": "This Christian sacrament, a holy ceremony, is also called Eucharist",
-                        "answer": "communion"
-                    },
-                    {
-                        "value": 400,
-                        "question": "A ceremony on November 19, 1863 dedicated a cemetery in this town",
-                        "answer": "Gettysburg",
+                        "question": "The expectation of a light monsoon can",
+                        "choices": [
+                            "encourage farmers to produce more",
+                            "increase food prices",
+                            "impede the participation of middle-men in the agriculture sector",
+                            "reduce food prices",
+                            "increase natural resource extraction in the short-term"
+                        ],
+                        "answer": "increase food prices",
                         "dailyDouble": true
                     },
                     {
-                        "value": 600,
-                        "question": "Vice presidents are often sent to this type of ceremony overseas; Al Gore attended Mitterrand's in 1996",
-                        "answer": "Funerals"
-                    },
-                    {
-                        "value": 800,
-                        "question": "Giant scissors are mainly used for this type of ceremony at the grand opening of a new facility",
-                        "answer": "Ribbon Cutting"
-                    },
-                    {
                         "value": 1000,
-                        "question": "An accolade, a ceremonial tap on the shoulder with a sword, is followed by the words \"I dub thee\" this",
-                        "answer": "Knight"
+                        "question": "The Consumer Price Index usually",
+                        "choices": [
+                            "is the same as the Gross Domestic Product deflator",
+                            "does not suffer from substitution bias",
+                            "overestimates the cost of living",
+                            "overemphasizes the impact of improvements in quality",
+                            "suffers from a constantly changing market basket"
+                        ],
+                        "answer": "overestimates the cost of living"
                     }
                 ]
             },
             {
-                "name": "THE NEW YORK TIMES CROSSWORD",
+                "name": "SOCIAL SCIENCE",
                 "questions": [
                     {
                         "value": 200,
-                        "question": "Monday had a presidential theme; one clue was to this \"supply-side fiscal policy popularized in the 1980s\"",
-                        "answer": "Reaganomics"
+                        "question": "The assassination of Indira Gandhi in 1984 led to retaliatory pogroms against",
+                        "choices": [
+                            "Hindus",
+                            "Sikhs",
+                            "Jains",
+                            "Muslims",
+                            "Buddhists"
+                        ],
+                        "answer": "Sikhs"
                     },
                     {
                         "value": 400,
-                        "question": "On Tuesday we had some hidden Bobs; you'll find Dylan in this \"classic board game with a peppermint forest\"",
-                        "answer": "Candy Land"
+                        "question": "Indira Gandhi justified large-scale repressive measures under the guise of",
+                        "choices": [
+                            "religious toleration",
+                            "economic liberalization",
+                            "poverty elimination",
+                            "judicial conservatism",
+                            "corruption purging"
+                        ],
+                        "answer": "poverty elimination"
                     },
                     {
                         "value": 600,
-                        "question": "On Wednesday you had to know compound words where each half could also have \"dead\" before it--there was airline, seahorse & this response to \"top on official stationery\"",
-                        "answer": "letterhead"
+                        "question": "Sayyid Ahmed Barelvi led a campaign against followers of",
+                        "choices": [
+                            "Jainism",
+                            "Buddhism",
+                            "Islam",
+                            "Hinduism",
+                            "Sikhism"
+                        ],
+                        "answer": "Sikhism"
                     },
                     {
                         "value": 800,
-                        "question": "On Thursday we rolled the D-I-C-E, as in these, \"racy books named after a Victorian garment\"",
-                        "answer": "bodice ripper"
+                        "question": "In Awadh, following the Battle of Buxar, a treaty was signed at",
+                        "choices": [
+                            "Calcutta",
+                            "Bihar",
+                            "Allahabad",
+                            "Lahore",
+                            "Lucknow"
+                        ],
+                        "answer": "Allahabad"
                     },
                     {
                         "value": 1000,
-                        "question": "On Friday there's no theme, so you just have to know this 10-letter \"TV host who followed Jimmy Fallon on late night\"",
-                        "answer": "Seth Meyers"
-                    }
-                ]
-            }
-        ],
-        "round2": [
-            {
-                "name": "THE ROMANTIC POETS",
-                "questions": [
-                    {
-                        "value": 400,
-                        "question": "This title character of a Coleridge poem must wander the world recounting the tale of his days at sea",
-                        "answer": "The Ancient Mariner"
-                    },
-                    {
-                        "value": 800,
-                        "question": "Keats was inspired to write an ode to this bird by the song of one that nested in Charles Brown's garden",
-                        "answer": "Nightingale"
-                    },
-                    {
-                        "value": 1200,
-                        "question": "After part of \"Childe Harold's Pilgrimage\" was published, this lord \"awoke one morning and found myself famous\"",
-                        "answer": "Lord Byron"
-                    },
-                    {
-                        "value": 1600,
-                        "question": "His first major work was \"The Lay of the Last Minstrel\", a poem set on & north of England's northern border",
-                        "answer": "Sir Walter Scott"
-                    },
-                    {
-                        "value": 2000,
-                        "question": "The play in verse about this Greek god \"Unbound\" is often regarded as Shelley's greatest work",
-                        "answer": "Prometheus"
+                        "question": "Indira Gandhi’s first term as Prime Minister immediately followed the death of",
+                        "choices": [
+                            "Jawaharlal Nehru",
+                            "Morarji Desai",
+                            "Feroze Gandhi",
+                            "Chaudhury Charan Singh",
+                            "Lal Bahadur Shastri"
+                        ],
+                        "answer": "Lal Bahadur Shastri"
                     }
                 ]
             },
             {
-                "name": "HONEST \"ABE\"",
+                "name": "MUSIC",
                 "questions": [
                     {
+                        "value": 200,
+                        "question": " Indian films have been shown in international film festivals since the",
+                        "choices": [
+                            "1960s",
+                            "1940s",
+                            "1970s",
+                            "1980s",
+                            "1950s"
+                        ],
+                        "answer": "1950s"
+                    },
+                    {
                         "value": 400,
-                        "question": "To mark a product incorrectly",
-                        "answer": "Mislabel"
+                        "question": "Which mountain range forms the northern border of India?",
+                        "choices": [
+                            "Vindhyas",
+                            "Himalayas",
+                            "Western Ghats",
+                            "Satpuras",
+                            "Saltoros"
+                        ],
+                        "answer": "Himalayas"
+                    },
+                    {
+                        "value": 600,
+                        "question": "Which aspect of a sound wave affects the pitch?",
+                        "choices": [
+                            "medium",
+                            "tone",
+                            "frequency",
+                            "amplitude",
+                            "speed"
+                        ],
+                        "answer": "frequency"
                     },
                     {
                         "value": 800,
-                        "question": "William Blackstone called it \"the great and efficacious writ, in all manner of illegal confinement\"",
-                        "answer": "Habeus Corpus"
+                        "question": "Which of the following composers was a member of the“Trinity”?",
+                        "choices": [
+                            "Mutthuswami Diksitar",
+                            "Bulleh Shah",
+                            "Mira",
+                            "Kabir",
+                            "Venkatamakhin"
+                        ],
+                        "answer": "Mutthuswami Diksitar"
                     },
                     {
-                        "value": 1200,
-                        "question": "A young pine or fir stem tossed in Highland Games",
-                        "answer": "The Caber"
-                    },
-                    {
-                        "value": 1600,
-                        "question": "This word for the science of baseball analytics comes from the name of a research society",
-                        "answer": "Sabermetrics"
-                    },
-                    {
-                        "value": 2000,
-                        "question": "Early scientific instrument used to measure the altitude of celestial objects",
-                        "answer": "Astrolabe"
+                        "value": 1000,
+                        "question": "Name the lyricist of “Main Yahan Hoon.”",
+                        "choices": [
+                            "Vairamuthu",
+                            "Sahir Ludhianvi",
+                            "Shailendra",
+                            "Javed Akhtar",
+                            "Kidar Sharma"
+                        ],
+                        "answer": "Javed Akhtar"
                     }
                 ]
             },
             {
-                "name": "PALACES",
+                "name": "LITERATURE",
                 "questions": [
                     {
+                        "value": 200,
+                        "question": "Which of the following writers claimed that English was an authentic Indian language?",
+                        "choices": [
+                            "Kamala Markandaya",
+                            "Salman Rushdie",
+                            "R.K. Narayan",
+                            "Jaishankar Prassad",
+                            "Mulk Raj Anand"
+                        ],
+                        "answer": "Salman Rushdie"
+                    },
+                    {
                         "value": 400,
-                        "question": "This \"seasonal\" palace has been called \"St. Petersburg's most famous building\"",
-                        "answer": "Winter Palace for the Romanovs"
+                        "question": "In 1948, Kamala Markandaya moved to",
+                        "choices": [
+                            "Paris",
+                            "Hong Kong",
+                            "Mumbai",
+                            "London",
+                            "New York"
+                        ],
+                        "answer": "London"
+                    },
+                    {
+                        "value": 600,
+                        "question": "In which activity does Ruku find the MOST comfort from her pain in Nectar in a Sieve?",
+                        "choices": [
+                            "reading",
+                            "speaking",
+                            "singing",
+                            "laughing",
+                            "praying"
+                        ],
+                        "answer": "speaking"
                     },
                     {
                         "value": 800,
-                        "question": "Lhasa's Potala Palace would be a nice place for this religious leader, who fled in 1959, to come home to, if he ever can",
-                        "answer": "Dalai Lama"
+                        "question": "Jawaharlal Nehru and Mohandas Gandhi were similar in all the following ways EXCEPT in their",
+                        "choices": [
+                            "birth into high-caste families",
+                            "struggle for Indian independence",
+                            "training at a British law school",
+                            "roles in Indian National Congress",
+                            "reverence for modern science"
+                        ],
+                        "answer": "reverence for modern science"
                     },
                     {
-                        "value": 1200,
-                        "question": "Istana Nurul Iman, the palace of the sultan of this country, features an air conditioned stable & a mosque for 1,500 people",
-                        "answer": "Brunei"
-                    },
-                    {
-                        "value": 1600,
-                        "question": "Ponder the tragic life of Crown Prince Rudolf in his lavish suite in this capital's Schonbrunn Palace",
-                        "answer": "Vienna",
-                        "dailyDouble": true
-                    },
-                    {
-                        "value": 2000,
-                        "question": "Overlooking Granada, Spain, it has a name from Arabic for \"Red\", probably from the bricks of the outer walls",
-                        "answer": "Alhambra"
+                        "value": 1000,
+                        "question": "Which role did Jawaharlal Nehru take in the Indian government in 1947?",
+                        "choices": [
+                            "Vice President",
+                            "Cabinet Secretary",
+                            "Prime Minister",
+                            "President",
+                            "Minister of State"
+                        ],
+                        "answer": "Prime Minister"
                     }
                 ]
             },
             {
-                "name": "INTERNATIONAL SWIMMING HALL OF FAMERS",
+                "name": "SCIENCE/MATH",
                 "questions": [
                     {
+                        "value": 200,
+                        "question": "Which of the following statements is true?",
+                        "choices": [
+                            "The mode of a set does not have to be a member of that set",
+                            "A set can have more outliers than non-outliers",
+                            "The standard deviation of a set can be negative",
+                            "Any set has a member with a z-score with a value of 0",
+                            "The median of a data set will not change if we remove both a high and low outlier"
+                        ],
+                        "answer": "The median of a data set will not change if we remove both a high and low outlier"
+                    },
+                    {
                         "value": 400,
-                        "question": "Inducted in 1977, this American who'd been laden with gold at Munich 5 years earlier",
-                        "answer": "Mark Spitz"
+                        "question": "Which of the following soil varieties would be the WORST at storing water?",
+                        "choices": [
+                            "sand",
+                            "mucilage",
+                            "silt",
+                            "gravel",
+                            "clay"
+                        ],
+                        "answer": "gravel"
+                    },
+                    {
+                        "value": 600,
+                        "question": "Why do the Eastern Himalayas have such high biodiversity?",
+                        "choices": [
+                            "There is little interspecies competition in the region so species do not experience limitation.",
+                            "The elevation changes so fast that there are many ecosystems in a relatively small horizontal area.",
+                            "British imperialists brought over a variety of species from Europe in the 1900s.",
+                            "They are isolated from human activity, so a wide variety of species are able to thrive.",
+                            "The Ganges River meets the ocean there, causing a diverse and productive estuary environment."
+                        ],
+                        "answer": "The elevation changes so fast that there are many ecosystems in a relatively small horizontal area."
                     },
                     {
                         "value": 800,
-                        "question": "This oceanographer & inventor, 1910-1997",
-                        "answer": "Jacques Cousteau",
-                        "dailyDouble": true
+                        "question": "What is the best measure of central tendency in the set {1,1,3,3,3,3,4,6,6,6,7,8,52}?",
+                        "choices": [
+                            "Mean",
+                            "Median",
+                            "Mode",
+                            "0.5(range)",
+                            "Maximum- mean"
+                        ],
+                        "answer": "Median"
                     },
                     {
-                        "value": 1200,
-                        "question": "1993:<br/>This 4-time Olympic gold medalist who did much of his swimming following a dive",
-                        "answer": "Greg Louganis"
-                    },
-                    {
-                        "value": 1600,
-                        "question": "<img src='http://www.j-archive.com/media/2015-12-18_DJ_26.jpg' height='270' width='480'/><br/>This prince shown as a young man, later chairman of the Monegasque Swimming Federation",
-                        "answer": "Prince Albert"
-                    },
-                    {
-                        "value": 2000,
-                        "question": "This U.S. champ who helped bring the swimming movie to Hollywood with films like \"Bathing Beauty\"",
-                        "answer": "Esther Williams"
-                    }
-                ]
-            },
-            {
-                "name": "MINNEAPOLIS",
-                "questions": [
-                    {
-                        "value": 400,
-                        "question": "In 2001 General Mills bought this other Minneapolis-based baking giant for $10.5 billion; that's a lot of dough, boy",
-                        "answer": "Pillsbury"
-                    },
-                    {
-                        "value": 800,
-                        "question": "Minneapolis is the home town of this pop icon; his Paisley Park Studios are about a half hour away",
-                        "answer": "Prince"
-                    },
-                    {
-                        "value": 1200,
-                        "question": "<img src='http://www.j-archive.com/media/2015-12-18_DJ_28.jpg' height='270' width='480'/> <img src='http://www.j-archive.com/media/2015-12-18_DJ_28a.jpg' height='270' width='480'/><br/>Foshay Tower was Minneapolis' tallest when opened in this year; Mr. Foshay's business promptly collapsed, but the tower stands",
-                        "answer": "1929"
-                    },
-                    {
-                        "value": 1600,
-                        "question": "Drive your toy truck to this 12-mile-long lake in the western suburbs",
-                        "answer": "Minnetonka"
-                    },
-                    {
-                        "value": 2000,
-                        "question": "Before the Twins, fans rooted for this minor league team named for the many locals who worked grinding flour",
-                        "answer": "Millers"
-                    }
-                ]
-            },
-            {
-                "name": "ST. PAUL",
-                "questions": [
-                    {
-                        "value": 400,
-                        "question": "In Acts 9 Paul gets a call from the Lord near this Syrian city",
-                        "answer": "Damascus"
-                    },
-                    {
-                        "value": 800,
-                        "question": "Paul & Barnabas preached to big crowds in Antioch, where Acts 11 says the Disciples were first called these",
-                        "answer": "Christians"
-                    },
-                    {
-                        "value": 1200,
-                        "question": "Paul's New Testament letters include 2 to these Greeks who gave their name to an order of classical architecture",
-                        "answer": "Corinthians"
-                    },
-                    {
-                        "value": 1600,
-                        "question": "The lord calls Paul a \"chosen vessel... to bear my name before\" these non-Jews",
-                        "answer": "Gentiles"
-                    },
-                    {
-                        "value": 2000,
-                        "question": "Paul was born Saul in this Asia minor city around 4 B.C.",
-                        "answer": "Tarsus"
+                        "value": 1000,
+                        "question": "What is a basal species?",
+                        "choices": [
+                            "a species that is food for other species but does not eat other species",
+                            "a species that eats deceased secondary producers",
+                            "a species that is food for primary producers",
+                            "a species that both eats other species and is food for other species",
+                            "a species that eats other species but is not food for any species"
+                        ],
+                        "answer": "a species that is food for other species but does not eat other species"
                     }
                 ]
             }
         ],
         "final": {
-            "category": "AMERICANA",
-            "question": "While working for a plastics company, Don Featherstone created this iconic lawn decor, basing it on photos in National Geographic",
-            "answer": "A Pink Flamingo"
+            "category": "INDIAN PRIME MINISTERS",
+            "question": "Which Indian Prime Minister led the Non-Aligned Movement, sheltered the Dalai Lama, and lost a 1962 war against China?",
+            "answer": "Jawaharlal Nehru"
         }
     };
 
@@ -514,7 +542,7 @@ function back() {
     }
 }
 
-function skip() {
+function nextRound() {
     alert("This function is not coded yet");
 }
 
@@ -525,6 +553,7 @@ function initDoubleJeopardy() {
 }
 
 function initFinalJeopardy() {
+    var question = jeopardy["final"];
 }
 
 function end() {
@@ -678,7 +707,7 @@ function updateScoreBoard() {
     }
     out.push("<th style='width:15%' rowspan=2>");
     out.push("<a href='javascript:;' style='color:#E5915C' onclick='back()'>Back</a> &nbsp;&nbsp;&nbsp;");
-    out.push("<a href='javascript:;' style='color:#E5915C' onclick='skip()'>Skip</a> &nbsp;&nbsp;&nbsp;");
+    out.push("<a href='javascript:;' style='color:#E5915C' onclick='nextRound()'>Skip</a> &nbsp;&nbsp;&nbsp;");
     out.push("<a href='javascript:;' style='color:#E5915C' onclick='end()'>End</a><br/>");
     out.push("<a href='javascript:;' style='color:#E5915C' onclick='editTeams()'>Edit</a> &nbsp;&nbsp;&nbsp;");
     out.push("<a href='javascript:;' style='color:#E5915C' onclick='test_eval()'>Eval</a></th></tr><tr>");
