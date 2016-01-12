@@ -1,12 +1,12 @@
 /** TO-DO:
-* Have twice, one with team on bottom and one with team on top, or put on GitHub with one being pull request
 * Final Jeopardy
 * Skip
 * End
 * Timer
 * Load Jeopardy from JSON
 * Start page
-* Unlimited rounds?
+* Randomize Daily Double
+* Improve formatting webpage too
 */
 
 var currentMode = null,
@@ -20,403 +20,403 @@ var currentMode = null,
     colors = ["#00FFFF", "#00FF00", "#FF00FF", "#ADD8E6", "#C0C0C0", "#95B9C7", "#6698FF", "#CDFFFF", "#ADDFFF", "#7FFFD4", "#52D017", "#99C68E", "#7FE817", "#5EFB6E", "#8AFB17", "#CCFB5D", "#B1FB17", "#FFFF00", "#FFF380", "#FFE87C", "#EDDA74", "#F5F5DC", "#FFDB58", "#FFD801", "#FDD017", "#E9AB17", "#FFA62F", "#FFCBA4", "#E8A317", "#D4A017", "#FFA500", "#F87217", "#FF8040", "#F9966B", "#FF7F50", "#FF0000", "#E77471", "#E8ADAA", "#FCDFFF", "#FAAFBE", "#F778A1", "#F660AB", "#F52887", "#F433FF", "#A74AC7", "#8E35EF", "#8467D7", "#C45AEC", "#E238EC", "#E9CFEC", "#E3E4FA", "#FEFCFF", "#FFFFFF"],
     teams = [],
     jeopardy = {
-        "round1": [
+        "categories": [
             {
-                "name": "ART",
+                "name": "MUSEUM OF MODERN _____",
                 "questions": [
                     {
                         "value": 200,
-                        "question": "The painting technique of sfumato involves",
+                        "question": "How many tertiary colors exist?",
                         "choices": [
-                            "splattering",
-                            "blending",
-                            "layering",
-                            "shading",
-                            "glazing"
+                            "six",
+                            "four",
+                            "nine",
+                            "three",
+                            "twelve"
                         ],
-                        "answer": "blending"
+                        "answer": "six"
                     },
                     {
                         "value": 400,
-                        "question": "Mahayana is a branch of",
+                        "question": "For approximately how long did Britain dominate India?",
                         "choices": [
-                            "Jainism",
-                            "Buddhism",
-                            "Islam",
-                            "Hinduism",
-                            "Christianity"
+                            "two centuries",
+                            "three centuries",
+                            "four centuries",
+                            "one century",
+                            "five centuries"
                         ],
-                        "answer": "Buddhism"
+                        "answer": "two centuries"
                     },
                     {
                         "value": 600,
-                        "question": "Which nation was MOST influential in the development of miniature painting?",
+                        "question": "Why is the Buddha sometimes represented by an empty throne?",
                         "choices": [
-                            "Egypt",
-                            "Turkey",
-                            "China",
-                            "Persia",
-                            "Italy"
+                            "Nobody knows what he looked like.",
+                            "His followers see him as royalty.",
+                            "He is no longer a physical being.",
+                            "It is considered sacrilege to depict such a holy figure.",
+                            "He did not want others to view him as important."
                         ],
-                        "answer": "Persia"
-                    },
-                    {
-                        "value": 800,
-                        "question": "The <i>Upanishads</i> envisions the universe as a",
-                        "choices": [
-                            "body",
-                            "garden",
-                            "fabric",
-                            "wheel",
-                            "dish"
-                        ],
-                        "answer": "fabric"
-                    },
-                    {
-                        "value": 1000,
-                        "question": "In paint, linseed oil is sometimes used as a",
-                        "choices": [
-                            "wash",
-                            "slip",
-                            "pigment",
-                            "binder",
-                            "solvent"
-                        ],
-                        "answer": "binder"
-                    }
-                ]
-            },
-            {
-                "name": "ECONOMICS",
-                "questions": [
-                    {
-                        "value": 200,
-                        "question": "Which of the following forms of money is the LEAST liquid?",
-                        "choices": [
-                            "savings accounts",
-                            "gold",
-                            "M2",
-                            "currency",
-                            "traveler’s checks"
-                        ],
-                        "answer": "gold"
-                    },
-                    {
-                        "value": 400,
-                        "question": "Net imports equal the level of",
-                        "choices": [
-                            "portfolio investment",
-                            "net exports",
-                            "net capital outflow",
-                            "foreign direct investment",
-                            "net capital inflow"
-                        ],
-                        "answer": "net capital inflow"
-                    },
-                    {
-                        "value": 600,
-                        "question": "Which of the following adjectives does NOT describe economic models?",
-                        "choices": [
-                            "graphical",
-                            "mathematical",
-                            "generalized",
-                            "simplified",
-                            "descriptive"
-                        ],
-                        "answer": "descriptive"
-                    },
-                    {
-                        "value": 800,
-                        "question": "The expectation of a light monsoon can",
-                        "choices": [
-                            "encourage farmers to produce more",
-                            "increase food prices",
-                            "impede the participation of middle-men in the agriculture sector",
-                            "reduce food prices",
-                            "increase natural resource extraction in the short-term"
-                        ],
-                        "answer": "increase food prices",
+                        "answer": "He is no longer a physical being.",
                         "dailyDouble": true
                     },
                     {
-                        "value": 1000,
-                        "question": "The Consumer Price Index usually",
+                        "value": 800,
+                        "question": "The Taj Mahal is am important example of",
                         "choices": [
-                            "is the same as the Gross Domestic Product deflator",
-                            "does not suffer from substitution bias",
-                            "overestimates the cost of living",
-                            "overemphasizes the impact of improvements in quality",
-                            "suffers from a constantly changing market basket"
+                            "Jain architecture",
+                            "Buddhist architecture",
+                            "Indus Valley civilization architecture",
+                            "Hindu architecture",
+                            "Islamic architecture"
                         ],
-                        "answer": "overestimates the cost of living"
+                        "answer": "Islamic architecture"
+                    },
+                    {
+                        "value": 1000,
+                        "question": "To suggest a feeling of activity, an artist would MOST likely use",
+                        "choices": [
+                            "horizontal lines",
+                            "vertical lines",
+                            "implied lines",
+                            "dotted lines",
+                            "curved lines"
+                        ],
+                        "answer": "curved lines"
                     }
                 ]
             },
             {
-                "name": "SOCIAL SCIENCE",
+                "name": "PLANES: ____ CLASS",
                 "questions": [
                     {
                         "value": 200,
-                        "question": "The assassination of Indira Gandhi in 1984 led to retaliatory pogroms against",
+                        "question": "Microeconomics uses all of the following models EXCEPT",
                         "choices": [
-                            "Hindus",
-                            "Sikhs",
-                            "Jains",
-                            "Muslims",
-                            "Buddhists"
+                            "the demand curve",
+                            "the marginal revenue curve",
+                            "a perfectly competitive market",
+                            "a perfectly inelastic supply curve",
+                            "the short-run aggregate supply curve"
                         ],
-                        "answer": "Sikhs"
+                        "answer": "the short-run aggregate supply curve"
                     },
                     {
                         "value": 400,
-                        "question": "Indira Gandhi justified large-scale repressive measures under the guise of",
+                        "question": "India's per capita income is about",
                         "choices": [
-                            "religious toleration",
-                            "economic liberalization",
-                            "poverty elimination",
-                            "judicial conservatism",
-                            "corruption purging"
+                            "$1500",
+                            "$3500",
+                            "$2500",
+                            "$500",
+                            "$4500"
                         ],
-                        "answer": "poverty elimination"
+                        "answer": "$1500"
                     },
                     {
                         "value": 600,
-                        "question": "Sayyid Ahmed Barelvi led a campaign against followers of",
+                        "question": "The negative slope of the production possibility curve is evidence of",
                         "choices": [
-                            "Jainism",
-                            "Buddhism",
-                            "Islam",
-                            "Hinduism",
-                            "Sikhism"
+                            "the law of supply",
+                            "the law of demand",
+                            "taxes",
+                            "rent seeking",
+                            "opportunity cost"
                         ],
-                        "answer": "Sikhism"
+                        "answer": "opportunity cost"
                     },
                     {
                         "value": 800,
-                        "question": "In Awadh, following the Battle of Buxar, a treaty was signed at",
+                        "question": "If the money supply is 50 million, the velocity of money is 5, and the price level is 25, what is real Gross Domestic Product?",
                         "choices": [
-                            "Calcutta",
-                            "Bihar",
-                            "Allahabad",
-                            "Lahore",
-                            "Lucknow"
+                            "6.25 billion",
+                            "400,000",
+                            "250 million",
+                            "2.5 million",
+                            "10 million"
                         ],
-                        "answer": "Allahabad"
+                        "answer": "e. 10 million <br/> According to the quantity equation, MV = PY where M is the money supply, V is the velocity of money, P is the price level, and Y is real Gross Domestic Product. Therefore, Y = MV / P.",
                     },
                     {
                         "value": 1000,
-                        "question": "Indira Gandhi’s first term as Prime Minister immediately followed the death of",
+                        "question": "How does the Coase Theorem affect the resolution of externalities?",
                         "choices": [
-                            "Jawaharlal Nehru",
-                            "Morarji Desai",
-                            "Feroze Gandhi",
-                            "Chaudhury Charan Singh",
-                            "Lal Bahadur Shastri"
+                            "The Coase Theorem describes possible paths to address both negative and positive externalities.",
+                            "The Coase Theorem states that externalities can be resolved as long as both parties are free to negotiate.",
+                            "The Coase Theorem posits that externalities cannot be resolved without government intervention.",
+                            "The Coase Theorem establishes guidelines to resolve externalities through government intervention.",
+                            "The Coase Theorem suggests that only positive externalities can be resolved."
                         ],
-                        "answer": "Lal Bahadur Shastri"
+                        "answer": "The Coase Theorem states that externalities can be resolved as long as both parties are free to negotiate."
                     }
                 ]
             },
             {
-                "name": "MUSIC",
+                "name": "ACADEMIC DISCIPLINE DEALING WITH SOCIETY",
                 "questions": [
                     {
                         "value": 200,
-                        "question": " Indian films have been shown in international film festivals since the",
+                        "question": "Which form of Indian separatist movement has been MOST difficult to stem?",
                         "choices": [
-                            "1960s",
-                            "1940s",
-                            "1970s",
-                            "1980s",
-                            "1950s"
+                            "linguistic separatism",
+                            "geographic separatism",
+                            "ethnic separatism",
+                            "religious separatism",
+                            "racial separatism"
                         ],
-                        "answer": "1950s"
+                        "answer": "linguistic separatism"
                     },
                     {
                         "value": 400,
-                        "question": "Which mountain range forms the northern border of India?",
+                        "question": "Vijayanagara's advantage over its rivals came as a result of its",
                         "choices": [
-                            "Vindhyas",
-                            "Himalayas",
-                            "Western Ghats",
-                            "Satpuras",
-                            "Saltoros"
+                            "trading connections",
+                            "education system",
+                            "policy of religious toleration",
+                            "military prowess",
+                            "government structure"
                         ],
-                        "answer": "Himalayas"
+                        "answer": "military prowess"
                     },
                     {
                         "value": 600,
-                        "question": "Which aspect of a sound wave affects the pitch?",
+                        "question": "Internationally, Nehru was PRIMARILY a supporter of",
                         "choices": [
-                            "medium",
-                            "tone",
-                            "frequency",
-                            "amplitude",
-                            "speed"
+                            "the Organization of Petroleum Exporting Countries",
+                            "Asian and African nationalism",
+                            "the British Commonwealth",
+                            "the Soviet Union in the Cold War",
+                            "the United States in the Cold War"
                         ],
-                        "answer": "frequency"
+                        "answer": "Asian and African nationalism"
                     },
                     {
                         "value": 800,
-                        "question": "Which of the following composers was a member of the“Trinity”?",
+                        "question": "Which Governor-General oversaw a period of colonial expansion in India at the turn of the nineteenth century?",
                         "choices": [
-                            "Mutthuswami Diksitar",
-                            "Bulleh Shah",
-                            "Mira",
-                            "Kabir",
-                            "Venkatamakhin"
+                            "Cornwallis",
+                            "Bentinck",
+                            "Dalhousie",
+                            "Wellesley",
+                            "Hastings"
                         ],
-                        "answer": "Mutthuswami Diksitar"
+                        "answer": "Wellesley"
                     },
                     {
                         "value": 1000,
-                        "question": "Name the lyricist of “Main Yahan Hoon.”",
+                        "question": "Which of the following pairs does NOT correctly match an Indian Prime Minister with his or her political party?",
                         "choices": [
-                            "Vairamuthu",
-                            "Sahir Ludhianvi",
-                            "Shailendra",
-                            "Javed Akhtar",
-                            "Kidar Sharma"
+                            "I.K. Gujarat; Janata Dal",
+                            "V.P. Singh; Janata Dal",
+                            "Chandra Shekhar; Samajwadi Janata Party",
+                            "H.D. Deve Gowda; Indian National Congress",
+                            "Atal Bihari Vajpayee; Bharatiya Janata Party"
                         ],
-                        "answer": "Javed Akhtar"
+                        "answer": "H.D. Deve Gowda; Indian National Congress"
                     }
                 ]
             },
             {
-                "name": "LITERATURE",
+                "name": "SOUND OF ____",
                 "questions": [
                     {
                         "value": 200,
-                        "question": "Which of the following writers claimed that English was an authentic Indian language?",
+                        "question": "Common <i>talas</i> range from",
                         "choices": [
-                            "Kamala Markandaya",
-                            "Salman Rushdie",
-                            "R.K. Narayan",
-                            "Jaishankar Prassad",
-                            "Mulk Raj Anand"
+                            "4 to 14 beats",
+                            "6 to 16 beats",
+                            "3 to 13 beats",
+                            "7 to 17 beats",
+                            "5 to 15 beats"
                         ],
-                        "answer": "Salman Rushdie"
+                        "answer": "6 to 16 beats"
                     },
                     {
                         "value": 400,
-                        "question": "In 1948, Kamala Markandaya moved to",
+                        "question": "Which two languages are used in \"Mere Dil Mein Khayal Aata Hai\"?",
                         "choices": [
-                            "Paris",
-                            "Hong Kong",
-                            "Mumbai",
-                            "London",
-                            "New York"
+                            "Bengal and Arabic",
+                            "Hindi and Urdu",
+                            "Tamil and Telugu",
+                            "Punjabi and Gujarati",
+                            "Kannada and Malayam"
                         ],
-                        "answer": "London"
+                        "answer": "Hindi and Urdu"
                     },
                     {
                         "value": 600,
-                        "question": "In which activity does Ruku find the MOST comfort from her pain in Nectar in a Sieve?",
+                        "question": "Identify the largest nation in South Asia.",
                         "choices": [
-                            "reading",
-                            "speaking",
-                            "singing",
-                            "laughing",
-                            "praying"
+                            "Bangladesh",
+                            "Sri Lanka",
+                            "Pakistan",
+                            "India",
+                            "Bhutan"
                         ],
-                        "answer": "speaking"
+                        "answer": "India"
                     },
                     {
                         "value": 800,
-                        "question": "Jawaharlal Nehru and Mohandas Gandhi were similar in all the following ways EXCEPT in their",
+                        "question": "Hindustani music refers to the music of",
                         "choices": [
-                            "birth into high-caste families",
-                            "struggle for Indian independence",
-                            "training at a British law school",
-                            "roles in Indian National Congress",
-                            "reverence for modern science"
+                            "Sikh rituals",
+                            "Keralan rulers",
+                            "North India",
+                            "Himalayan monks",
+                            "Bengali customs"
                         ],
-                        "answer": "reverence for modern science"
+                        "answer": "North India"
                     },
                     {
                         "value": 1000,
-                        "question": "Which role did Jawaharlal Nehru take in the Indian government in 1947?",
+                        "question": "How many <i>shrutis</i> are in Ga?",
                         "choices": [
-                            "Vice President",
-                            "Cabinet Secretary",
-                            "Prime Minister",
-                            "President",
-                            "Minister of State"
+                            "5",
+                            "2",
+                            "3",
+                            "4",
+                            "1"
                         ],
-                        "answer": "Prime Minister"
+                        "answer": "2"
                     }
                 ]
             },
             {
-                "name": "SCIENCE/MATH",
+                "name": "AP _____ AND COMPOSITION",
                 "questions": [
                     {
                         "value": 200,
-                        "question": "Which of the following statements is true?",
+                        "question": "<i>Nectar in a Sieve</i> is MOST similar to a(n)",
                         "choices": [
-                            "The mode of a set does not have to be a member of that set",
-                            "A set can have more outliers than non-outliers",
-                            "The standard deviation of a set can be negative",
-                            "Any set has a member with a z-score with a value of 0",
-                            "The median of a data set will not change if we remove both a high and low outlier"
+                            "memoir",
+                            "parable",
+                            "morality play",
+                            "biography",
+                            "autobiography"
                         ],
-                        "answer": "The median of a data set will not change if we remove both a high and low outlier"
+                        "answer": "memoir"
                     },
                     {
                         "value": 400,
-                        "question": "Which of the following soil varieties would be the WORST at storing water?",
+                        "question": "Why did Mohandas Gandhi claim \"the English language cannot go\"?",
                         "choices": [
-                            "sand",
-                            "mucilage",
-                            "silt",
-                            "gravel",
-                            "clay"
+                            "No other language was as universal in India.",
+                            "Indians were required to learn it in school.",
+                            "The Indians could not thrive without it.",
+                            "It belonged to the world, not just to Britain.",
+                            "The Indian National Congress approved it."
                         ],
-                        "answer": "gravel"
+                        "answer": "It belonged to the world, not just to Britain."
                     },
                     {
                         "value": 600,
-                        "question": "Why do the Eastern Himalayas have such high biodiversity?",
+                        "question": "Why was Ruku only able to marry a poor tenant farmer in <i>Nectar in a Sieve?</i>",
                         "choices": [
-                            "There is little interspecies competition in the region so species do not experience limitation.",
-                            "The elevation changes so fast that there are many ecosystems in a relatively small horizontal area.",
-                            "British imperialists brought over a variety of species from Europe in the 1900s.",
-                            "They are isolated from human activity, so a wide variety of species are able to thrive.",
-                            "The Ganges River meets the ocean there, causing a diverse and productive estuary environment."
+                            "There were few marriageable men in her village.",
+                            "She was from a low social caste.",
+                            "Her father did not believe she deserved a better life.",
+                            "Her family could not afford to pay a large dowry.",
+                            "Nathan was highly esteemed in the village."
                         ],
-                        "answer": "The elevation changes so fast that there are many ecosystems in a relatively small horizontal area."
+                        "answer": "Her family could not afford to pay a large dowry."
                     },
                     {
                         "value": 800,
-                        "question": "What is the best measure of central tendency in the set {1,1,3,3,3,3,4,6,6,6,7,8,52}?",
+                        "question": "Jawaharlal Nehru's family was",
                         "choices": [
-                            "Mean",
-                            "Median",
-                            "Mode",
-                            "0.5(range)",
-                            "Maximum- mean"
+                            "Bihari",
+                            "Hindi",
+                            "Punjabi",
+                            "Bengali",
+                            "Kashmiri"
                         ],
-                        "answer": "Median"
+                        "answer": "Kashmiri"
                     },
                     {
                         "value": 1000,
-                        "question": "What is a basal species?",
+                        "question": "Jawaharlal Nehru did NOT think that modern India should be",
                         "choices": [
-                            "a species that is food for other species but does not eat other species",
-                            "a species that eats deceased secondary producers",
-                            "a species that is food for primary producers",
-                            "a species that both eats other species and is food for other species",
-                            "a species that eats other species but is not food for any species"
+                            "sovereign",
+                            "secular",
+                            "socialist",
+                            "democratic",
+                            "nationalist"
                         ],
-                        "answer": "a species that is food for other species but does not eat other species"
+                        "answer": "nationalist"
+                    }
+                ]
+            },
+            {
+                "name": "KUNICK/HEISER",
+                "questions": [
+                    {
+                        "value": 200,
+                        "question": "Carbon, nitrogen, and phosphorus all",
+                        "choices": [
+                            "encounter plants at some point in their ecosystem cycles",
+                            "are present in significant amounts in the atmosphere",
+                            "must undergo fixation before organisms can use them",
+                            "form compounds after photosynthesis",
+                            "are present in significant amounts in the soil"
+                        ],
+                        "answer": "encounter plants at some point in their ecosystem cycles"
+                    },
+                    {
+                        "value": 400,
+                        "question": "Which of the following organisms would MOST likely be an intermediate species in a marine ecosystem?",
+                        "choices": [
+                            "cod",
+                            "great white sharks",
+                            "seaweed",
+                            "killer whales",
+                            "phytoplankton"
+                        ],
+                        "answer": "cod"
+                    },
+                    {
+                        "value": 600,
+                        "question": "Chloe is choosing 6 classes for next semester from 10 core classes and 12 electives. If she must take at least 4 \"core\" classes, how many distinct sets of classes can she choose?",
+                        "choices": [
+                            "13,860",
+                            "17,094",
+                            "59,528",
+                            "68,750",
+                            "194,040"
+                        ],
+                        "answer": "17,094"
+                    },
+                    {
+                        "value": 800,
+                        "question": "What is the sum of the coefficients of the expansion (2x + 8y)<sup>6</sup>?",
+                        "choices": [
+                            "100,000",
+                            "500,000",
+                            "1,000,000",
+                            "5,000,000",
+                            "10,000,000"
+                        ],
+                        "answer": "1,000,000"
+                    },
+                    {
+                        "value": 1000,
+                        "question": "Which of the following factors is MOST directly threatening global biodiversity?",
+                        "choices": [
+                            "the decreasing rate of ecosystem processes",
+                            "the increasing human population",
+                            "the increasing rate of biogeochemical processes",
+                            "the decrease of global temperatures",
+                            "the decreasing rate of biotic invasions"
+                        ],
+                        "answer": "the increasing human population"
                     }
                 ]
             }
         ],
         "final": {
-            "category": "INDIAN PRIME MINISTERS",
-            "question": "Which Indian Prime Minister led the Non-Aligned Movement, sheltered the Dalai Lama, and lost a 1962 war against China?",
-            "answer": "Jawaharlal Nehru"
+            "category": "NONE",
+            "question": "Why did the chicken cross the road?",
+            "answer": "To get to the other side!"
         }
     };
 
@@ -442,7 +442,7 @@ function setWager(id) {
 }
 
 function handleDailyDouble(id) {
-    var category = !doubleJeopardy ? jeopardy.round1[Math.floor(id / 10)] : jeopardy.round2[Math.floor(id / 10)],
+    var category = jeopardy.categories[Math.floor(id / 10)],
         question = category.questions[id % 10];
     $("display").innerHTML = "<table style='width:100%; height:90%' class='game'><th><img src='daily_double.png' onclick='setWager(" + id + ")'/><br/><br/><font color='#E5915C' size=5>Enter Wager:&nbsp;$&nbsp;</font><input type='number' id='dailyDouble' step='100' min='0' max='17800' value='" + question.value + "'/></th></table>";
 }
@@ -455,7 +455,7 @@ function showQuestion(id) {
         usedQs.push(id);
     }
     currentMode = "question";
-    var category = !doubleJeopardy ? jeopardy.round1[Math.floor(id / 10)] : jeopardy.round2[Math.floor(id / 10)],
+    var category = jeopardy.categories[Math.floor(id / 10)],
         question = category.questions[id % 10],
         out = ["<table style='width:100%; height:90%' class='game'><tr><td onclick='showAnswer(\"" + id + "\")'>"];
     if (question.dailyDouble === true && wager === 0) {
@@ -488,7 +488,7 @@ function showQuestion(id) {
 }
 
 function editPoints(id, sign) {
-    var category = !doubleJeopardy ? jeopardy.round1[Math.floor(id / 10)] : jeopardy.round2[Math.floor(id / 10)],
+    var category = jeopardy.categories[Math.floor(id / 10)],
         question = category.questions[id % 10],
         value = question.value;
     if (question.dailyDouble === true) {
@@ -507,14 +507,17 @@ function addPoints(team) {
 
 function showAnswer(id) {
     currentMode = "answer";
-    var category = !doubleJeopardy ? jeopardy.round1[Math.floor(id / 10)] : jeopardy.round2[Math.floor(id / 10)],
+    var category = jeopardy.categories[Math.floor(id / 10)],
         question = category.questions[id % 10],
         answer = question.answer,
         out = ["<table style='width:100%; height:90%' class='game'><tr style='height:90%'><td colspan=2 onclick='createJeopardyBoard()'>"];
       out.push("<center><strong><font color='#FFF2C6' size=7>");
     if (question.hasOwnProperty("choices") && Array.isArray(question.choices)) {
-        var choices = question.choices.map(function (choice) { return choice.toLowerCase(); });
-        out.push(alphabet[choices.indexOf(answer.toLowerCase())] + ". ");
+        var choices = question.choices.map(function (choice) { return choice.toLowerCase(); }),
+            i = choices.indexOf(answer.toLowerCase());
+        if (i !== -1) {
+            out.push(alphabet[i] + ". ");
+        }
     }
     out.push(answer + "</font></strong></center></td></tr>");
     out.push("<tr><th onclick='editPoints(" + id + ", \"+\")'><font color='green' size=5><b>+</b></font></th>");
@@ -564,7 +567,7 @@ function createJeopardyBoard() {
     currentMode = "board";
     wager = 0;
     var out = ["<table style='width:100%; height:90%' class='game'><tr>"],
-        categories = (!doubleJeopardy ? jeopardy.round1 : jeopardy.round2),
+        categories = jeopardy.categories,
         width = Math.floor(100 / categories.length);
     if (!doubleJeopardy && usedQs.length === categories.length * categories[0].questions.length) {
         if (jeopardy.hasOwnProperty("round2")) {
