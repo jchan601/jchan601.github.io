@@ -1,8 +1,6 @@
 /** TO-DO:
 * End
 * Timer
-* Load Jeopardy from JSON
-* Start page
 * Randomize Daily Double
 * Improve formatting webpage too
 */
@@ -16,408 +14,8 @@ var currentMode = null,
     colors = ["#00FFFF", "#00FF00", "#FF00FF", "#ADD8E6", "#C0C0C0", "#95B9C7", "#6698FF", "#CDFFFF", "#ADDFFF", "#7FFFD4", "#52D017", "#99C68E", "#7FE817", "#5EFB6E", "#8AFB17", "#CCFB5D", "#B1FB17", "#FFFF00", "#FFF380", "#FFE87C", "#EDDA74", "#F5F5DC", "#FFDB58", "#FFD801", "#FDD017", "#E9AB17", "#FFA62F", "#FFCBA4", "#E8A317", "#D4A017", "#FFA500", "#F87217", "#FF8040", "#F9966B", "#FF7F50", "#FF0000", "#E77471", "#E8ADAA", "#FCDFFF", "#FAAFBE", "#F778A1", "#F660AB", "#F52887", "#F433FF", "#A74AC7", "#8E35EF", "#8467D7", "#C45AEC", "#E238EC", "#E9CFEC", "#E3E4FA", "#FEFCFF", "#FFFFFF"],
     teams = [],
     finalWagers = [],
-    jeopardy = {
-        "categories": [
-            {
-                "name": "MUSIC TO MY EARS",
-                "questions": [
-                    {
-                        "value": 200,
-                        "question": "20. You are presented with an instrument that has a mouthpiece and a reed that, when blown into, makes a shrill sound. This instrument is BEST classified as a(n)",
-                        "choices": [
-                            "Aerophone",
-                            "Idiophone",
-                            "Membranophone",
-                            "Chordophone",
-                            "Electrophone"
-                        ],
-                        "answer": "Aerophone",
-                        "dailyDouble": false
-                    },
-                    {
-                        "value": 400,
-                        "question": "31. How many shrutis are possible in an octave?",
-                        "choices": [
-                            "16",
-                            "18",
-                            "20",
-                            "22",
-                            "24"
-                        ],
-                        "answer": "22"
-                    },
-                    {
-                        "value": 600,
-                        "question": "What term is used to describe the first beat of the <i>tala</i> cycle?",
-                        "choices": [
-                            "<i>Bam</i>",
-                            "<i>Tam</i>",
-                            "<i>Sam</i>",
-                            "<i>Ram</i>",
-                            "<i>Dam</i>"
-                        ],
-                        "answer": "<i>Sam</i>"
-                    },
-                    {
-                        "value": 800,
-                        "question": "39. Which of the following instruments is NOT a mebranophone?",
-                        "choices": [
-                            "<i>Dholak</i>",
-                            "<i>Dhol</i>",
-                            "<i>Mridangam</i>",
-                            "<i>Tabla</i>",
-                            "<i>Sarangi</i>"
-                        ],
-                        "answer": "<i>Sarangi</i>"
-                    },
-                    {
-                        "value": 1000,
-                        "question": "28. All of the following statements about ragas are true EXCEPT",
-                        "choices": [
-                            "They are typically accompanied by a specific rhythm",
-                            "They use specific pitches in a scale",
-                            "Some of the pitches of the raga are designated as \"resting notes,\" which have structural importance",
-                            "The pitches of a raga are used in specific phrasings and contours",
-                            "Certain pitches in the raga require delicate slides and microtones"
-                        ],
-                        "answer": "They are typically accompanied by a specific rhythm"
-                    }
-                ]
-            },
-            {
-                "name": "ECON 101",
-                "questions": [
-                    {
-                        "value": 200,
-                        "question": "33. GDP = Consumption + Government Spending + Net Exports + _____.",
-                        "choices": [
-                            "Impact",
-                            "Income",
-                            "Investment",
-                            "Importants",
-                            "Interest"
-                        ],
-                        "answer": "Investment"
-                    },
-                    {
-                        "value": 400,
-                        "question": "19. At what age does the U.S. Bureau of Labor Statistics start classifying a person as employed, unemployed, or out of the labor force in order to determine the national unemployment rate?",
-                        "choices": [
-                            "14",
-                            "15",
-                            "16",
-                            "17",
-                            "18"
-                        ],
-                        "answer": "16"
-                    },
-                    {
-                        "value": 600,
-                        "question": "16. The positive relationship between price and quantity supplied is called the",
-                        "choices": [
-                            "Law of supply",
-                            "Expectation rate",
-                            "Law of Demand",
-                            "Equilibrium rate",
-                            "Law of consumption"
-                        ],
-                        "answer": "Law of supply"
-                    },
-                    {
-                        "value": 800,
-                        "question": "10. A change in all of the following factors will cause a shift in the supply curve EXCEPT",
-                        "choices": [
-                            "Expectations",
-                            "Technology",
-                            "Number of buyers",
-                            "Input prices",
-                            "Number of sellers"
-                        ],
-                        "answer": "Number of buyers"
-                    },
-                    {
-                        "value": 1000,
-                        "question": "20. The area above the point at which the positive supply curve and negative demand curves intersect is called the",
-                        "choices": [
-                            "Consumer ratio",
-                            "Excess demand",
-                            "Consumer benefit",
-                            "Equilibrium point",
-                            "Surplus"
-                        ],
-                        "answer": "Surplus"
-                    }
-                ]
-            },
-            {
-                "name": "INDIAN ECONOMICS",
-                "questions": [
-                    {
-                        "value": 200,
-                        "question": "3-12. India's current prime minister is",
-                        "choices": [
-                            "Jawaharlal Nehru",
-                            "Earl Mountbatten",
-                            "Mohandas Gandhi",
-                            "Indira Gandhi",
-                            "Narendra Modi"
-                        ],
-                        "answer": "Narendra Modi"
-                    },
-                    {
-                        "value": 400,
-                        "question": "39. What percentage of the population in India lives on less than $2 per day as of 2010?",
-                        "choices": [
-                            "68.8%",
-                            "91.3%",
-                            "52.2%",
-                            "11.1%",
-                            "43.6%"
-                        ],
-                        "answer": "68.8%"
-                    },
-                    {
-                        "value": 600,
-                        "question": "49. India's agricultural sector is highly susceptible to shocks, which result in shortages, because",
-                        "choices": [
-                            "The climate in India is not suited to the cultivation of mass-consumed foods",
-                            "India's agricultural supply chain is highly problematic",
-                            "The adoption of modern farming techniques has backfired and destroyed many farms",
-                            "Massive nation-wide labor riots frequently disrupt agricultural production",
-                            "Coal shortages ensure that rural farms cannot function efficiently"
-                        ],
-                        "answer": "India's agricultural supply chain is highly problematic"
-                    },
-                    {
-                        "value": 800,
-                        "question": "1-20. The gap between measures of India's and China's populations",
-                        "choices": [
-                            "is smaller if the youth population is not counted",
-                            "will close in a few decades",
-                            "has decreased dramatically in the past decade",
-                            "will widen dramatically in the future",
-                            "is rapidly increasing"
-                        ],
-                        "answer": "Will close in a few decades",
-                        "dailyDouble": true
-                    },
-                    {
-                        "value": 1000,
-                        "question": "2-37. In the early years after independence, India had a large",
-                        "choices": [
-                            "rate of economic growth",
-                            "trade deficit",
-                            "trade surplus",
-                            "number of oil reserves",
-                            "store of foreign currency"
-                        ],
-                        "answer": "Trade deficit"
-                    }
-                ]
-            },
-            {
-                "name": "SEPOYS AND THE REBELLION",
-                "questions": [
-                    {
-                        "value": 200,
-                        "question": "22. The EIC recruited Sepoy soldiers rather than European soldiers for all of the following reasons EXCEPT they were",
-                        "choices": [
-                            "Cheaper than European soldiers",
-                            "Accustomed to the environment in which they were serving",
-                            "Acclimated to the terrain and geography of the region",
-                            "Able to successfully draw these soldiers from particular populations",
-                            "Faithful and dutiful to the British"
-                        ],
-                        "answer": "Faithful and dutiful to the British"
-                    },
-                    {
-                        "value": 400,
-                        "question": "25. Through the summer of the Mutiny, the Sepoy soldiers were joined by all of the following EXCEPT",
-                        "choices": [
-                            "Disaffected and dislocated landlords",
-                            "Former princes who lost everything to the British",
-                            "British soldiers who defected after mistreatment in the EIC military",
-                            "Peasants who were frustrated with British rule",
-                            "Merchants who were put out of business by the EIC"
-                        ],
-                        "answer": "British soldiers who defected after mistreatment in the EIC military"
-                    },
-                    {
-                        "value": 600,
-                        "question": "28. All of the following were outcomes of the Sepoy Mutiny EXCEPT",
-                        "choices": [
-                            "The appointment of Indian military leaders in the EIC army",
-                            "An increase in the ratio of European to Indian soldiers in the EIC army",
-                            "The increase in diversity of soldiers hired to fight in the EIC army",
-                            "An increased racism against the Indians in the mind of the British",
-                            "The destruction and barricading of the city of Shahjahanabad"
-                        ],
-                        "answer": "The appointment of Indian military leaders in the EIC army"
-                    },
-                    {
-                        "value": 800,
-                        "question": "31. The connection between the Sepoy Mutiny and the growing nineteenth-century British Empire is the British",
-                        "choices": [
-                            "Army gained confidence after subduing the Sepoys and became aggressors elsewhere",
-                            "Needed to regain money lost in India so they began exploiting other overseas colonies",
-                            "Used reparation taxes the Indians paid to finance the growth of their overseas colonies",
-                            "Used guilty Sepoy rebels to form new armies to fight and conquer new colonies",
-                            "Used colonial bases to train military leaders to return to India to prevent future mutinies"
-                        ],
-                        "answer": "Used reparation taxes the Indians paid to finance the growth of their overseas colonies"
-                    },
-                    {
-                        "value": 1000,
-                        "question": "32. A significant development in Indian cities after the Sepoy Mutiny was the",
-                        "choices": [
-                            "Abolishment of the caste system",
-                            "Racial division between \"black\" and \"white\" neighborhoods",
-                            "Rise in social status of the \"untouchables\"",
-                            "Stationing of military troops in major cities throughout the country",
-                            "Dispersion of British residents for fear of further mutiny and rebellion"
-                        ],
-                        "answer": "Racial division between \"black\" and \"white\" neighborhoods"
-                    }
-                ]
-            },
-            {
-                "name": "INDIAN HISTORY",
-                "questions": [
-                    {
-                        "value": 200,
-                        "question": "11. When the Seven Years' War played out in India, all of the following factors helped the English beat the French EXCEPT the",
-                        "choices": [
-                            "French were in heavy debt to the great banking house of Jagat Seth",
-                            "English had full support of the Indian government across the entire continent",
-                            "French had control of only one Indian city from which to draw resources",
-                            "English had control of several Indian cities from which to draw resources",
-                            "French had expanded too rapidly, causing them to go into substantial debt to Jagat Seth"
-                        ],
-                        "answer": "English had full support of the Indian government across the entire continent"
-                    },
-                    {
-                        "value": 400,
-                        "question": "12. India, on the eve of the Battle of Plassy, can BEST be characterized as",
-                        "choices": [
-                            "Being under complete control of the English, save for French control of Pondicherry",
-                            "Having Indian figureheads who answered to English authorities in their de facto capital at Calcutta",
-                            "Having an equally distributed mix of Indian, English, French and Dutch authorities",
-                            "Being divided into several zones, all with varying degrees of Indian and English authority",
-                            "Having complete autonomy and free from European interference"
-                        ],
-                        "answer": "Being divided into several zones, all with varying degrees of Indian and English authority"
-                    },
-                    {
-                        "value": 600,
-                        "question": "19. The thing the EIC spent the most money on while maintaining their control over India was",
-                        "choices": [
-                            "Investing in rural farms to expand their sizes",
-                            "Promoting Anglicization throughout the Indian caste system",
-                            "Maintaining a large military to subdue rebellions",
-                            "Improving trade routes for easier transport of goods",
-                            "Paying bribes to the Nawabs"
-                        ],
-                        "answer": "Maintaining a large military to subdue rebellions"
-                    },
-                    {
-                        "value": 800,
-                        "question": "43. Of all the problems Nehru faced when composing the Indian Constitution, the biggest challenge was/were",
-                        "choices": [
-                            "Debate over the partition between Indian and Pakistan",
-                            "Recently violent religious differences within India and its neighboring country",
-                            "Aspects of British colonialism that was persisting within independent India",
-                            "Majority of the Indians' lack of access to technology and education",
-                            "Extraordinary diversity that spanned the newly independent India"
-                        ],
-                        "answer": "Extraordinary diversity that spanned the newly independent India"
-                    },
-                    {
-                        "value": 1000,
-                        "question": "50. The two most important events during Rao's administration were",
-                        "choices": [
-                            "Destruction of the Babri Masjid, and the suppression of riots throughout north India and Bombay",
-                            "The opening of some industries to private hands, and the destruction of the Babri Masjid",
-                            "The reformation of land distribution, and liberalization of the Indian economy",
-                            "Liberalization of the Indian economy, and the destruction of the Babri Masjid",
-                            "The birth of consumer culture in India, and the destruction of the Babri Masjid"
-                        ],
-                        "answer": "Liberalization of the Indian economy, and the destruction of the Babri Masjid"
-                    }
-                ]
-            },
-            {
-                "name": "ECOLOGY",
-                "questions": [
-                    {
-                        "value": 200,
-                        "question": "35. What is an autotrophic organism?",
-                        "choices": [
-                            "a top predator",
-                            "a critical organism at the center of a food web",
-                            "an organism that causes ecological succession",
-                            "a producer of organic compounds",
-                            "an organism that eats only plants"
-                        ],
-                        "answer": "a producer of organic compounds"
-                    },
-                    {
-                        "value": 400,
-                        "question": "3. Which of the following is an example of an ecological community?",
-                        "choices": [
-                            "an ant colony",
-                            "a beehive",
-                            "all of the humans on Earth",
-                            "a group of seagulls fighting over food scraps",
-                            "the various plants and animals found in a tidal pool"
-                        ],
-                        "answer": "the various plants and animals found in a tidal pool"
-                    },
-                    {
-                        "value": 600,
-                        "question": "4. What do ecologists call a patchwork of multiple communities and ecosystems?",
-                        "choices": [
-                            "abiotic environment",
-                            "landscape",
-                            "biome",
-                            "biosphere",
-                            "population"
-                        ],
-                        "answer": "landscape"
-                    },
-                    {
-                        "value": 800,
-                        "question": "16. Ecosystem diversity if BEST described as",
-                        "choices": [
-                            "diversity of genes within a species",
-                            "diversity of genes within an ecosystem",
-                            "diversity of ecological communities in an area",
-                            "a measure of the number of species in an ecosystem",
-                            "the change in an ecosystem over time"
-                        ],
-                        "answer": "diversity of ecological communities in an area"
-                    },
-                    {
-                        "value": 1000,
-                        "question": "14. Which of the following statements is TRUE about deciduous forests?",
-                        "choices": [
-                            "They occur only in the tropics.",
-                            "They are most likely to be found on mountainous islands.",
-                            "Light availability to underbrush changes throughout the year.",
-                            "The soil has a permanently frozen layer.",
-                            "They contain the highest biodiversity of any forest type."
-                        ],
-                        "answer": "Light availability to underbrush changes throughout the year."
-                    }
-                ]
-            }
-        ],
-        "final": {
-            "category": "INDIAN CITIES",
-            "question": "What is the most populous city in India?",
-            "answer": "Mumbai"
-        },
-        "randDailyDouble": 0
-    };
+    defaultJeopardy = {"categories":[{"name":"FILL IN THE BLANK CANVAS","questions":[{"value":200,"question":"Van Gogh's \"Self-Portrait with Pipe and Bandaged ____\"","answer":"Ear"},{"value":400,"question":"Jonathan Buttall is thought to be Gainsborough's model for \"The ____ Boy\"","answer":"Blue"},{"value":600,"question":"Seurat got to the point in \"A ____ Afternoon on the Island of La Grande Jatte\"","answer":"Sunday"},{"value":800,"question":"Duchamp caused a scandal with his \"Nude Descending a ____, No. 2\"","answer":"Staircase"},{"value":1000,"question":"Dali gave it a name that stuck: \"The Persistence of ____\"","answer":"Memory"}]},{"name":"MOVIE CAMEOS","questions":[{"value":200,"question":"Dan Patrick's good friend Adam Sandler has cast Patrick in 9 of his films, including \"Grown Ups 2\" in which Patrick played a gym teacher dressed as this 1980s Celtics legend","answer":"Larry Bird"},{"value":400,"question":"In \"Twilight\" this author has a cameo as a customer in a diner with a veggie plate","answer":"Stephenie Meyer"},{"value":600,"question":"Well, Al Michaels didn't win an Oscar playing myself in this 1996 movie but Cuba Gooding Jr. did for his performance as a wide receiver for the Cardinals","answer":"<i>Jerry Maguire</i>"},{"value":800,"question":"Julia Roberts played this title crusader in a 2000 film while the real woman had a cameo as a waitress","answer":"Erin Brockovich"},{"value":1000,"question":"From \"Rebecca\" on, this director appeared in all of his films; he sat next to Cary Grant on a bus in \"To Catch a Thief\"","answer":"Alfred Hitchcock"}]},{"name":"ANAGRAMMED FORMER WORLD LEADERS","questions":[{"value":200,"question":"A sari wearer:<br/>HI, GRAND INDIA!","answer":"Indira Gandhi"},{"value":400,"question":"In Italy:<br/>VIRILE SLOB COUSIN","answer":"Silvio Berlusconi"},{"value":600,"question":"Uh oh! Panama!:<br/>GENUINE AMORAL","answer":"Manuel Moriega"},{"value":800,"question":"He Laboured over Britain:<br/>BRAINY LOT","answer":"Tony Blair"},{"value":1000,"question":"Late Israeli leader:<br/>SOLAR HERNIA","answer":"Ariel Sharon"}]},{"name":"NUT-TRITION","questions":[{"value":200,"question":"Almonds are an excellent source of fiber & this bone-building element--got milk?","answer":"Calcium"},{"value":400,"question":"These biggies from the Amazon basin have many health benefits, but with their high selenium content, too many can be harmful","answer":"Brazil Nuts"},{"value":600,"question":"A key ingredient in pesto, these nuts are an excellent source of vitamin E","answer":"Pine Nuts"},{"value":800,"question":"Pistachios get their green color mostly from lutein, which is essential to this one of the 5 senses","answer":"Vision"},{"value":1000,"question":"Have some hazelnuts before bed; they're high in this sleep-aiding amino acid that's also found in turkey","answer":"Tryptophan"}]},{"name":"CEREMONIES","questions":[{"value":200,"question":"This Christian sacrament, a holy ceremony, is also called Eucharist","answer":"communion"},{"value":400,"question":"A ceremony on November 19, 1863 dedicated a cemetery in this town","answer":"Gettysburg","dailyDouble":true},{"value":600,"question":"Vice presidents are often sent to this type of ceremony overseas; Al Gore attended Mitterrand's in 1996","answer":"Funerals"},{"value":800,"question":"Giant scissors are mainly used for this type of ceremony at the grand opening of a new facility","answer":"Ribbon Cutting"},{"value":1000,"question":"An accolade, a ceremonial tap on the shoulder with a sword, is followed by the words \"I dub thee\" this","answer":"Knight"}]},{"name":"THE NEW YORK TIMES CROSSWORD","questions":[{"value":200,"question":"Monday had a presidential theme; one clue was to this \"supply-side fiscal policy popularized in the 1980s\"","answer":"Reaganomics"},{"value":400,"question":"On Tuesday we had some hidden Bobs; you'll find Dylan in this \"classic board game with a peppermint forest\"","answer":"Candy Land"},{"value":600,"question":"On Wednesday you had to know compound words where each half could also have \"dead\" before it--there was airline, seahorse & this response to \"top on official stationery\"","answer":"letterhead"},{"value":800,"question":"On Thursday we rolled the D-I-C-E, as in these, \"racy books named after a Victorian garment\"","answer":"bodice ripper"},{"value":1000,"question":"On Friday there's no theme, so you just have to know this 10-letter \"TV host who followed Jimmy Fallon on late night\"","answer":"Seth Meyers"}]}],"round2":[{"name":"THE ROMANTIC POETS","questions":[{"value":400,"question":"This title character of a Coleridge poem must wander the world recounting the tale of his days at sea","answer":"The Ancient Mariner"},{"value":800,"question":"Keats was inspired to write an ode to this bird by the song of one that nested in Charles Brown's garden","answer":"Nightingale"},{"value":1200,"question":"After part of \"Childe Harold's Pilgrimage\" was published, this lord \"awoke one morning and found myself famous\"","answer":"Lord Byron"},{"value":1600,"question":"His first major work was \"The Lay of the Last Minstrel\", a poem set on & north of England's northern border","answer":"Sir Walter Scott"},{"value":2000,"question":"The play in verse about this Greek god \"Unbound\" is often regarded as Shelley's greatest work","answer":"Prometheus"}]},{"name":"HONEST \"ABE\"","questions":[{"value":400,"question":"To mark a product incorrectly","answer":"Mislabel"},{"value":800,"question":"William Blackstone called it \"the great and efficacious writ, in all manner of illegal confinement\"","answer":"Habeus Corpus"},{"value":1200,"question":"A young pine or fir stem tossed in Highland Games","answer":"The Caber"},{"value":1600,"question":"This word for the science of baseball analytics comes from the name of a research society","answer":"Sabermetrics"},{"value":2000,"question":"Early scientific instrument used to measure the altitude of celestial objects","answer":"Astrolabe"}]},{"name":"PALACES","questions":[{"value":400,"question":"This \"seasonal\" palace has been called \"St. Petersburg's most famous building\"","answer":"Winter Palace for the Romanovs"},{"value":800,"question":"Lhasa's Potala Palace would be a nice place for this religious leader, who fled in 1959, to come home to, if he ever can","answer":"Dalai Lama"},{"value":1200,"question":"Istana Nurul Iman, the palace of the sultan of this country, features an air conditioned stable & a mosque for 1,500 people","answer":"Brunei"},{"value":1600,"question":"Ponder the tragic life of Crown Prince Rudolf in his lavish suite in this capital's Schonbrunn Palace","answer":"Vienna","dailyDouble":true},{"value":2000,"question":"Overlooking Granada, Spain, it has a name from Arabic for \"Red\", probably from the bricks of the outer walls","answer":"Alhambra"}]},{"name":"INTERNATIONAL SWIMMING HALL OF FAMERS","questions":[{"value":400,"question":"Inducted in 1977, this American who'd been laden with gold at Munich 5 years earlier","answer":"Mark Spitz"},{"value":800,"question":"This oceanographer & inventor, 1910-1997","answer":"Jacques Cousteau","dailyDouble":true},{"value":1200,"question":"1993:<br/>This 4-time Olympic gold medalist who did much of his swimming following a dive","answer":"Greg Louganis"},{"value":1600,"question":"<img src='http://www.j-archive.com/media/2015-12-18_DJ_26.jpg' height='270' width='480'/><br/>This prince shown as a young man, later chairman of the Monegasque Swimming Federation","answer":"Prince Albert"},{"value":2000,"question":"This U.S. champ who helped bring the swimming movie to Hollywood with films like \"Bathing Beauty\"","answer":"Esther Williams"}]},{"name":"MINNEAPOLIS","questions":[{"value":400,"question":"In 2001 General Mills bought this other Minneapolis-based baking giant for $10.5 billion; that's a lot of dough, boy","answer":"Pillsbury"},{"value":800,"question":"Minneapolis is the home town of this pop icon; his Paisley Park Studios are about a half hour away","answer":"Prince"},{"value":1200,"question":"<img src='http://www.j-archive.com/media/2015-12-18_DJ_28.jpg' height='270' width='480'/> <img src='http://www.j-archive.com/media/2015-12-18_DJ_28a.jpg' height='270' width='480'/><br/>Foshay Tower was Minneapolis' tallest when opened in this year; Mr. Foshay's business promptly collapsed, but the tower stands","answer":"1929"},{"value":1600,"question":"Drive your toy truck to this 12-mile-long lake in the western suburbs","answer":"Minnetonka"},{"value":2000,"question":"Before the Twins, fans rooted for this minor league team named for the many locals who worked grinding flour","answer":"Millers"}]},{"name":"ST. PAUL","questions":[{"value":400,"question":"In Acts 9 Paul gets a call from the Lord near this Syrian city","answer":"Damascus"},{"value":800,"question":"Paul & Barnabas preached to big crowds in Antioch, where Acts 11 says the Disciples were first called these","answer":"Christians"},{"value":1200,"question":"Paul's New Testament letters include 2 to these Greeks who gave their name to an order of classical architecture","answer":"Corinthians"},{"value":1600,"question":"The lord calls Paul a \"chosen vessel... to bear my name before\" these non-Jews","answer":"Gentiles"},{"value":2000,"question":"Paul was born Saul in this Asia minor city around 4 B.C.","answer":"Tarsus"}]}],"final":{"category":"AMERICANA","question":"While working for a plastics company, Don Featherstone created this iconic lawn decor, basing it on photos in National Geographic","answer":"A Pink Flamingo"}};
+    jeopardy = {};
     
 // Shamelessly stolen from http://stackoverflow.com/questions/610406/javascript-equivalent-to-printf-string-format
 String.prototype.format = function() {
@@ -554,11 +152,12 @@ function setFinalWagers() {
 
 function handleFinalJeopardy(num) {
     var question = jeopardy["final"],
-        out = "<table style='width:100%; height:90%' class='game'><tr style='height:90%'><td colspan=2 onclick='handleFinalJeopardy({0})'><center><strong><font color='#FFF2C6' size=7>{1}</font></strong></center></td></tr>{2}</table>";
+        out = "<table style='width:100%; height:90%' class='game'><tr style='height:90%'><td colspan=2 {0}><center><strong><font color='#FFF2C6' size=7>{1}</font></strong></center></td></tr>{2}</table>",
+        onclick = "onclick='handleFinalJeopardy(" + (num + 1) + ")'";
     switch (num) {
         case 0:
             currentMode = "final_confirm";
-            $("display").innerHTML =  out.format(num + 1, "All questions have been answered!<br/>Click to proceed to Final Jeopardy!", "");
+            $("display").innerHTML =  out.format(onclick, "All questions have been answered!<br/>Click to proceed to Final Jeopardy!", "");
             break;
         case 1:
             currentMode = "final_wager";
@@ -568,16 +167,16 @@ function handleFinalJeopardy(num) {
                 wagers.push("<font color='" + team.color + "' size=5>" + team.name + ":</font> <input type='number' id='final" + t + "' step='100' min='0' value='0'/><br/>");
             }
             wagers.push("<br/><a href='javascript:;' style='color:#E5915C; font-size:0.57em;' onclick='handleFinalJeopardy(2)'>Continue</a>");
-            $("display").innerHTML = out.replace("onclick='handleFinalJeopardy({0})", "").format("", "CATEGORY: " + question.category + "<br/><br/><font size=6 color='#B0CFFC'>Make your wagers!</font><br/>" + wagers.join(""), "");
+            $("display").innerHTML = out.format("", "CATEGORY: " + question.category + "<br/><br/><font size=6 color='#B0CFFC'>Make your wagers!</font><br/>" + wagers.join(""), "");
             break;
         case 2:
             currentMode = "final_question";
             setFinalWagers();
-            $("display").innerHTML = out.format(num + 1, question.question, "");
+            $("display").innerHTML = out.format(onclick, question.question, "");
             break;
         case 3:
             currentMode = "final_answer";
-            $("display").innerHTML =  out.format(num + 1, question.answer, "<tr><th onclick='editPoints(\"final\", \"+\")'><font color='green' size=5><b>+</b></font></th><th onclick='editPoints(\"final\", \"-\")'><font color='red' size=5><b>&#8210;</b></font></th></tr>");
+            $("display").innerHTML =  out.format(onclick, question.answer, "<tr><th onclick='editPoints(\"final\", \"+\")'><font color='green' size=5><b>+</b></font></th><th onclick='editPoints(\"final\", \"-\")'><font color='red' size=5><b>&#8210;</b></font></th></tr>");
             break;
         default:
             end();
@@ -780,10 +379,59 @@ function updateScoreBoard() {
     $("score").innerHTML = out.join("");
 }
 
+function loadJeopardy(url) {
+    if (url === true) {
+        jeopardy = defaultJeopardy;
+    } else {
+        var url = url ? url : encodeURI($("url").value);
+        if (url[0] === "~") {
+            url = "https://dl.dropboxusercontent.com/u/86594639/Jeopardy/games/" + url.slice(1);
+            if (url.slice(url.length - 5) !== ".json") {
+                url += ".json"
+            }
+        } else if (url.substring(0, 7).toLowerCase() !== "http://" && url.substring(0, 8).toLowerCase() !== "https://") {
+            url = "https://raw.githubusercontent.com/jchan601/jchan601.github.io/master/jeopardy/games/" + url;
+            if (url.slice(url.length - 5) !== ".json") {
+                url += ".json"
+            }
+        }
+        var xhr = new XMLHttpRequest(), resp; 
+        xhr.open('GET', url, false); 
+        xhr.send(null); 
+        if (xhr.status === 200) {
+            var resp = xhr.responseText;
+            if (resp === "") {
+                alert("Error: Couldn't retrieve data from URL");
+                return;
+            }
+            try {
+                jeopardy = JSON.parse(resp);
+            } catch (e) {
+                alert("Error: Couldn't parse JSON string")
+                return;
+            }
+        } else {
+            alert("Error: Couldn't access URL");
+        }
+    }
+    createJeopardyBoard();
+}
+
 function onLoad() {
     for (var x = 0; x < 3; x++) {
         addTeam();
     }
-    createJeopardyBoard();
+    $("display").innerHTML = "<table style='width:100%; height:90%' class='game'><tr style='height:90%'><td colspan=2><center><strong><font color='#FDE151' size=7>JEOPARDY!</font><br/><br/><a href='javascript:;' style='color:#E5915C; font-size:1.67em;' onclick='loadJeopardy(true)'>Load Default</a><br/><br/><font color='#E5915C' size=5>Load from URL:</font> <input type='url' id='url'/></font> <button onclick='loadJeopardy()'>Submit</button></strong></center></td></tr></table>";
     updateScoreBoard();
+	if (location.search !== "") {
+		var args = unescape(location.search.substr(1)).split("&");
+		var obj = {};
+		for (var i = 0; i < args.length; i++) {
+			var params = args[i].split("=");
+			obj[params[0].toLowerCase()] = params[1];
+		};
+        if (obj.hasOwnProperty("url")) {
+            loadJeopardy(obj.url);
+        }
+    }
 }
