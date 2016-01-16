@@ -1,7 +1,6 @@
 /** TO-DO:
 * End
 * Timer
-* Randomize Daily Double
 * Improve formatting webpage too
 */
 
@@ -412,6 +411,28 @@ function loadJeopardy(url) {
             }
         } else {
             alert("Error: Couldn't access URL");
+        }
+    }
+    if (jeopardy.hasOwnProperty("randDailyDouble") && !isNaN(jeopardy.randDailyDouble)) {
+        for (var i = 0; i < jeopardy.randDailyDouble; i++) {
+            while (true) {
+                var categories = jeopardy.categories,
+                    questions = categories[rand(0, categories.length)].questions;
+                if (questions.length === 5) {
+                    var array = [0, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4],
+                        question = questions[array[rand(0, array.length)]];
+                    if (!question.hasOwnProperty("dailyDouble") || question.dailyDouble != true) {
+                        question.dailyDouble = true;
+                        break;
+                    }
+                } else {
+                    var question = questions[rand(0, questions.length)];
+                    if (question.dailyDouble != true) {
+                        question.dailyDouble = true;
+                        break;
+                    }
+                }
+            }
         }
     }
     createJeopardyBoard();
