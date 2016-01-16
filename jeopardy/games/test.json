@@ -1,4 +1,6 @@
 {
+    "randDailyDouble": 1,
+    "timer": 60,
     "categories": [
         {
             "name": "MUSIC TO MY EARS",
@@ -13,8 +15,7 @@
                         "Chordophone",
                         "Electrophone"
                     ],
-                    "answer": "Aerophone",
-                    "dailyDouble": false
+                    "answer": "Aerophone"
                 },
                 {
                     "value": 400,
@@ -180,8 +181,7 @@
                         "will widen dramatically in the future",
                         "is rapidly increasing"
                     ],
-                    "answer": "Will close in a few decades",
-                    "dailyDouble": true
+                    "answer": "Will close in a few decades"
                 },
                 {
                     "value": 1000,
