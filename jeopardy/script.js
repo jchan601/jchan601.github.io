@@ -1,6 +1,4 @@
 /** TO-DO:
-* Final Jeopardy
-* Skip
 * End
 * Timer
 * Load Jeopardy from JSON
@@ -13,412 +11,423 @@ var currentMode = null,
     pointsAdd = 0,
     wager = 0,
     usedQs = [],
-    doubleJeopardy = false, // condense into round variable
-    finalJeopardy = false,
     teamEdit = false,
     alphabet = "abcdefghijklmnopqrstuvwxyz",
     colors = ["#00FFFF", "#00FF00", "#FF00FF", "#ADD8E6", "#C0C0C0", "#95B9C7", "#6698FF", "#CDFFFF", "#ADDFFF", "#7FFFD4", "#52D017", "#99C68E", "#7FE817", "#5EFB6E", "#8AFB17", "#CCFB5D", "#B1FB17", "#FFFF00", "#FFF380", "#FFE87C", "#EDDA74", "#F5F5DC", "#FFDB58", "#FFD801", "#FDD017", "#E9AB17", "#FFA62F", "#FFCBA4", "#E8A317", "#D4A017", "#FFA500", "#F87217", "#FF8040", "#F9966B", "#FF7F50", "#FF0000", "#E77471", "#E8ADAA", "#FCDFFF", "#FAAFBE", "#F778A1", "#F660AB", "#F52887", "#F433FF", "#A74AC7", "#8E35EF", "#8467D7", "#C45AEC", "#E238EC", "#E9CFEC", "#E3E4FA", "#FEFCFF", "#FFFFFF"],
     teams = [],
+    finalWagers = [],
     jeopardy = {
         "categories": [
             {
-                "name": "MUSEUM OF MODERN _____",
+                "name": "MUSIC TO MY EARS",
                 "questions": [
                     {
                         "value": 200,
-                        "question": "How many tertiary colors exist?",
+                        "question": "20. You are presented with an instrument that has a mouthpiece and a reed that, when blown into, makes a shrill sound. This instrument is BEST classified as a(n)",
                         "choices": [
-                            "six",
-                            "four",
-                            "nine",
-                            "three",
-                            "twelve"
+                            "Aerophone",
+                            "Idiophone",
+                            "Membranophone",
+                            "Chordophone",
+                            "Electrophone"
                         ],
-                        "answer": "six"
+                        "answer": "Aerophone",
+                        "dailyDouble": false
                     },
                     {
                         "value": 400,
-                        "question": "For approximately how long did Britain dominate India?",
+                        "question": "31. How many shrutis are possible in an octave?",
                         "choices": [
-                            "two centuries",
-                            "three centuries",
-                            "four centuries",
-                            "one century",
-                            "five centuries"
+                            "16",
+                            "18",
+                            "20",
+                            "22",
+                            "24"
                         ],
-                        "answer": "two centuries"
+                        "answer": "22"
                     },
                     {
                         "value": 600,
-                        "question": "Why is the Buddha sometimes represented by an empty throne?",
+                        "question": "What term is used to describe the first beat of the <i>tala</i> cycle?",
                         "choices": [
-                            "Nobody knows what he looked like.",
-                            "His followers see him as royalty.",
-                            "He is no longer a physical being.",
-                            "It is considered sacrilege to depict such a holy figure.",
-                            "He did not want others to view him as important."
+                            "<i>Bam</i>",
+                            "<i>Tam</i>",
+                            "<i>Sam</i>",
+                            "<i>Ram</i>",
+                            "<i>Dam</i>"
                         ],
-                        "answer": "He is no longer a physical being.",
+                        "answer": "<i>Sam</i>"
+                    },
+                    {
+                        "value": 800,
+                        "question": "39. Which of the following instruments is NOT a mebranophone?",
+                        "choices": [
+                            "<i>Dholak</i>",
+                            "<i>Dhol</i>",
+                            "<i>Mridangam</i>",
+                            "<i>Tabla</i>",
+                            "<i>Sarangi</i>"
+                        ],
+                        "answer": "<i>Sarangi</i>"
+                    },
+                    {
+                        "value": 1000,
+                        "question": "28. All of the following statements about ragas are true EXCEPT",
+                        "choices": [
+                            "They are typically accompanied by a specific rhythm",
+                            "They use specific pitches in a scale",
+                            "Some of the pitches of the raga are designated as \"resting notes,\" which have structural importance",
+                            "The pitches of a raga are used in specific phrasings and contours",
+                            "Certain pitches in the raga require delicate slides and microtones"
+                        ],
+                        "answer": "They are typically accompanied by a specific rhythm"
+                    }
+                ]
+            },
+            {
+                "name": "ECON 101",
+                "questions": [
+                    {
+                        "value": 200,
+                        "question": "33. GDP = Consumption + Government Spending + Net Exports + _____.",
+                        "choices": [
+                            "Impact",
+                            "Income",
+                            "Investment",
+                            "Importants",
+                            "Interest"
+                        ],
+                        "answer": "Investment"
+                    },
+                    {
+                        "value": 400,
+                        "question": "19. At what age does the U.S. Bureau of Labor Statistics start classifying a person as employed, unemployed, or out of the labor force in order to determine the national unemployment rate?",
+                        "choices": [
+                            "14",
+                            "15",
+                            "16",
+                            "17",
+                            "18"
+                        ],
+                        "answer": "16"
+                    },
+                    {
+                        "value": 600,
+                        "question": "16. The positive relationship between price and quantity supplied is called the",
+                        "choices": [
+                            "Law of supply",
+                            "Expectation rate",
+                            "Law of Demand",
+                            "Equilibrium rate",
+                            "Law of consumption"
+                        ],
+                        "answer": "Law of supply"
+                    },
+                    {
+                        "value": 800,
+                        "question": "10. A change in all of the following factors will cause a shift in the supply curve EXCEPT",
+                        "choices": [
+                            "Expectations",
+                            "Technology",
+                            "Number of buyers",
+                            "Input prices",
+                            "Number of sellers"
+                        ],
+                        "answer": "Number of buyers"
+                    },
+                    {
+                        "value": 1000,
+                        "question": "20. The area above the point at which the positive supply curve and negative demand curves intersect is called the",
+                        "choices": [
+                            "Consumer ratio",
+                            "Excess demand",
+                            "Consumer benefit",
+                            "Equilibrium point",
+                            "Surplus"
+                        ],
+                        "answer": "Surplus"
+                    }
+                ]
+            },
+            {
+                "name": "INDIAN ECONOMICS",
+                "questions": [
+                    {
+                        "value": 200,
+                        "question": "3-12. India's current prime minister is",
+                        "choices": [
+                            "Jawaharlal Nehru",
+                            "Earl Mountbatten",
+                            "Mohandas Gandhi",
+                            "Indira Gandhi",
+                            "Narendra Modi"
+                        ],
+                        "answer": "Narendra Modi"
+                    },
+                    {
+                        "value": 400,
+                        "question": "39. What percentage of the population in India lives on less than $2 per day as of 2010?",
+                        "choices": [
+                            "68.8%",
+                            "91.3%",
+                            "52.2%",
+                            "11.1%",
+                            "43.6%"
+                        ],
+                        "answer": "68.8%"
+                    },
+                    {
+                        "value": 600,
+                        "question": "49. India's agricultural sector is highly susceptible to shocks, which result in shortages, because",
+                        "choices": [
+                            "The climate in India is not suited to the cultivation of mass-consumed foods",
+                            "India's agricultural supply chain is highly problematic",
+                            "The adoption of modern farming techniques has backfired and destroyed many farms",
+                            "Massive nation-wide labor riots frequently disrupt agricultural production",
+                            "Coal shortages ensure that rural farms cannot function efficiently"
+                        ],
+                        "answer": "India's agricultural supply chain is highly problematic"
+                    },
+                    {
+                        "value": 800,
+                        "question": "1-20. The gap between measures of India's and China's populations",
+                        "choices": [
+                            "is smaller if the youth population is not counted",
+                            "will close in a few decades",
+                            "has decreased dramatically in the past decade",
+                            "will widen dramatically in the future",
+                            "is rapidly increasing"
+                        ],
+                        "answer": "Will close in a few decades",
                         "dailyDouble": true
                     },
                     {
-                        "value": 800,
-                        "question": "The Taj Mahal is am important example of",
-                        "choices": [
-                            "Jain architecture",
-                            "Buddhist architecture",
-                            "Indus Valley civilization architecture",
-                            "Hindu architecture",
-                            "Islamic architecture"
-                        ],
-                        "answer": "Islamic architecture"
-                    },
-                    {
                         "value": 1000,
-                        "question": "To suggest a feeling of activity, an artist would MOST likely use",
+                        "question": "2-37. In the early years after independence, India had a large",
                         "choices": [
-                            "horizontal lines",
-                            "vertical lines",
-                            "implied lines",
-                            "dotted lines",
-                            "curved lines"
+                            "rate of economic growth",
+                            "trade deficit",
+                            "trade surplus",
+                            "number of oil reserves",
+                            "store of foreign currency"
                         ],
-                        "answer": "curved lines"
+                        "answer": "Trade deficit"
                     }
                 ]
             },
             {
-                "name": "PLANES: ____ CLASS",
+                "name": "SEPOYS AND THE REBELLION",
                 "questions": [
                     {
                         "value": 200,
-                        "question": "Microeconomics uses all of the following models EXCEPT",
+                        "question": "22. The EIC recruited Sepoy soldiers rather than European soldiers for all of the following reasons EXCEPT they were",
                         "choices": [
-                            "the demand curve",
-                            "the marginal revenue curve",
-                            "a perfectly competitive market",
-                            "a perfectly inelastic supply curve",
-                            "the short-run aggregate supply curve"
+                            "Cheaper than European soldiers",
+                            "Accustomed to the environment in which they were serving",
+                            "Acclimated to the terrain and geography of the region",
+                            "Able to successfully draw these soldiers from particular populations",
+                            "Faithful and dutiful to the British"
                         ],
-                        "answer": "the short-run aggregate supply curve"
+                        "answer": "Faithful and dutiful to the British"
                     },
                     {
                         "value": 400,
-                        "question": "India's per capita income is about",
+                        "question": "25. Through the summer of the Mutiny, the Sepoy soldiers were joined by all of the following EXCEPT",
                         "choices": [
-                            "$1500",
-                            "$3500",
-                            "$2500",
-                            "$500",
-                            "$4500"
+                            "Disaffected and dislocated landlords",
+                            "Former princes who lost everything to the British",
+                            "British soldiers who defected after mistreatment in the EIC military",
+                            "Peasants who were frustrated with British rule",
+                            "Merchants who were put out of business by the EIC"
                         ],
-                        "answer": "$1500"
+                        "answer": "British soldiers who defected after mistreatment in the EIC military"
                     },
                     {
                         "value": 600,
-                        "question": "The negative slope of the production possibility curve is evidence of",
+                        "question": "28. All of the following were outcomes of the Sepoy Mutiny EXCEPT",
                         "choices": [
-                            "the law of supply",
-                            "the law of demand",
-                            "taxes",
-                            "rent seeking",
-                            "opportunity cost"
+                            "The appointment of Indian military leaders in the EIC army",
+                            "An increase in the ratio of European to Indian soldiers in the EIC army",
+                            "The increase in diversity of soldiers hired to fight in the EIC army",
+                            "An increased racism against the Indians in the mind of the British",
+                            "The destruction and barricading of the city of Shahjahanabad"
                         ],
-                        "answer": "opportunity cost"
+                        "answer": "The appointment of Indian military leaders in the EIC army"
                     },
                     {
                         "value": 800,
-                        "question": "If the money supply is 50 million, the velocity of money is 5, and the price level is 25, what is real Gross Domestic Product?",
+                        "question": "31. The connection between the Sepoy Mutiny and the growing nineteenth-century British Empire is the British",
                         "choices": [
-                            "6.25 billion",
-                            "400,000",
-                            "250 million",
-                            "2.5 million",
-                            "10 million"
+                            "Army gained confidence after subduing the Sepoys and became aggressors elsewhere",
+                            "Needed to regain money lost in India so they began exploiting other overseas colonies",
+                            "Used reparation taxes the Indians paid to finance the growth of their overseas colonies",
+                            "Used guilty Sepoy rebels to form new armies to fight and conquer new colonies",
+                            "Used colonial bases to train military leaders to return to India to prevent future mutinies"
                         ],
-                        "answer": "e. 10 million <br/> According to the quantity equation, MV = PY where M is the money supply, V is the velocity of money, P is the price level, and Y is real Gross Domestic Product. Therefore, Y = MV / P.",
+                        "answer": "Used reparation taxes the Indians paid to finance the growth of their overseas colonies"
                     },
                     {
                         "value": 1000,
-                        "question": "How does the Coase Theorem affect the resolution of externalities?",
+                        "question": "32. A significant development in Indian cities after the Sepoy Mutiny was the",
                         "choices": [
-                            "The Coase Theorem describes possible paths to address both negative and positive externalities.",
-                            "The Coase Theorem states that externalities can be resolved as long as both parties are free to negotiate.",
-                            "The Coase Theorem posits that externalities cannot be resolved without government intervention.",
-                            "The Coase Theorem establishes guidelines to resolve externalities through government intervention.",
-                            "The Coase Theorem suggests that only positive externalities can be resolved."
+                            "Abolishment of the caste system",
+                            "Racial division between \"black\" and \"white\" neighborhoods",
+                            "Rise in social status of the \"untouchables\"",
+                            "Stationing of military troops in major cities throughout the country",
+                            "Dispersion of British residents for fear of further mutiny and rebellion"
                         ],
-                        "answer": "The Coase Theorem states that externalities can be resolved as long as both parties are free to negotiate."
+                        "answer": "Racial division between \"black\" and \"white\" neighborhoods"
                     }
                 ]
             },
             {
-                "name": "ACADEMIC DISCIPLINE DEALING WITH SOCIETY",
+                "name": "INDIAN HISTORY",
                 "questions": [
                     {
                         "value": 200,
-                        "question": "Which form of Indian separatist movement has been MOST difficult to stem?",
+                        "question": "11. When the Seven Years' War played out in India, all of the following factors helped the English beat the French EXCEPT the",
                         "choices": [
-                            "linguistic separatism",
-                            "geographic separatism",
-                            "ethnic separatism",
-                            "religious separatism",
-                            "racial separatism"
+                            "French were in heavy debt to the great banking house of Jagat Seth",
+                            "English had full support of the Indian government across the entire continent",
+                            "French had control of only one Indian city from which to draw resources",
+                            "English had control of several Indian cities from which to draw resources",
+                            "French had expanded too rapidly, causing them to go into substantial debt to Jagat Seth"
                         ],
-                        "answer": "linguistic separatism"
+                        "answer": "English had full support of the Indian government across the entire continent"
                     },
                     {
                         "value": 400,
-                        "question": "Vijayanagara's advantage over its rivals came as a result of its",
+                        "question": "12. India, on the eve of the Battle of Plassy, can BEST be characterized as",
                         "choices": [
-                            "trading connections",
-                            "education system",
-                            "policy of religious toleration",
-                            "military prowess",
-                            "government structure"
+                            "Being under complete control of the English, save for French control of Pondicherry",
+                            "Having Indian figureheads who answered to English authorities in their de facto capital at Calcutta",
+                            "Having an equally distributed mix of Indian, English, French and Dutch authorities",
+                            "Being divided into several zones, all with varying degrees of Indian and English authority",
+                            "Having complete autonomy and free from European interference"
                         ],
-                        "answer": "military prowess"
+                        "answer": "Being divided into several zones, all with varying degrees of Indian and English authority"
                     },
                     {
                         "value": 600,
-                        "question": "Internationally, Nehru was PRIMARILY a supporter of",
+                        "question": "19. The thing the EIC spent the most money on while maintaining their control over India was",
                         "choices": [
-                            "the Organization of Petroleum Exporting Countries",
-                            "Asian and African nationalism",
-                            "the British Commonwealth",
-                            "the Soviet Union in the Cold War",
-                            "the United States in the Cold War"
+                            "Investing in rural farms to expand their sizes",
+                            "Promoting Anglicization throughout the Indian caste system",
+                            "Maintaining a large military to subdue rebellions",
+                            "Improving trade routes for easier transport of goods",
+                            "Paying bribes to the Nawabs"
                         ],
-                        "answer": "Asian and African nationalism"
+                        "answer": "Maintaining a large military to subdue rebellions"
                     },
                     {
                         "value": 800,
-                        "question": "Which Governor-General oversaw a period of colonial expansion in India at the turn of the nineteenth century?",
+                        "question": "43. Of all the problems Nehru faced when composing the Indian Constitution, the biggest challenge was/were",
                         "choices": [
-                            "Cornwallis",
-                            "Bentinck",
-                            "Dalhousie",
-                            "Wellesley",
-                            "Hastings"
+                            "Debate over the partition between Indian and Pakistan",
+                            "Recently violent religious differences within India and its neighboring country",
+                            "Aspects of British colonialism that was persisting within independent India",
+                            "Majority of the Indians' lack of access to technology and education",
+                            "Extraordinary diversity that spanned the newly independent India"
                         ],
-                        "answer": "Wellesley"
+                        "answer": "Extraordinary diversity that spanned the newly independent India"
                     },
                     {
                         "value": 1000,
-                        "question": "Which of the following pairs does NOT correctly match an Indian Prime Minister with his or her political party?",
+                        "question": "50. The two most important events during Rao's administration were",
                         "choices": [
-                            "I.K. Gujarat; Janata Dal",
-                            "V.P. Singh; Janata Dal",
-                            "Chandra Shekhar; Samajwadi Janata Party",
-                            "H.D. Deve Gowda; Indian National Congress",
-                            "Atal Bihari Vajpayee; Bharatiya Janata Party"
+                            "Destruction of the Babri Masjid, and the suppression of riots throughout north India and Bombay",
+                            "The opening of some industries to private hands, and the destruction of the Babri Masjid",
+                            "The reformation of land distribution, and liberalization of the Indian economy",
+                            "Liberalization of the Indian economy, and the destruction of the Babri Masjid",
+                            "The birth of consumer culture in India, and the destruction of the Babri Masjid"
                         ],
-                        "answer": "H.D. Deve Gowda; Indian National Congress"
+                        "answer": "Liberalization of the Indian economy, and the destruction of the Babri Masjid"
                     }
                 ]
             },
             {
-                "name": "SOUND OF ____",
+                "name": "ECOLOGY",
                 "questions": [
                     {
                         "value": 200,
-                        "question": "Common <i>talas</i> range from",
+                        "question": "35. What is an autotrophic organism?",
                         "choices": [
-                            "4 to 14 beats",
-                            "6 to 16 beats",
-                            "3 to 13 beats",
-                            "7 to 17 beats",
-                            "5 to 15 beats"
+                            "a top predator",
+                            "a critical organism at the center of a food web",
+                            "an organism that causes ecological succession",
+                            "a producer of organic compounds",
+                            "an organism that eats only plants"
                         ],
-                        "answer": "6 to 16 beats"
+                        "answer": "a producer of organic compounds"
                     },
                     {
                         "value": 400,
-                        "question": "Which two languages are used in \"Mere Dil Mein Khayal Aata Hai\"?",
+                        "question": "3. Which of the following is an example of an ecological community?",
                         "choices": [
-                            "Bengal and Arabic",
-                            "Hindi and Urdu",
-                            "Tamil and Telugu",
-                            "Punjabi and Gujarati",
-                            "Kannada and Malayam"
+                            "an ant colony",
+                            "a beehive",
+                            "all of the humans on Earth",
+                            "a group of seagulls fighting over food scraps",
+                            "the various plants and animals found in a tidal pool"
                         ],
-                        "answer": "Hindi and Urdu"
+                        "answer": "the various plants and animals found in a tidal pool"
                     },
                     {
                         "value": 600,
-                        "question": "Identify the largest nation in South Asia.",
+                        "question": "4. What do ecologists call a patchwork of multiple communities and ecosystems?",
                         "choices": [
-                            "Bangladesh",
-                            "Sri Lanka",
-                            "Pakistan",
-                            "India",
-                            "Bhutan"
+                            "abiotic environment",
+                            "landscape",
+                            "biome",
+                            "biosphere",
+                            "population"
                         ],
-                        "answer": "India"
+                        "answer": "landscape"
                     },
                     {
                         "value": 800,
-                        "question": "Hindustani music refers to the music of",
+                        "question": "16. Ecosystem diversity if BEST described as",
                         "choices": [
-                            "Sikh rituals",
-                            "Keralan rulers",
-                            "North India",
-                            "Himalayan monks",
-                            "Bengali customs"
+                            "diversity of genes within a species",
+                            "diversity of genes within an ecosystem",
+                            "diversity of ecological communities in an area",
+                            "a measure of the number of species in an ecosystem",
+                            "the change in an ecosystem over time"
                         ],
-                        "answer": "North India"
+                        "answer": "diversity of ecological communities in an area"
                     },
                     {
                         "value": 1000,
-                        "question": "How many <i>shrutis</i> are in Ga?",
+                        "question": "14. Which of the following statements is TRUE about deciduous forests?",
                         "choices": [
-                            "5",
-                            "2",
-                            "3",
-                            "4",
-                            "1"
+                            "They occur only in the tropics.",
+                            "They are most likely to be found on mountainous islands.",
+                            "Light availability to underbrush changes throughout the year.",
+                            "The soil has a permanently frozen layer.",
+                            "They contain the highest biodiversity of any forest type."
                         ],
-                        "answer": "2"
-                    }
-                ]
-            },
-            {
-                "name": "AP _____ AND COMPOSITION",
-                "questions": [
-                    {
-                        "value": 200,
-                        "question": "<i>Nectar in a Sieve</i> is MOST similar to a(n)",
-                        "choices": [
-                            "memoir",
-                            "parable",
-                            "morality play",
-                            "biography",
-                            "autobiography"
-                        ],
-                        "answer": "memoir"
-                    },
-                    {
-                        "value": 400,
-                        "question": "Why did Mohandas Gandhi claim \"the English language cannot go\"?",
-                        "choices": [
-                            "No other language was as universal in India.",
-                            "Indians were required to learn it in school.",
-                            "The Indians could not thrive without it.",
-                            "It belonged to the world, not just to Britain.",
-                            "The Indian National Congress approved it."
-                        ],
-                        "answer": "It belonged to the world, not just to Britain."
-                    },
-                    {
-                        "value": 600,
-                        "question": "Why was Ruku only able to marry a poor tenant farmer in <i>Nectar in a Sieve?</i>",
-                        "choices": [
-                            "There were few marriageable men in her village.",
-                            "She was from a low social caste.",
-                            "Her father did not believe she deserved a better life.",
-                            "Her family could not afford to pay a large dowry.",
-                            "Nathan was highly esteemed in the village."
-                        ],
-                        "answer": "Her family could not afford to pay a large dowry."
-                    },
-                    {
-                        "value": 800,
-                        "question": "Jawaharlal Nehru's family was",
-                        "choices": [
-                            "Bihari",
-                            "Hindi",
-                            "Punjabi",
-                            "Bengali",
-                            "Kashmiri"
-                        ],
-                        "answer": "Kashmiri"
-                    },
-                    {
-                        "value": 1000,
-                        "question": "Jawaharlal Nehru did NOT think that modern India should be",
-                        "choices": [
-                            "sovereign",
-                            "secular",
-                            "socialist",
-                            "democratic",
-                            "nationalist"
-                        ],
-                        "answer": "nationalist"
-                    }
-                ]
-            },
-            {
-                "name": "KUNICK/HEISER",
-                "questions": [
-                    {
-                        "value": 200,
-                        "question": "Carbon, nitrogen, and phosphorus all",
-                        "choices": [
-                            "encounter plants at some point in their ecosystem cycles",
-                            "are present in significant amounts in the atmosphere",
-                            "must undergo fixation before organisms can use them",
-                            "form compounds after photosynthesis",
-                            "are present in significant amounts in the soil"
-                        ],
-                        "answer": "encounter plants at some point in their ecosystem cycles"
-                    },
-                    {
-                        "value": 400,
-                        "question": "Which of the following organisms would MOST likely be an intermediate species in a marine ecosystem?",
-                        "choices": [
-                            "cod",
-                            "great white sharks",
-                            "seaweed",
-                            "killer whales",
-                            "phytoplankton"
-                        ],
-                        "answer": "cod"
-                    },
-                    {
-                        "value": 600,
-                        "question": "Chloe is choosing 6 classes for next semester from 10 core classes and 12 electives. If she must take at least 4 \"core\" classes, how many distinct sets of classes can she choose?",
-                        "choices": [
-                            "13,860",
-                            "17,094",
-                            "59,528",
-                            "68,750",
-                            "194,040"
-                        ],
-                        "answer": "17,094"
-                    },
-                    {
-                        "value": 800,
-                        "question": "What is the sum of the coefficients of the expansion (2x + 8y)<sup>6</sup>?",
-                        "choices": [
-                            "100,000",
-                            "500,000",
-                            "1,000,000",
-                            "5,000,000",
-                            "10,000,000"
-                        ],
-                        "answer": "1,000,000"
-                    },
-                    {
-                        "value": 1000,
-                        "question": "Which of the following factors is MOST directly threatening global biodiversity?",
-                        "choices": [
-                            "the decreasing rate of ecosystem processes",
-                            "the increasing human population",
-                            "the increasing rate of biogeochemical processes",
-                            "the decrease of global temperatures",
-                            "the decreasing rate of biotic invasions"
-                        ],
-                        "answer": "the increasing human population"
+                        "answer": "Light availability to underbrush changes throughout the year."
                     }
                 ]
             }
         ],
         "final": {
-            "category": "NONE",
-            "question": "Why did the chicken cross the road?",
-            "answer": "To get to the other side!"
-        }
+            "category": "INDIAN CITIES",
+            "question": "What is the most populous city in India?",
+            "answer": "Mumbai"
+        },
+        "randDailyDouble": 0
     };
+    
+// Shamelessly stolen from http://stackoverflow.com/questions/610406/javascript-equivalent-to-printf-string-format
+String.prototype.format = function() {
+    var formatted = this;
+    for (var i = 0; i < arguments.length; i++) {
+        var regexp = new RegExp('\\{'+i+'\\}', 'gi');
+        formatted = formatted.replace(regexp, arguments[i]);
+    }
+    return formatted;
+};
 
 function $(id) { // shortcut for document.getElementById
     return document.getElementById(id);
@@ -488,11 +497,16 @@ function showQuestion(id) {
 }
 
 function editPoints(id, sign) {
-    var category = jeopardy.categories[Math.floor(id / 10)],
-        question = category.questions[id % 10],
+    var value;
+    if (id === "final") {
+        value = 1;
+    } else {
+        var category = jeopardy.categories[Math.floor(id / 10)],
+            question = category.questions[id % 10];
         value = question.value;
-    if (question.dailyDouble === true) {
-        value = wager;
+        if (question.dailyDouble === true) {
+            value = wager;
+        }
     }
     pointsAdd = sign === "-" ? -value : value;
 }
@@ -502,6 +516,9 @@ function addPoints(team) {
         teams[team].points += pointsAdd;
         updateScoreBoard();
         createJeopardyBoard();
+    } else if (currentMode === "final_answer") {
+        teams[team].points += finalWagers[team] * pointsAdd;
+        updateScoreBoard();
     }
 }
 
@@ -511,7 +528,7 @@ function showAnswer(id) {
         question = category.questions[id % 10],
         answer = question.answer,
         out = ["<table style='width:100%; height:90%' class='game'><tr style='height:90%'><td colspan=2 onclick='createJeopardyBoard()'>"];
-      out.push("<center><strong><font color='#FFF2C6' size=7>");
+    out.push("<center><strong><font color='#FFF2C6' size=7>");
     if (question.hasOwnProperty("choices") && Array.isArray(question.choices)) {
         var choices = question.choices.map(function (choice) { return choice.toLowerCase(); }),
             i = choices.indexOf(answer.toLowerCase());
@@ -526,14 +543,69 @@ function showAnswer(id) {
     $("display").innerHTML = out.join("");
 }
 
-function back() {
-    if (usedQs.length === 0) {
-        return;
+function setFinalWagers() {
+    if (finalWagers.length !== 0) {
+        finalWagers = [];
     }
+    for (var t = 0; t < teams.length; t++) {
+        finalWagers.push($("final" + t).value);
+    }
+}
+
+function handleFinalJeopardy(num) {
+    var question = jeopardy["final"],
+        out = "<table style='width:100%; height:90%' class='game'><tr style='height:90%'><td colspan=2 onclick='handleFinalJeopardy({0})'><center><strong><font color='#FFF2C6' size=7>{1}</font></strong></center></td></tr>{2}</table>";
+    switch (num) {
+        case 0:
+            currentMode = "final_confirm";
+            $("display").innerHTML =  out.format(num + 1, "All questions have been answered!<br/>Click to proceed to Final Jeopardy!", "");
+            break;
+        case 1:
+            currentMode = "final_wager";
+            var wagers = [];
+            for (var t = 0; t < teams.length; t++) {
+                var team = teams[t];
+                wagers.push("<font color='" + team.color + "' size=5>" + team.name + ":</font> <input type='number' id='final" + t + "' step='100' min='0' value='0'/><br/>");
+            }
+            wagers.push("<br/><a href='javascript:;' style='color:#E5915C; font-size:0.57em;' onclick='handleFinalJeopardy(2)'>Continue</a>");
+            $("display").innerHTML = out.replace("onclick='handleFinalJeopardy({0})", "").format("", "CATEGORY: " + question.category + "<br/><br/><font size=6 color='#B0CFFC'>Make your wagers!</font><br/>" + wagers.join(""), "");
+            break;
+        case 2:
+            currentMode = "final_question";
+            setFinalWagers();
+            $("display").innerHTML = out.format(num + 1, question.question, "");
+            break;
+        case 3:
+            currentMode = "final_answer";
+            $("display").innerHTML =  out.format(num + 1, question.answer, "<tr><th onclick='editPoints(\"final\", \"+\")'><font color='green' size=5><b>+</b></font></th><th onclick='editPoints(\"final\", \"-\")'><font color='red' size=5><b>&#8210;</b></font></th></tr>");
+            break;
+        default:
+            end();
+    };
+}
+
+function end() {
+    alert("This function is not coded yet");
+}
+
+function nextRound() {
+    if (jeopardy.hasOwnProperty("final") && typeof currentMode === "string" && currentMode.indexOf("final") === -1) { 
+        handleFinalJeopardy(0);
+    } else {
+        end();
+    }
+}
+
+function back() {
     var lastQ = usedQs[usedQs.length - 1];
     switch (currentMode) {
         case "board":
-            showAnswer(lastQ);
+        case "final_confirm":
+            if (lastQ !== undefined) {
+                showAnswer(lastQ);
+            } else {
+                createJeopardyBoard();
+            }
             break;
         case "question":
             usedQs.splice(-1, 1);
@@ -542,25 +614,25 @@ function back() {
         case "answer":
             showQuestion(lastQ);
             break;
+        case "final_wager":
+            handleFinalJeopardy(0);
+            break;
+        case "final_question":
+            handleFinalJeopardy(1);
+            break;
+        case "final_answer":
+            handleFinalJeopardy(2);
+            break;
+        case "end":
+            if (jeopardy.hasOwnProperty("final")) { 
+                handleFinalJeopardy(3);
+            } else {
+                showAnswer(lastQ);
+            }
+            break;
+        default:
+            alert("Game has not started yet!");
     }
-}
-
-function nextRound() {
-    alert("This function is not coded yet");
-}
-
-function initDoubleJeopardy() {
-    doubleJeopardy = true;
-    usedQs = [];
-    createJeopardyBoard();
-}
-
-function initFinalJeopardy() {
-    var question = jeopardy["final"];
-}
-
-function end() {
-    alert("This function is not coded yet");
 }
 
 function createJeopardyBoard() {
@@ -569,25 +641,9 @@ function createJeopardyBoard() {
     var out = ["<table style='width:100%; height:90%' class='game'><tr>"],
         categories = jeopardy.categories,
         width = Math.floor(100 / categories.length);
-    if (!doubleJeopardy && usedQs.length === categories.length * categories[0].questions.length) {
-        if (jeopardy.hasOwnProperty("round2")) {
-            initDoubleJeopardy();
-            return;
-        } else if (jeopardy.hasOwnProperty("final")) { 
-            initFinalJeopardy();
-            return;
-        } else {
-            end();
-            return;
-        }
-    } else if (doubleJeopardy && usedQs.length === categories.length * categories[0].questions.length) {
-        if (jeopardy.hasOwnProperty("final")) {
-            initFinalJeopardy();
-            return;
-        } else {
-            end();
-            return;
-        }
+    if (usedQs.length === categories.length * categories[0].questions.length) {
+        nextRound();
+        return;
     }
     for (var c = 0; c < categories.length; c++) {
         var color = "#0A1186";
@@ -622,7 +678,9 @@ function editTeams() {
         for (var i = 0; i < teams.length; i++) {
             var team = teams[i];
             if (team.color === "#000000") {
-                team.color = colors[rand(0, colors.length)];
+                var c = rand(0, colors.length);
+                team.color = colors[c];
+                colors.splice(c, 1);
             }
             out.push("<th><input id='team" + i + "' value='" + team.name + " | " + team.color + "'></input></th>");
         }
