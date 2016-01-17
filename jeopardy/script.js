@@ -335,17 +335,16 @@ function createJeopardyBoard() {
         return;
     }
     for (var c = 0; c < categories.length; c++) {
-        var color = "#0A1186", size = 5;
+        var color = "#0A1186", size = 5, name = categories[c].name;
+        if (name.length > 20) {
+            size = 4;
+        }
         for (var q = 0; q < categories[0].questions.length; q++) {
             var id = c * 10 + q;
             if (usedQs.indexOf(id) === -1) {
                 color = "#B0CFFC";
                 break;
             }
-        }
-        var name = categories[c].name;
-        if (name.length > 20) {
-            size = 4;
         }
         out.push("<th style='width:" + width + "%'><font color='" + color + "' size=" + size + ">" + name + "</font></th>");
     }
