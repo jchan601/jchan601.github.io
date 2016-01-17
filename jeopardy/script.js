@@ -1,10 +1,6 @@
-/** TO-DO:
-* End
-* Timer
-* Improve formatting webpage too
-*/
-
 var currentMode = null,
+    time = null,
+    clock = 0,
     pointsAdd = 0,
     wager = 0,
     usedQs = [],
@@ -13,18 +9,30 @@ var currentMode = null,
     colors = ["#00FFFF", "#00FF00", "#FF00FF", "#ADD8E6", "#C0C0C0", "#95B9C7", "#6698FF", "#CDFFFF", "#ADDFFF", "#7FFFD4", "#52D017", "#99C68E", "#7FE817", "#5EFB6E", "#8AFB17", "#CCFB5D", "#B1FB17", "#FFFF00", "#FFF380", "#FFE87C", "#EDDA74", "#F5F5DC", "#FFDB58", "#FFD801", "#FDD017", "#E9AB17", "#FFA62F", "#FFCBA4", "#E8A317", "#D4A017", "#FFA500", "#F87217", "#FF8040", "#F9966B", "#FF7F50", "#FF0000", "#E77471", "#E8ADAA", "#FCDFFF", "#FAAFBE", "#F778A1", "#F660AB", "#F52887", "#F433FF", "#A74AC7", "#8E35EF", "#8467D7", "#C45AEC", "#E238EC", "#E9CFEC", "#E3E4FA", "#FEFCFF", "#FFFFFF"],
     teams = [],
     finalWagers = [],
-    defaultJeopardy = {"categories":[{"name":"FILL IN THE BLANK CANVAS","questions":[{"value":200,"question":"Van Gogh's \"Self-Portrait with Pipe and Bandaged ____\"","answer":"Ear"},{"value":400,"question":"Jonathan Buttall is thought to be Gainsborough's model for \"The ____ Boy\"","answer":"Blue"},{"value":600,"question":"Seurat got to the point in \"A ____ Afternoon on the Island of La Grande Jatte\"","answer":"Sunday"},{"value":800,"question":"Duchamp caused a scandal with his \"Nude Descending a ____, No. 2\"","answer":"Staircase"},{"value":1000,"question":"Dali gave it a name that stuck: \"The Persistence of ____\"","answer":"Memory"}]},{"name":"MOVIE CAMEOS","questions":[{"value":200,"question":"Dan Patrick's good friend Adam Sandler has cast Patrick in 9 of his films, including \"Grown Ups 2\" in which Patrick played a gym teacher dressed as this 1980s Celtics legend","answer":"Larry Bird"},{"value":400,"question":"In \"Twilight\" this author has a cameo as a customer in a diner with a veggie plate","answer":"Stephenie Meyer"},{"value":600,"question":"Well, Al Michaels didn't win an Oscar playing myself in this 1996 movie but Cuba Gooding Jr. did for his performance as a wide receiver for the Cardinals","answer":"<i>Jerry Maguire</i>"},{"value":800,"question":"Julia Roberts played this title crusader in a 2000 film while the real woman had a cameo as a waitress","answer":"Erin Brockovich"},{"value":1000,"question":"From \"Rebecca\" on, this director appeared in all of his films; he sat next to Cary Grant on a bus in \"To Catch a Thief\"","answer":"Alfred Hitchcock"}]},{"name":"ANAGRAMMED FORMER WORLD LEADERS","questions":[{"value":200,"question":"A sari wearer:<br/>HI, GRAND INDIA!","answer":"Indira Gandhi"},{"value":400,"question":"In Italy:<br/>VIRILE SLOB COUSIN","answer":"Silvio Berlusconi"},{"value":600,"question":"Uh oh! Panama!:<br/>GENUINE AMORAL","answer":"Manuel Moriega"},{"value":800,"question":"He Laboured over Britain:<br/>BRAINY LOT","answer":"Tony Blair"},{"value":1000,"question":"Late Israeli leader:<br/>SOLAR HERNIA","answer":"Ariel Sharon"}]},{"name":"NUT-TRITION","questions":[{"value":200,"question":"Almonds are an excellent source of fiber & this bone-building element--got milk?","answer":"Calcium"},{"value":400,"question":"These biggies from the Amazon basin have many health benefits, but with their high selenium content, too many can be harmful","answer":"Brazil Nuts"},{"value":600,"question":"A key ingredient in pesto, these nuts are an excellent source of vitamin E","answer":"Pine Nuts"},{"value":800,"question":"Pistachios get their green color mostly from lutein, which is essential to this one of the 5 senses","answer":"Vision"},{"value":1000,"question":"Have some hazelnuts before bed; they're high in this sleep-aiding amino acid that's also found in turkey","answer":"Tryptophan"}]},{"name":"CEREMONIES","questions":[{"value":200,"question":"This Christian sacrament, a holy ceremony, is also called Eucharist","answer":"communion"},{"value":400,"question":"A ceremony on November 19, 1863 dedicated a cemetery in this town","answer":"Gettysburg","dailyDouble":true},{"value":600,"question":"Vice presidents are often sent to this type of ceremony overseas; Al Gore attended Mitterrand's in 1996","answer":"Funerals"},{"value":800,"question":"Giant scissors are mainly used for this type of ceremony at the grand opening of a new facility","answer":"Ribbon Cutting"},{"value":1000,"question":"An accolade, a ceremonial tap on the shoulder with a sword, is followed by the words \"I dub thee\" this","answer":"Knight"}]},{"name":"THE NEW YORK TIMES CROSSWORD","questions":[{"value":200,"question":"Monday had a presidential theme; one clue was to this \"supply-side fiscal policy popularized in the 1980s\"","answer":"Reaganomics"},{"value":400,"question":"On Tuesday we had some hidden Bobs; you'll find Dylan in this \"classic board game with a peppermint forest\"","answer":"Candy Land"},{"value":600,"question":"On Wednesday you had to know compound words where each half could also have \"dead\" before it--there was airline, seahorse & this response to \"top on official stationery\"","answer":"letterhead"},{"value":800,"question":"On Thursday we rolled the D-I-C-E, as in these, \"racy books named after a Victorian garment\"","answer":"bodice ripper"},{"value":1000,"question":"On Friday there's no theme, so you just have to know this 10-letter \"TV host who followed Jimmy Fallon on late night\"","answer":"Seth Meyers"}]}],"final":{"category":"AMERICANA","question":"While working for a plastics company, Don Featherstone created this iconic lawn decor, basing it on photos in National Geographic","answer":"A Pink Flamingo"}};
+    defaultJeopardy = {"timer":20,"categories":[{"name":"FILL IN THE BLANK CANVAS","questions":[{"value":200,"question":"Van Gogh's \"Self-Portrait with Pipe and Bandaged ____\"","answer":"Ear"},{"value":400,"question":"Jonathan Buttall is thought to be Gainsborough's model for \"The ____ Boy\"","answer":"Blue"},{"value":600,"question":"Seurat got to the point in \"A ____ Afternoon on the Island of La Grande Jatte\"","answer":"Sunday"},{"value":800,"question":"Duchamp caused a scandal with his \"Nude Descending a ____, No. 2\"","answer":"Staircase"},{"value":1000,"question":"Dali gave it a name that stuck: \"The Persistence of ____\"","answer":"Memory"}]},{"name":"MOVIE CAMEOS","questions":[{"value":200,"question":"Dan Patrick's good friend Adam Sandler has cast Patrick in 9 of his films, including \"Grown Ups 2\" in which Patrick played a gym teacher dressed as this 1980s Celtics legend","answer":"Larry Bird"},{"value":400,"question":"In \"Twilight\" this author has a cameo as a customer in a diner with a veggie plate","answer":"Stephenie Meyer"},{"value":600,"question":"Well, Al Michaels didn't win an Oscar playing myself in this 1996 movie but Cuba Gooding Jr. did for his performance as a wide receiver for the Cardinals","answer":"<i>Jerry Maguire</i>"},{"value":800,"question":"Julia Roberts played this title crusader in a 2000 film while the real woman had a cameo as a waitress","answer":"Erin Brockovich"},{"value":1000,"question":"From \"Rebecca\" on, this director appeared in all of his films; he sat next to Cary Grant on a bus in \"To Catch a Thief\"","answer":"Alfred Hitchcock"}]},{"name":"ANAGRAMMED FORMER WORLD LEADERS","questions":[{"value":200,"question":"A sari wearer:<br/>HI, GRAND INDIA!","answer":"Indira Gandhi"},{"value":400,"question":"In Italy:<br/>VIRILE SLOB COUSIN","answer":"Silvio Berlusconi"},{"value":600,"question":"Uh oh! Panama!:<br/>GENUINE AMORAL","answer":"Manuel Moriega"},{"value":800,"question":"He Laboured over Britain:<br/>BRAINY LOT","answer":"Tony Blair"},{"value":1000,"question":"Late Israeli leader:<br/>SOLAR HERNIA","answer":"Ariel Sharon"}]},{"name":"NUT-TRITION","questions":[{"value":200,"question":"Almonds are an excellent source of fiber & this bone-building element--got milk?","answer":"Calcium"},{"value":400,"question":"These biggies from the Amazon basin have many health benefits, but with their high selenium content, too many can be harmful","answer":"Brazil Nuts"},{"value":600,"question":"A key ingredient in pesto, these nuts are an excellent source of vitamin E","answer":"Pine Nuts"},{"value":800,"question":"Pistachios get their green color mostly from lutein, which is essential to this one of the 5 senses","answer":"Vision"},{"value":1000,"question":"Have some hazelnuts before bed; they're high in this sleep-aiding amino acid that's also found in turkey","answer":"Tryptophan"}]},{"name":"CEREMONIES","questions":[{"value":200,"question":"This Christian sacrament, a holy ceremony, is also called Eucharist","answer":"communion"},{"value":400,"question":"A ceremony on November 19, 1863 dedicated a cemetery in this town","answer":"Gettysburg","dailyDouble":true},{"value":600,"question":"Vice presidents are often sent to this type of ceremony overseas; Al Gore attended Mitterrand's in 1996","answer":"Funerals"},{"value":800,"question":"Giant scissors are mainly used for this type of ceremony at the grand opening of a new facility","answer":"Ribbon Cutting"},{"value":1000,"question":"An accolade, a ceremonial tap on the shoulder with a sword, is followed by the words \"I dub thee\" this","answer":"Knight"}]},{"name":"THE NEW YORK TIMES CROSSWORD","questions":[{"value":200,"question":"Monday had a presidential theme; one clue was to this \"supply-side fiscal policy popularized in the 1980s\"","answer":"Reaganomics"},{"value":400,"question":"On Tuesday we had some hidden Bobs; you'll find Dylan in this \"classic board game with a peppermint forest\"","answer":"Candy Land"},{"value":600,"question":"On Wednesday you had to know compound words where each half could also have \"dead\" before it--there was airline, seahorse & this response to \"top on official stationery\"","answer":"letterhead"},{"value":800,"question":"On Thursday we rolled the D-I-C-E, as in these, \"racy books named after a Victorian garment\"","answer":"bodice ripper"},{"value":1000,"question":"On Friday there's no theme, so you just have to know this 10-letter \"TV host who followed Jimmy Fallon on late night\"","answer":"Seth Meyers"}]}],"final":{"category":"AMERICANA","question":"While working for a plastics company, Don Featherstone created this iconic lawn decor, basing it on photos in National Geographic","answer":"A Pink Flamingo"}};
     jeopardy = {};
     
 // Shamelessly stolen from http://stackoverflow.com/questions/610406/javascript-equivalent-to-printf-string-format
 String.prototype.format = function() {
     var formatted = this;
     for (var i = 0; i < arguments.length; i++) {
-        var regexp = new RegExp('\\{'+i+'\\}', 'gi');
+        var regexp = new RegExp('\\{' + i + '\\}', 'gi');
         formatted = formatted.replace(regexp, arguments[i]);
     }
     return formatted;
 };
+
+function readable(arr, last_delim) {
+    if (!Array.isArray(arr))
+        return arr;
+    if (arr.length > 1) {
+        return arr.slice(0, arr.length - 1).join(", ") + " " + last_delim + " " + arr.slice(-1)[0];
+    } else if (arr.length == 1) {
+        return arr[0];
+    } else {
+        return "";
+    }
+}
 
 function $(id) { // shortcut for document.getElementById
     return document.getElementById(id);
@@ -53,6 +61,34 @@ function handleDailyDouble(id) {
     $("display").innerHTML = "<table style='width:100%; height:90%' class='game'><th><img src='daily_double.png' onclick='setWager(" + id + ")'/><br/><br/><font color='#E5915C' size=5>Enter Wager:&nbsp;$&nbsp;</font><input type='number' id='dailyDouble' step='100' min='0' max='17800' value='" + question.value + "'/></th></table>";
 }
 
+function startTimer() {
+    if (currentMode !== "question") {
+        return;
+    }
+    if (time === null) {
+        time = jeopardy.timer;
+    } else if (time < 0) {
+        time = 0;
+    }
+    var minutes = Math.floor(time / 60).toString(), seconds = (time % 60).toString();
+    if (minutes.length < 2) {
+        minutes = "0" + minutes;
+    }
+    if (seconds.length < 2) {
+        seconds = "0" + seconds;
+    }
+    $("timer").innerHTML = minutes + ":" + seconds;
+    if (time > 0) {
+        clock = setTimeout("startTimer(" + --time + ")", 1000);
+    }
+}
+
+function stopTimer() {
+    if (clock > 0) {
+        clearTimeout(clock);
+    }
+}
+
 function showQuestion(id) {
     if (usedQs.indexOf(id) !== -1 && currentMode === "board") {
         return;
@@ -63,11 +99,12 @@ function showQuestion(id) {
     currentMode = "question";
     var category = jeopardy.categories[Math.floor(id / 10)],
         question = category.questions[id % 10],
-        out = ["<table style='width:100%; height:90%' class='game'><tr><td onclick='showAnswer(\"" + id + "\")'>"];
+        timer = !isNaN(jeopardy.timer) && jeopardy.timer > 0,
+        out = ["<table style='width:100%; height:90%' class='game'><tr><td" + (timer ? " colspan=8" : "") + " height='90%' style='border:none' onclick='showAnswer(\"" + id + "\")'>"];
     if (question.dailyDouble === true && wager === 0) {
         handleDailyDouble(id);
         return;
-    };
+    }
     if (!question.hasOwnProperty("choices") && !Array.isArray(question.choices)) {
         out.push("<center><strong><font color='#FFF2C6' size=7>" + question.question + "</font></strong></center>");
     } else {
@@ -89,7 +126,12 @@ function showQuestion(id) {
             out.push("<br/>&nbsp;&nbsp;&nbsp;&nbsp;<b><font color='#FFF2C6' size=6>" + alphabet[i] + ". " + choice + "</font></b>");
         }
     }
-    out.push("</td></tr></table>");
+    out.push("</td></tr>");
+    if (timer) {
+        out.push("<tr><td style='border:none' width='80%'></td><td style='background-color:green' onclick='startTimer()'><strong><center><font size=5>Start</font></center></strong></td><td style='background-color:red' onclick='stopTimer()'><strong><center><font size=5>Pause</font></center></strong></td></tr>");
+        out.push("<tr><td style='border:none' width='80%'></td><td colspan=2><strong><center><font size=7 color=yellow><div id='timer'>00:00</div></font></center></strong></td></tr>");
+    }
+    out.push("</table>");
     $("display").innerHTML = out.join("");
 }
 
@@ -121,6 +163,7 @@ function addPoints(team) {
 
 function showAnswer(id) {
     currentMode = "answer";
+    time = null;
     var category = jeopardy.categories[Math.floor(id / 10)],
         question = category.questions[id % 10],
         answer = question.answer,
@@ -137,6 +180,58 @@ function showAnswer(id) {
     out.push("<tr><th onclick='editPoints(" + id + ", \"+\")'><font color='green' size=5><b>+</b></font></th>");
     out.push("<th onclick='editPoints(" + id + ", \"-\")'><font color='red' size=5><b>&#8210;</b></font></th></tr>"); // Dash
     out.push("</table>");
+    $("display").innerHTML = out.join("");
+}
+
+function end() {
+    currentMode = "end";
+    teams = teams.sort(function(a, b) {
+        return b.points - a.points;
+    });
+    var winners = [teams[0]], winner_names = [];
+    for (var i = 1; i < teams.length; i++) {
+        var team = teams[i];
+        if (team.points === winners[0].points) {
+            winners.push(team);
+        } else {
+            break;
+        }
+    }
+    var losers = [];
+    for (var i = 0; i < teams.length; i++) {
+        var team = teams[i];
+        if (team.points !== winners[0].points) {
+            losers.push(team);
+        }
+    }
+    for (var i = 0; i < winners.length; i++) {
+        winner_names.push(winners[i].name);
+    }
+    var max = Math.max(winners.length, losers.length), min = Math.min(winners.length, losers.length);
+    while (max % min > 0) {
+        max++;
+    }
+    var out = ["<table style='width:100%; height:90%' class='game'><tr style='height:90%'><td colspan=" + max + "><center><strong><font color=green size=7>Congratulations to </font><font color='" + winners[0].color + "' size=7>" + readable(winner_names, "and") + "</font><font color=green size=7>!</font></strong></center></td></tr><tr>"];
+    for (var i = 0; i < winners.length; i++) {
+        var team = winners[i], colspan = winners.length === max ? 1 : max;
+        out.push("<td colspan=" + colspan + "><center><strong><font size=6 color='" + team.color + "'>" + team.name + "</font></strong></center></td>");
+    }
+    out.push("</tr><tr>");
+    for (var i = 0; i < winners.length; i++) {
+        var team = winners[i], colspan = winners.length === max ? 1 : max;
+        out.push("<td colspan=" + colspan + "><center><font color='#DBFEF8'>" + team.points + "</font></center></td>");
+    }
+    out.push("</tr><tr><td colspan=" + max + "></td></tr><tr>");
+    for (var i = 0; i < losers.length; i++) {
+        var team = losers[i], colspan = losers.length === max ? 1 : max;
+        out.push("<td colspan=" + colspan + "><center><strong><font size=5 color='" + team.color + "'>" + team.name + "</font></strong></center></td>");
+    }
+    out.push("</tr><tr>");
+    for (var i = 0; i < losers.length; i++) {
+        var team = losers[i], colspan = losers.length === max ? 1 : max;
+        out.push("<td colspan=" + colspan + "><center><font color='#DBFEF8'>" + team.points + "</font></center></td>");
+    }
+    out.push("</tr></table>");
     $("display").innerHTML = out.join("");
 }
 
@@ -179,11 +274,7 @@ function handleFinalJeopardy(num) {
             break;
         default:
             end();
-    };
-}
-
-function end() {
-    alert("This function is not coded yet");
+    }
 }
 
 function nextRound() {
@@ -244,7 +335,7 @@ function createJeopardyBoard() {
         return;
     }
     for (var c = 0; c < categories.length; c++) {
-        var color = "#0A1186";
+        var color = "#0A1186", size = 5;
         for (var q = 0; q < categories[0].questions.length; q++) {
             var id = c * 10 + q;
             if (usedQs.indexOf(id) === -1) {
@@ -252,7 +343,11 @@ function createJeopardyBoard() {
                 break;
             }
         }
-        out.push("<th style='width:" + width + "%'><font color='" + color + "' size=5>" + categories[c].name + "</font></th>");
+        var name = categories[c].name;
+        if (name.length > 20) {
+            size = 4;
+        }
+        out.push("<th style='width:" + width + "%'><font color='" + color + "' size=" + size + ">" + name + "</font></th>");
     }
     out.push("</tr>");
     for (var i = 0; i < categories[0].questions.length; i++) { // each category should have the same amount of questions
@@ -267,6 +362,29 @@ function createJeopardyBoard() {
     }
     out.push("</table>");
     $("display").innerHTML = out.join("");
+}
+
+function updateScoreBoard() {
+    var out = ["<table style='width:100%; height:10%'><tr>"];
+    for (var i = 0; i < teams.length; i++) {
+        var team = teams[i];
+        if (team.color === "#000000") {
+            team.color = colors[rand(0, colors.length)];
+        }
+        out.push("<th onclick='addPoints(" + i + ")'><font color='" + team.color + "'>" + team.name + "</font></th>");
+    }
+    out.push("<th style='width:15%' rowspan=2>");
+    out.push("<a href='javascript:;' style='color:#E5915C' onclick='back()'>Back</a> &nbsp;&nbsp;&nbsp;");
+    out.push("<a href='javascript:;' style='color:#E5915C' onclick='nextRound()'>Skip</a> &nbsp;&nbsp;&nbsp;");
+    out.push("<a href='javascript:;' style='color:#E5915C' onclick='end()'>End</a><br/>");
+    out.push("<a href='javascript:;' style='color:#E5915C' onclick='editTeams()'>Edit</a> &nbsp;&nbsp;&nbsp;");
+    out.push("<a href='javascript:;' style='color:#E5915C' onclick='test_eval()'>Eval</a></th></tr><tr>");
+    for (var i = 0; i < teams.length; i++) {
+        var color = teams[i].points < 0 ? "#FF0000" : "#DBFEF8";
+        out.push("<td><center><font color='" + color + "'>" + teams[i].points + "</font></center></td>");
+    }
+    out.push("</tr></table>");
+    $("score").innerHTML = out.join("");
 }
 
 function editTeams() {
@@ -353,29 +471,6 @@ function test_eval() {
     } catch (err) {
         alert("Error in eval: " + err);
     }
-}
-
-function updateScoreBoard() {
-    var out = ["<table style='width:100%; height:10%'><tr>"];
-    for (var i = 0; i < teams.length; i++) {
-        var team = teams[i];
-        if (team.color === "#000000") {
-            team.color = colors[rand(0, colors.length)];
-        }
-        out.push("<th onclick='addPoints(" + i + ")'><font color='" + team.color + "'>" + team.name + "</font></th>");
-    }
-    out.push("<th style='width:15%' rowspan=2>");
-    out.push("<a href='javascript:;' style='color:#E5915C' onclick='back()'>Back</a> &nbsp;&nbsp;&nbsp;");
-    out.push("<a href='javascript:;' style='color:#E5915C' onclick='nextRound()'>Skip</a> &nbsp;&nbsp;&nbsp;");
-    out.push("<a href='javascript:;' style='color:#E5915C' onclick='end()'>End</a><br/>");
-    out.push("<a href='javascript:;' style='color:#E5915C' onclick='editTeams()'>Edit</a> &nbsp;&nbsp;&nbsp;");
-    out.push("<a href='javascript:;' style='color:#E5915C' onclick='test_eval()'>Eval</a></th></tr><tr>");
-    for (var i = 0; i < teams.length; i++) {
-        var color = teams[i].points < 0 ? "#FF0000" : "#DBFEF8";
-        out.push("<td><center><font color='" + color + "'>" + teams[i].points + "</font></center></td>");
-    }
-    out.push("</tr></table>");
-    $("score").innerHTML = out.join("");
 }
 
 function loadJeopardy(url) {
