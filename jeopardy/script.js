@@ -246,6 +246,9 @@ function end() {
 }
 
 function setFinalWagers() {
+    if (!$("final0")) {
+        return;
+    }
     if (finalWagers.length !== 0) {
         finalWagers = [];
     }
@@ -300,6 +303,7 @@ function back() {
     switch (currentMode) {
         case "board":
         case "final_confirm":
+        case "answer_display":
             if (lastQ !== undefined) {
                 showAnswer(lastQ);
             } else {
@@ -307,30 +311,45 @@ function back() {
             }
             break;
         case "question":
+        case "board_display":
+            stopTimer();
+            time = null;
             usedQs.splice(-1, 1);
             createJeopardyBoard();
             break;
         case "answer":
+        case "question_display":
             showQuestion(lastQ);
             break;
         case "final_wager":
+        case "final_confirm_display":
             handleFinalJeopardy(0);
             break;
         case "final_question":
+        case "final_wager_display":
             handleFinalJeopardy(1);
             break;
         case "final_answer":
+        case "final_question_display":
             handleFinalJeopardy(2);
             break;
         case "end":
+        case "final_answer_display":
             if (jeopardy.hasOwnProperty("final")) { 
                 handleFinalJeopardy(3);
             } else {
                 showAnswer(lastQ);
             }
             break;
+        case "end_display":
+            end();
+            break;
+        case null:
+            teams = [];
+            onLoad();
+            break;
         default:
-            alert("Game has not started yet!");
+            alert("Unexpected error occurred, cannot go back!");
     }
 }
 
@@ -386,7 +405,8 @@ function updateScoreBoard() {
     out.push("<a href='javascript:;' style='color:#E5915C' onclick='back()'>Back</a> &nbsp;&nbsp;&nbsp;");
     out.push("<a href='javascript:;' style='color:#E5915C' onclick='nextRound()'>Skip</a> &nbsp;&nbsp;&nbsp;");
     out.push("<a href='javascript:;' style='color:#E5915C' onclick='end()'>End</a><br/>");
-    out.push("<a href='javascript:;' style='color:#E5915C' onclick='editTeams()'>Edit</a> &nbsp;&nbsp;&nbsp;");
+    out.push("<a href='javascript:;' style='color:#E5915C' onclick='editTeams()'>Edit</a> &nbsp;");
+    out.push("<a href='javascript:;' style='color:#E5915C' onclick='display()'>Display</a> &nbsp;")
     out.push("<a href='javascript:;' style='color:#E5915C' onclick='test_eval()'>Eval</a></th></tr><tr>");
     for (var i = 0; i < teams.length; i++) {
         var color = teams[i].points < 0 ? "#FF0000" : "#DBFEF8";
@@ -414,7 +434,8 @@ function editTeams() {
         out.push("<a href='javascript:;' style='color:#E5915C' onclick='back()'>Back</a> &nbsp;&nbsp;&nbsp;");
         out.push("<a href='javascript:;' style='color:#E5915C' onclick='skip()'>Skip</a> &nbsp;&nbsp;&nbsp;");
         out.push("<a href='javascript:;' style='color:#E5915C' onclick='end()'>End</a><br/>");
-        out.push("<a href='javascript:;' style='color:#E5915C' onclick='editTeams()'>Edit</a> &nbsp;&nbsp;&nbsp;");
+        out.push("<a href='javascript:;' style='color:#E5915C' onclick='editTeams()'>Edit</a> &nbsp;");
+        out.push("<a href='javascript:;' style='color:#E5915C' onclick='display()'>Display</a> &nbsp;")
         out.push("<a href='javascript:;' style='color:#E5915C' onclick='test_eval()'>Eval</a></th></tr><tr>");
         for (var i = 0; i < teams.length; i++) {
             var color = teams[i].points < 0 ? "#FF0000" : "#DBFEF8";
@@ -482,6 +503,17 @@ function test_eval() {
     }
 }
 
+function display() {
+    if (currentMode === "question") {
+        stopTimer();
+    }
+    if (typeof currentMode === "string" && currentMode.indexOf("_display") === -1) {
+        currentMode += "_display";
+    }
+    var text = prompt("Enter text to display", "");
+    $("display").innerHTML = "<table style='width:100%; height:90%' class='game'><tr style='height:90%'><td colspan=2 onclick='back()'><center><strong><font color='#FFF2C6' size=7>" + text + "</font></strong></center></td></tr></table>";
+}
+
 function loadJeopardy(url) {
     if (url === true) {
         jeopardy = defaultJeopardy;
@@ -489,13 +521,13 @@ function loadJeopardy(url) {
         var url = url ? url : encodeURI($("url").value);
         if (url[0] === "~") {
             url = "https://dl.dropboxusercontent.com/u/86594639/Jeopardy/games/" + url.slice(1);
-            if (url.slice(url.length - 5) !== ".json") {
-                url += ".json"
+            if (url.slice(url.lastIndexOf("/")).indexOf(".") === -1) {
+                url += ".json"; // default file extension
             }
         } else if (url.substring(0, 7).toLowerCase() !== "http://" && url.substring(0, 8).toLowerCase() !== "https://") {
             url = "https://raw.githubusercontent.com/jchan601/jchan601.github.io/master/jeopardy/games/" + url;
-            if (url.slice(url.length - 5) !== ".json") {
-                url += ".json"
+            if (url.slice(url.lastIndexOf("/")).indexOf(".") === -1) {
+                url += ".json";
             }
         }
         var xhr = new XMLHttpRequest(), resp; 
