@@ -1,0 +1,358 @@
+{
+	"randDailyDouble": 1,
+	"timer": 45,
+	"categories": [{
+		"name": "ART",
+		"questions": [{
+			"value": 200,
+			"question": "1. Do Ho Suh's artwork addresses the feeling of",
+			"choices": [
+				"not fitting in",
+				"heartbreak",
+				"being ignored",
+				"nostalgia for the past",
+				"hopelessness"
+			],
+			"answer": "not fitting in"
+		}, {
+			"value": 400,
+			"question": "2. Which of the following ideas did Edmund Burke espouse?",
+			"choices": [
+				"the International Style",
+				"post-colonial theory",
+				"enlightened imperialism",
+				"feminism",
+				"Orientalism"
+			],
+			"answer": "enlightened imperialism"
+		}, {
+			"value": 600,
+			"question": "3. Which civilization built many aqueducts, public baths, and other public works out of concrete?",
+			"choices": [
+				"Rome",
+				"Sumer",
+				"Babylon",
+				"Egypt",
+				"Greece"
+			],
+			"answer": "Rome"
+		}, {
+			"value": 800,
+			"question": "4. Nalini Malani created <i>The Tables Have Turned</i> to fit the theme",
+			"choices": [
+				"<i>Revolutions</i>",
+				"<i>Looking Back</i>",
+				"<i>Falling</i>",
+				"<i>Change</i>",
+				"<i>New Women</i>"
+			],
+			"answer": "<i>Revolutions</i>"
+		}, {
+			"value": 1000,
+			"question": "5. Which organization did Gandhi lead?",
+			"choices": [
+				"the Indian People's Party",
+				"the Chamber of Princes",
+				"the Indian National Congress",
+				"the National Social Congress",
+				"the Ministry of Home Affairs"
+			],
+			"answer": "the Indian National Congress"
+		}]
+	}, {
+		"name": "ECONOMICS",
+		"questions": [{
+			"value": 200,
+			"question": "1. In 2013, India's population was about",
+			"choices": [
+				"0.55 billion",
+				"1.45 billion",
+				"1.65 million",
+				"2.35 billion",
+				"1.25 billion"
+			],
+			"answer": "1.25 billion"
+		}, {
+			"value": 400,
+			"question": "2. Which of the following statements does NOT help explain India's low rate of economic growth?",
+			"choices": [
+				"The Indian government is a democracy.",
+				"Soon after independence, the Indian government supported highly capitalist policies.",
+				"The Indian population is growing at a rate that will soon allow it to surpass China's population.",
+				"India's population is 17% of the world's population.",
+				"The Indian government was left-leaning in the 1940s and 1950s."
+			],
+			"answer": "Soon after independence, the Indian government supported highly capitalist policies."
+		}, {
+			"value": 600,
+			"question": "3. Which of the following situations does NOT describe a negative externality?",
+			"choices": [
+				"The noise from a store reduces the popularity of the restaurant next door.",
+				"The fireworks from a private display can be viewed from outside of the park.",
+				"The pollution from a factory's waste affects a nearby town.",
+				"Alice's neighbor has a cat that occasionally wanders into Alice's yard. Alice is allergic to cats.",
+				"The smell of my neighbor barbecuing makes me hungry and therefore irritates me"
+			],
+			"answer": "The fireworks from a private display can be viewed from outside of the park."
+		}, {
+			"value": 800,
+			"question": "4. In 1990, as a percentage of India's total trade volume, oil imports made up",
+			"choices": [
+				"54%",
+				"14%",
+				"24%",
+				"34%",
+				"44%"
+			],
+			"answer": "14%"
+		}, {
+			"value": 1000,
+			"question": "5. How does the Federal Reserve exercise open market operations?",
+			"choices": [
+				"buying and selling government bonds",
+				"increasing or reducing government spending",
+				"changing the reserve ratio",
+				"changing the federal funds rate",
+				"changing the discount rate"
+			],
+			"answer": "buying and selling government bonds"
+		}]
+	}, {
+		"name": "SOCIAL SCIENCE",
+		"questions": [{
+			"value": 200,
+			"question": "1. The French gained political influence in India PRIMARILY through",
+			"choices": [
+				"judiciary means",
+				"military means",
+				"cultural means",
+				"economic means",
+				"religious means"
+			],
+			"answer": "military means"
+		}, {
+			"value": 400,
+			"question": "2. Succession in the Mughal Empire was",
+			"choices": [
+				"based on strict rule of primogeniture",
+				"decided by the leader of the military",
+				"derived from establishing broad networks of support",
+				"determined by the outgoing emperor",
+				"typically uncontested"
+			],
+			"answer": "derived from establishing broad networks of support"
+		}, {
+			"value": 600,
+			"question": "3. Which of the following statements about Delhi at the time of the 1857 Indian Rebellion is FALSE?",
+			"choices": [
+				"Delhi had been the political and trade capital of India for 700 years.",
+				"A large number of European troops were positioned in Delhi.",
+				"The rebellious Indians made for Delhi almost immediately after mutinying.",
+				"Delhi was the historic heart of the Mughal Empire.",
+				"The last Mughal leader, Bahadur Shah Zafar, sat in Delhi."
+			],
+			"answer": "A large number of European troops were positioned in Delhi."
+		}, {
+			"value": 800,
+			"question": "4. Nehru and Jinnah agreed that the Simla Conference negotiating committee should be divided equally between",
+			"choices": [
+				"British and Indians",
+				"Dalits and Brahmins",
+				"Hindus and Muslims",
+				"rural leaders and urban leaders",
+				"politicians and religious leaders"
+			],
+			"answer": "Hindus and Muslims"
+		}, {
+			"value": 1000,
+			"question": "5. After the Emergency, the states of Himachal Pradesh and Haryana were carved from",
+			"choices": [
+				"Andhra Pradesh",
+				"Uttar Pradesh",
+				"Punjab",
+				"Madras",
+				"Bengal"
+			],
+			"answer": "Punjab"
+		}]
+	}, {
+		"name": "MUSIC",
+		"questions": [{
+			"value": 200,
+			"question": "1. The term \"classical\" in Indian music was used to draw parallels with",
+			"choices": [
+				"Russian concerts",
+				"European music",
+				"Arab rituals",
+				"Chinese proverbs",
+				"Berber chants"
+			],
+			"answer": "European music"
+		}, {
+			"value": 400,
+			"question": "2. Nusrat Fateh Ali Khan was born in",
+			"choices": [
+				"Punjab",
+				"Kerala",
+				"Kashmir",
+				"Rajasthan",
+				"Tamil Nadu"
+			],
+			"answer": "Punjab"
+		}, {
+			"value": 600,
+			"question": "3. Which of the following individuals recorded singers in Kolkata on behalf on the British Gramophone Company?",
+			"choices": [
+				"Curt Sachs",
+				"Erich von Hornbostel",
+				"Arnold Schoenberg",
+				"Phillip Glass",
+				"Fred Gaisberg"
+			],
+			"answer": "Fred Gaisberg"
+		}, {
+			"value": 800,
+			"question": "4. Classify the <i>sarod</i> according to the Sachs-Hornbostel classification system.",
+			"choices": [
+				"membranophone",
+				"idiophone",
+				"chordophone",
+				"aerophone",
+				"electrophone"
+			],
+			"answer": "chordophone"
+		}, {
+			"value": 1000,
+			"question": "7. Which beat of the Aditala tala cycle uses a middle finger gesture?",
+			"choices": [
+				"2",
+				"5",
+				"4",
+				"3",
+				"1"
+			],
+			"answer": "4"
+		}]
+	}, {
+		"name": "LITERATURE",
+		"questions": [{
+			"value": 200,
+			"question": "17. At the beginning of <i>Nectar in a Sieve</i>, why does Ruku remark, \"how little they knew, any of them\"?",
+			"choices": [
+				"All the doctors said Puli would not survive leprosy.",
+				"Kali, Kunthi, and Janaki told her she would bear many sons.",
+				"Everyone said she and Nathan made a poor match.",
+				"Her family told her not to worry about Old Granny.",
+				"Her family warned her against trusting white men"
+			],
+			"answer": "Everyone said she and Nathan made a poor match."
+		}, {
+			"value": 400,
+			"question": "18. Which term BEST describes the Muslim women who arrive in Ruku's village in <i>Nectar in a Sieve</i>?",
+			"choices": [
+				"poor",
+				"lively",
+				"educated",
+				"isolated",
+				"welcoming"
+			],
+			"answer": "isolated"
+		}, {
+			"value": 600,
+			"question": "19. Which term BEST describes Ruku's view of Kenny in <i>Nectar in a Sieve</i>?",
+			"choices": [
+				"idealistic",
+				"enigmatic",
+				"callous",
+				"challenging",
+				"exasperating"
+			],
+			"answer": "enigmatic"
+		}, {
+			"value": 800,
+			"question": "29. Who named Gandhi \"Father of the Nation\"?",
+			"choices": [
+				"Jawaharlal Nehru",
+				"Aurobindo Ghosh",
+				"Bhagat Singh",
+				"Subhas Chandra Bose",
+				"Muhammad Ali Jinnah"
+			],
+			"answer": "Subhas Chandra Bose"
+		}, {
+			"value": 1000,
+			"question": "30. <i>Satyagraha</i> is based on the principles of",
+			"choices": [
+				"truth, nonviolence, and self-suffering",
+				"activism, freedom, and nonviolence",
+				"nonviolence, self-suffering, and freedom",
+				"freedom, truth, and nonviolence",
+				"self-suffering, freedom, and nonviolence"
+			],
+			"answer": "truth, nonviolence, and self-suffering"
+		}]
+	}, {
+		"name": "SCIENCE/MATH",
+		"questions": [{
+			"value": 200,
+			"question": "1. Which of the following environmental factors is cheatgrass MOST directly impacting in the western United States?",
+			"choices": [
+				"sustainability levels",
+				"parasitism rates",
+				"pollution levels",
+				"medicinal production",
+				"disturbance regime"
+			],
+			"answer": "disturbance regime"
+		}, {
+			"value": 400,
+			"question": "1. In a class of 5 children, there are 20 indistinguishable pieces of candy. How many ways can you distribute the candy such that each child has at least 2 pieces of candy?",
+			"choices": [
+				"1,000",
+				"100",
+				"1,001",
+				"252",
+				"525"
+			],
+			"answer": "1,001"
+		}, {
+			"value": 600,
+			"question": "2. Which of the following orders accurately describes populations' niches from the most general to the most limited?",
+			"choices": [
+				"fundamental niche, ecological niche, realized niche",
+				"realized niche, fundamental niche, ecological niche",
+				"ecological niche, realized niche, fundamental niche",
+				"realized niche, ecological niche, fundamental niche",
+				"ecological niche, fundamental niche, realized niche"
+			],
+			"answer": "ecological niche, fundamental niche, realized niche"
+		}, {
+			"value": 800,
+			"question": "3. Which of the following statements is TRUE regarding habitat fragmentation?",
+			"choices": [
+				"It decreases as human involvement decreases.",
+				"It reduces the likelihood of genetic drift within populations.",
+				"Its effects remain at one trophic level.",
+				"It decreases rates of inbreeding.",
+				"It decreases species diversity."
+			],
+			"answer": "It decreases species diversity."
+		}, {
+			"value": 1000,
+			"question": "2. How many words can you create using all the letters from \"VACUUM\"?",
+			"choices": [
+				"260",
+				"360",
+				"400",
+				"540",
+				"720"
+			],
+			"answer": "400"
+		}]
+	}],
+	"final": {
+		"category": "MUSIC FROM TOM MCCOY",
+		"question": "What is the minor seventh above F?",
+		"answer": "E flat"
+	}
+}
