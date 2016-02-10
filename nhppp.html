@@ -5,15 +5,15 @@
 <script>
 var results = {
     "Democratic": {
-        "Bernie Sanders": 13,
         "Hillary Clinton": 3,
+        "Bernie Sanders": 13,
         "~": "blue"
     },
     "Republican": {
-        "Donald Trump": 6,
+        "Chris Christie": 1,
         "John Kasich": 4,
         "Marco Rubio": 1,
-        "Chris Christie": 1,
+        "Donald Trump": 6,
         "~": "red"
     },
     "Surprise": {
@@ -22,7 +22,7 @@ var results = {
     }
 };
 
-function createTable(heading, data, bgcolor, candidate) {
+function createTable(heading, data, bgcolor) {
     var total = 0, table = ["<table border='1' cellpadding='5' cellspacing='0'>"];
     if (heading !== null) {
         table.push("<tr><th colspan=3 bgcolor='" + bgcolor + "'><font color='white'>" + heading.toUpperCase() + "</font></th></td>");
@@ -34,13 +34,17 @@ function createTable(heading, data, bgcolor, candidate) {
         }
         total += data[x];
     }
+    var rows = [];
     for (var y in data) {
         if (y === "~") {
             continue;
         }
-        table.push("<tr><td>" + y + "</td><td>" + data[y] + "</td><td>" + (data[y] / total * 100).toFixed(1) + "%</td></tr>");
+        rows.push(["<tr><td><center>" + y + "</center></td><td><center>" + data[y] + "</center></td><td><center>" + (data[y] / total * 100).toFixed(1) + "%</center></td></tr>", data[y]]);
     }
-    table.push("<tr><th>Total</th><td>" + total + "</td><td>" + (total / total * 100).toFixed(1) + "%</td></tr>");
+    rows.sort(function(a, b) { return b[1] - a[1]; });
+    rows = rows.map(function(arr) { return arr[0]; });
+    table = table.concat(rows);
+    table.push("<tr><th>Total</th><td><center>" + total + "</center></td><td><center>" + (total / total * 100).toFixed(1) + "%</center></td></tr>");
     table.push("</table>");
     return table.join("");
 }
@@ -58,7 +62,7 @@ function onLoad() {
             data1[a] += p[b];
         }
     }
-    out.push(createTable(null, data1, "black"));
+    out.push(createTable(null, data1));
     var data2 = {};
     for (var x in results) {
         var p = results[x];
@@ -69,7 +73,7 @@ function onLoad() {
             data2[y] = p[y];
         }
     }
-    var data3 = {};
+    out.push(createTable("General", data2, "black"));
     for (var c in results) {
         out.push(createTable(c + " Party", results[c], results[c]["~"]));
     }
