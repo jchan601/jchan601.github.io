@@ -50,30 +50,28 @@ function createTable(heading, data, bgcolor) {
 }
 
 function onLoad() {
-    var out = [];
-    var data1 = {};
-    for (var a in results) {
-        data1[a] = 0;
-        var p = results[a];
-        for (var b in p) {
-            if (b === "~") {
-                continue;
-            }
-            data1[a] += p[b];
-        }
-    }
-    out.push(createTable(null, data1));
-    var data2 = {};
+    var out = [], data1 = {}, data2 = {};
     for (var x in results) {
         var p = results[x];
         for (var y in p) {
             if (y === "~") {
                 continue;
             }
-            data2[y] = p[y];
+            data1[y] = p[y];
         }
     }
-    out.push(createTable("General", data2, "black"));
+    out.push(createTable("General", data1, "black"));
+    for (var a in results) {
+        data2[a] = 0;
+        var p = results[a];
+        for (var b in p) {
+            if (b === "~") {
+                continue;
+            }
+            data2[a] += p[b];
+        }
+    }
+    out.push(createTable(null, data2));
     for (var c in results) {
         out.push(createTable(c + " Party", results[c], results[c]["~"]));
     }
