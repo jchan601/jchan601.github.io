@@ -34,16 +34,14 @@ function createTable(heading, data, bgcolor) {
         }
         total += data[x];
     }
-    var rows = [];
-    for (var y in data) {
+    var keys = Object.keys(data).sort(function(a, b) { return data[b] - data[a]; });
+    for (var i = 0; i < keys.length; i++) {
+        var y = keys[i];
         if (y === "~") {
             continue;
         }
-        rows.push(["<tr><td><center>" + y + "</center></td><td><center>" + data[y] + "</center></td><td><center>" + (data[y] / total * 100).toFixed(1) + "%</center></td></tr>", data[y]]);
+        table.push("<tr><td><center>" + y + "</center></td><td><center>" + data[y] + "</center></td><td><center>" + (data[y] / total * 100).toFixed(1) + "%</center></td></tr>");
     }
-    rows.sort(function(a, b) { return b[1] - a[1]; });
-    rows = rows.map(function(arr) { return arr[0]; });
-    table = table.concat(rows);
     table.push("<tr><th>Total</th><td><center>" + total + "</center></td><td><center>" + (total / total * 100).toFixed(1) + "%</center></td></tr>");
     table.push("</table>");
     return table.join("");
