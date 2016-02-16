@@ -201,7 +201,7 @@
 			"answer": "0.6375"
 		}, {
 			"value": 600,
-			"question": "21. Erin rolls a die six times and wants to determine the probability of getting a different value every time. Is this a binomial probability? If not, why?",
+			"question": "Erin rolls a die six times and wants to determine the probability of getting a different value every time. Is this a binomial probability? If not, why?",
 			"choices": [
 				"Yes, it is a binomial probability",
 				"No, there is not a fixed number of trials",
