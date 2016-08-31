@@ -1,7 +1,8 @@
+
 <html>
 
 <head>
-<title>Graduation</title>
+<title>New Year's Day</title>
 <script type="text/javascript">
 /* stolen from here: http://stackoverflow.com/questions/610406/javascript-equivalent-to-printf-string-format */	
 String.prototype.format = function() {
@@ -22,7 +23,7 @@ var color1 = o === 0 ? "black" : "red",
 
 function updateCounter() {
 	//var find_time = function(year, month, day, hours, minutes, seconds) { if (isNaN(month)) { month = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"].indexOf(month.toLowerCase()); }; var date = new Date(year, month, day, hours, minutes, seconds, 0); return date.getTime() + "<br> UTC Time: " + date.toUTCString() + "<br> Local Time: " + date.toString(); }; find_time(y, mo, d, h, min, s);
-	var date = 1466805600000, // Fri Jun 24 2016 18:00:00 GMT-0400 (Eastern Daylight Time)
+	var date = 1483246800000, // Sun Jan 01 2017 00:00:00 GMT-0500 (Eastern Standard Time)
 		time = Math.floor((date - new Date().getTime()) / 1000);
 	
 	var n, t = time, s = [], d = [[24*60*60, "DAY"], [60*60, "HOUR"], [60, "MINUTE"], [1, "SECOND"]];
@@ -58,9 +59,9 @@ function updateCounter() {
 </head>
 
 <body onload="updateCounter(); setInterval('updateCounter()', 1000 )">
-	<font size=10 color="red"><b>Time Until Graduation</b></font>
+	<font size=10 color="red"><b>Time Until New Year's Day 2017</b></font>
 	<br>
-	<font size=5><i>(June 24, 2016 @ 6 P.M.)</i></font>
+	<font size=5><i>(January 1, 2017)</i></font>
 	<br><br>
 	<span id="countdown">&nbsp;</span>
 </body>

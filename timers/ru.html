@@ -1,7 +1,8 @@
+
 <html>
 
 <head>
-<title>End of Fourth Marking Period</title>
+<title>Move In Day</title>
 <script type="text/javascript">
 /* stolen from here: http://stackoverflow.com/questions/610406/javascript-equivalent-to-printf-string-format */	
 String.prototype.format = function() {
@@ -22,7 +23,7 @@ var color1 = o === 0 ? "black" : "red",
 
 function updateCounter() {
 	//var find_time = function(year, month, day, hours, minutes, seconds) { if (isNaN(month)) { month = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"].indexOf(month.toLowerCase()); }; var date = new Date(year, month, day, hours, minutes, seconds, 0); return date.getTime() + "<br> UTC Time: " + date.toUTCString() + "<br> Local Time: " + date.toString(); }; find_time(y, mo, d, h, min, s);
-	var date = 1465963200000, // Wed Jun 15 2016 00:00:00 GMT-0400 (Eastern Daylight Time)
+	var date = 1472734800000, // Thu Sep 01 2016 09:00:00 GMT-0400 (Eastern Daylight Time)
 		time = Math.floor((date - new Date().getTime()) / 1000);
 	
 	var n, t = time, s = [], d = [[24*60*60, "DAY"], [60*60, "HOUR"], [60, "MINUTE"], [1, "SECOND"]];
@@ -58,9 +59,9 @@ function updateCounter() {
 </head>
 
 <body onload="updateCounter(); setInterval('updateCounter()', 1000 )">
-	<font size=10 color="red"><b>Time until end of Fourth Marking Period</b></font>
+	<font size=10 color="red"><b>Time Until RU HC Move In Day</b></font>
 	<br>
-	<font size=5><i>(June 15, 2016)</i></font>
+	<font size=5><i>(September 1, 2016 @ 9 A.M.)</i></font>
 	<br><br>
 	<span id="countdown">&nbsp;</span>
 </body>
