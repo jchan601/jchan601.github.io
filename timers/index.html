@@ -11,6 +11,23 @@ function stripHtml(string) {
     return string;
 }
 
+function createTimer() {
+    var url = location + "/timer.html?";
+	url += "time=" + new Date($("year").value, $("month").value, $("day").value, $("hour").value, $("minutes").value, $("seconds").value, 0).getTime();
+    if ($("name").value !== "") {
+        url += "name=" + encodeURIComponent($("name").value);
+    } else {
+        url += "name=some%20event";
+    }
+    if ($("title").value !== "") {
+        url += "title=" + encodeURIComponent($("title").value);
+    }
+    if ($("date").value !== "") {
+        url += "date=" + encodeURIComponent($("date").value);
+    }
+    $("link").innerHTML = "<a href='" + url + "'>" + url + "</a>";
+}
+
 function onLoad() {
     var xhr = new XMLHttpRequest(), out = ["<ul>"];
     xhr.open('GET', 'https://api.github.com/repos/jchan601/jchan601.github.io/contents/timers', false);
@@ -19,7 +36,7 @@ function onLoad() {
         var files = JSON.parse(xhr.responseText);
         for (var i = 0; i < files.length; i++) {
             var file = files[i];
-            if (["unix.html", "index.html", "template.html"].indexOf(file.name) !== -1) {
+            if (["unix.html", "index.html", "template.html", "timer.html"].indexOf(file.name) !== -1) {
                 continue;
             }
             var req = new XMLHttpRequest();
@@ -46,4 +63,33 @@ function onLoad() {
 <body onload='onLoad()'>
     <strong>Timers:</strong>
     <div id='timers'>Loading...</div>
+    <br>
+    <font size=5><b>Create Your Own:</b></font>
+    <br><br>
+    Name of Event: <input id="name" value="" placeholder="(Required)"></input><br>
+    Title: <input id="title" value="" placeholder="(Optional)"></input><br>
+    Description of Date: <input id="date" value="" placeholder="(Optional)"></input><br><br>
+    Year: <input type="number" id="year" min="1970" max="9999" value="1970"/><br>
+    Month:
+    <select id="month">
+        <option value=0>January</option>
+        <option value=1>February</option>
+        <option value=2>March</option>
+        <option value=3>April</option>
+        <option value=4>May</option>
+        <option value=5>June</option>
+        <option value=6>July</option>
+        <option value=7>August</option>
+        <option value=8>September</option>
+        <option value=9>October</option>
+        <option value=10>November</option>
+        <option value=11>December</option>
+    </select><br>
+    Day: <input type="number" id="day" min="1" max="31" value="1"/><br>
+    Hour: <input type="number" id="hour" min="0" max="23" value="0"/><br>
+    Minutes: <input type="number" id="minutes" min="0" max="59" value="0"/><br>
+    Seconds: <input type="number" id="seconds" min="0" max="59" value="0"/><br><br>
+    <button onclick="createTimer()">Submit</button>
+    <br>
+    <div id="link"></div>
 </body>
