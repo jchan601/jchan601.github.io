@@ -29,10 +29,10 @@ function createTimer() {
         info.push("date=" + [date[2].replace(/$0/, ""), date[1], date[3]].join("%20"));
     }
     if ($("color1").value !== "") {
-        info.push("color1=" + $("color1").value);
+        info.push("flash_color=" + $("color1").value);
     }
     if ($("color2").value !== "") {
-        info.push("color2=" + $("color2").value);
+        info.push("change_color=" + $("color2").value);
     }
     var url = location + "timer.html?" + info.join("&");
     $("link").innerHTML = "<a href='" + url + "'>" + url + "</a>";
