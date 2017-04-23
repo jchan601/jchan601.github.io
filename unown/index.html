@@ -1,0 +1,58 @@
+<html>
+
+<head>
+
+<script>
+var alphabet = "abcdefghijklmnopqrstucwxyz!?";
+
+function b64EncodeUnicode(str) {
+    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
+        return String.fromCharCode('0x' + p1);
+    }));
+}
+
+function b64DecodeUnicode(str) {
+    return decodeURIComponent(atob(str).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+}
+
+function link() {
+    var message = document.getElementById("m").value;
+    var url = location.toString() + "?" + b64EncodeUnicode(message);
+    document.getElementById("link").innerHTML = "<a href='" + url + "'>" + url + "</a>";
+}
+
+function onLoad() {
+    if (location.search != "") {
+        document.getElementById("submission").style.visibility = "hidden";
+        var url = location.toString().replace("index.html", "");
+        url = url.substring(0, url.lastIndexOf("/") + 1);
+        var message = b64DecodeUnicode(location.search.slice(1)).replace(/./g, function(c) {
+                if (alphabet.indexOf(c.toLowerCase()) === -1) {
+                    if (c === " ") {
+                        return "&nbsp;&nbsp;&nbsp;&nbsp;";
+                    }
+                    return "<table style='display:inline-block'><th><font size=4 color='#838383'>" + c + "</font></th></table>";
+                }
+                return "<img src='" + url + alphabet.indexOf(c.toLowerCase()) + ".png" + "'/>";
+            });
+        document.getElementById("message").innerHTML = message;
+    } else {
+        document.getElementById("message").style.visibility = "hidden";
+    }
+}
+</script>
+
+</head>
+
+<body onload="onLoad()">
+    <div id="message"></div>
+    <div id="submission">
+        <b>Enter message:</b> <input id="m" value=""></input><br><br>
+        <button onclick="link()">Submit</button><br><br>
+        <div id="link"></div>
+    </div>
+</body>
+
+</html>
