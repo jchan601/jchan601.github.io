@@ -29,7 +29,7 @@ function onLoad() {
     if (location.search != "") {
         document.getElementById("submission").style.visibility = "hidden";
         var url = location.toString().replace("index.html", "");
-        url = url.substring(0, url.lastIndexOf("/") + 1);
+        url = url.substring(0, url.indexOf("?"));
         var message = b64DecodeUnicode(location.search.slice(1)).replace(/./g, function(c) {
                 if (alphabet.indexOf(c.toLowerCase()) === -1) {
                     if (c === " ") {
