@@ -25,7 +25,7 @@ function createTimer() {
     if ($("date").value !== "") {
         info.push("date=" + encodeURIComponent($("date").value));
     } else {
-        var date = d.toString.split(" ");
+        var date = d.toString().split(" ");
         info.push("date=" + [date[2].replace(/$0/, ""), date[1], date[3]].join(" "));
     }
     var url = location + "timer.html?" + info.join("&");
