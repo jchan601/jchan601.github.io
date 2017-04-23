@@ -1,0 +1,191 @@
+{
+    "randDailyDouble": 1,
+    "timer": 30,
+    "categories": [
+        {
+            "name": "AFRICA",
+            "questions": [
+                {
+                    "value": 200,
+                    "question": "Egypt",
+                    "answer": "Cairo"
+                },
+                {
+                    "value": 400,
+                    "question": "Djibouti",
+                    "answer": "Djibouti"
+                },
+                {
+                    "value": 600,
+                    "question": "Ethiopia",
+                    "answer": "Addis Ababa"
+                },
+                {
+                    "value": 800,
+                    "question": "Uganda",
+                    "answer": "Kampala"
+                },
+                {
+                    "value": 1000,
+                    "question": "Burkina Faso",
+                    "answer": "Ouagadougou"
+                }
+            ]
+        },
+        {
+            "name": "ASIA",
+            "questions": [
+                {
+                    "value": 200,
+                    "question": "China",
+                    "answer": "Beijing"
+                },
+                {
+                    "value": 400,
+                    "question": "Philippines",
+                    "answer": "Manila"
+                },
+                {
+                    "value": 600,
+                    "question": "Saudi Arabia",
+                    "answer": "Riyadh"
+                },
+                {
+                    "value": 800,
+                    "question": "Turkmenistan",
+                    "answer": "Ashgabat"
+                },
+                {
+                    "value": 1000,
+                    "question": "Bhutan",
+                    "answer": "Thimphu"
+                }
+            ]
+        },
+        {
+            "name": "EUROPE",
+            "questions": [
+                {
+                    "value": 200,
+                    "question": "Germany",
+                    "answer": "Berlin"
+                },
+                {
+                    "value": 400,
+                    "question": "Sweden",
+                    "answer": "Stockholm"
+                },
+                {
+                    "value": 600,
+                    "question": "Hungary",
+                    "answer": "Budapest"
+                },
+                {
+                    "value": 800,
+                    "question": "Moldova",
+                    "answer": "Chisinau"
+                },
+                {
+                    "value": 1000,
+                    "question": "Liechtenstein",
+                    "answer": "Vaduz"
+                }
+            ]
+        },
+        {
+            "name": "NORTH AMERICA",
+            "questions": [
+                {
+                    "value": 200,
+                    "question": "Mexico",
+                    "answer": "Mexico City"
+                },
+                {
+                    "value": 400,
+                    "question": "Canada",
+                    "answer": "Ottawa"
+                },
+                {
+                    "value": 600,
+                    "question": "Honduras",
+                    "answer": "Tegucigalpa"
+                },
+                {
+                    "value": 800,
+                    "question": "Belize",
+                    "answer": "Belmopan"
+                },
+                {
+                    "value": 1000,
+                    "question": "Saint Kitts and Nevis",
+                    "answer": "Basseterre"
+                }
+            ]
+        },
+        {
+            "name": "OCEANIA",
+            "questions": [
+                {
+                    "value": 200,
+                    "question": "Australia",
+                    "answer": "Canberra"
+                },
+                {
+                    "value": 400,
+                    "question": "New Zealand",
+                    "answer": "Wellington"
+                },
+                {
+                    "value": 600,
+                    "question": "Papua New Guinea",
+                    "answer": "Port Moresby"
+                },
+                {
+                    "value": 800,
+                    "question": "Fiji",
+                    "answer": "Suva"
+                },
+                {
+                    "value": 1000,
+                    "question": "Tuvalu",
+                    "answer": "Funafuti"
+                }
+            ]
+        },
+        {
+            "name": "SOUTH AMERICA",
+            "questions": [
+                {
+                    "value": 200,
+                    "question": "Brazil",
+                    "answer": "Brasilia"
+                },
+                {
+                    "value": 400,
+                    "question": "Colombia",
+                    "answer": "Bogotá"
+                },
+                {
+                    "value": 600,
+                    "question": "Chile",
+                    "answer": "Santiago"
+                },
+                {
+                    "value": 800,
+                    "question": "Paraguay",
+                    "answer": "Asunción"
+                },
+                {
+                    "value": 1000,
+                    "question": "Suriname",
+                    "answer": "Paramaribo"
+                }
+            ]
+        }
+    ],
+    "final": {
+        "category": "CANADIAN CAPITALS",
+        "question": "This capital and largest city of Manitoba, named after a nearby lake, is a transportation hub where the first Pan American Games in Canada were hosted and where television game show host Monty Hall was born.",
+        "answer": "Winnipeg"
+    }
+}
