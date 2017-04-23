@@ -12,19 +12,19 @@ function stripHtml(string) {
 }
 
 function createTimer() {
-    var url = location + "/timer.html?";
-	url += "time=" + new Date($("year").value, $("month").value, $("day").value, $("hour").value, $("minutes").value, $("seconds").value, 0).getTime();
+	info = ["time=" + new Date($("year").value, $("month").value, $("day").value, $("hour").value, $("minutes").value, $("seconds").value, 0).getTime()];
     if ($("name").value !== "") {
-        url += "name=" + encodeURIComponent($("name").value);
+        info.push("name=" + encodeURIComponent($("name").value));
     } else {
         url += "name=some%20event";
     }
     if ($("title").value !== "") {
-        url += "title=" + encodeURIComponent($("title").value);
+        info.push("title=" + encodeURIComponent($("title").value));
     }
     if ($("date").value !== "") {
-        url += "date=" + encodeURIComponent($("date").value);
+        info.push("date=" + encodeURIComponent($("date").value));
     }
+    var url = location + "timer.html?" + info.join("&");
     $("link").innerHTML = "<a href='" + url + "'>" + url + "</a>";
 }
 
