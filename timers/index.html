@@ -12,17 +12,21 @@ function stripHtml(string) {
 }
 
 function createTimer() {
-	info = ["time=" + new Date($("year").value, $("month").value, $("day").value, $("hour").value, $("minutes").value, $("seconds").value, 0).getTime()];
+    var d = new Date($("year").value, $("month").value, $("day").value, $("hour").value, $("minutes").value, $("seconds").value, 0);
+	info = ["time=" + d.getTime()];
     if ($("name").value !== "") {
         info.push("name=" + encodeURIComponent($("name").value));
     } else {
-        url += "name=some%20event";
+        info.push("name=some%20event");
     }
     if ($("title").value !== "") {
         info.push("title=" + encodeURIComponent($("title").value));
     }
     if ($("date").value !== "") {
         info.push("date=" + encodeURIComponent($("date").value));
+    } else {
+        var date = d.toString.split(" ");
+        info.push([date[2].replace("$0", ""), date[1], date[3]].join(" "));
     }
     var url = location + "timer.html?" + info.join("&");
     $("link").innerHTML = "<a href='" + url + "'>" + url + "</a>";
