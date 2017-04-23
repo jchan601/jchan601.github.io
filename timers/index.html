@@ -26,7 +26,13 @@ function createTimer() {
         info.push("date=" + encodeURIComponent($("date").value));
     } else {
         var date = d.toString().split(" ");
-        info.push("date=" + [date[2].replace(/$0/, ""), date[1], date[3]].join(" "));
+        info.push("date=" + [date[2].replace(/$0/, ""), date[1], date[3]].join("%20"));
+    }
+    if ($("color1").value !== "") {
+        info.push("color1=" + $("color1").value);
+    }
+    if ($("color2").value !== "") {
+        info.push("color2=" + $("color2").value);
     }
     var url = location + "timer.html?" + info.join("&");
     $("link").innerHTML = "<a href='" + url + "'>" + url + "</a>";
@@ -73,6 +79,8 @@ function onLoad() {
     Name of Event: <input id="name" value="" placeholder="(Required)"></input><br>
     Title: <input id="title" value="" placeholder="(Optional)"></input><br>
     Description of Date: <input id="date" value="" placeholder="(Optional)"></input><br><br>
+    Color (1): <input id="color1" value="" placeholder="(Optional)"></input><br><br>
+    Color (2): <input id="color2" value="" placeholder="(Optional)"></input><br><br>
     Year: <input type="number" id="year" min="1970" max="9999" value="1970"/><br>
     Month:
     <select id="month">
