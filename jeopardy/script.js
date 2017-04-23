@@ -581,7 +581,7 @@ function onLoad() {
     $("display").innerHTML = "<table style='width:100%; height:90%' class='game'><tr style='height:90%'><td colspan=2><center><strong><font color='#FDE151' size=7>JEOPARDY!</font><br/><br/><a href='javascript:;' style='color:#E5915C; font-size:1.67em;' onclick='loadJeopardy(true)'>Load Default</a><br/><br/><font color='#E5915C' size=5>Load from URL:</font> <input type='url' id='url'/></font> <button onclick='loadJeopardy()'>Submit</button></strong></center></td></tr></table>";
     updateScoreBoard();
 	if (location.search !== "") {
-		var args = unescape(location.search.substr(1)).split("&");
+		var args = decodeURIComponent(location.search.substr(1)).split("&");
 		var obj = {};
 		for (var i = 0; i < args.length; i++) {
 			var params = args[i].split("=");
