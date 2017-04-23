@@ -71,7 +71,7 @@ function updateCounter() {
 	
 	var table = "<table cellpadding='5' cellspacing='0' style='table-layout: fixed; width: 100%'><tr><td><center><font size=10 color='" + dcolor + "'><b>{0}</b></font></font></center></td><td><center><font size=10 color='" + hcolor + "'><b>{1}</b></font></center></td><td><center><font size=10 color='" + mcolor + "'><b>{2}</b></font></center></td><td><center><font size=10 color='" + scolor + "'><b>{3}</b></font></center></td></tr><tr><td><center><font size=10 color='" + dcolor + "'>{4}</font></center></td><td><center><font size=10 color='" + hcolor + "'>{5}</font></center></td><td><center><font size=10 color='" + mcolor + "'>{6}</font></center></td><td><center><font size=10 color='" + scolor + "'>{7}</font></center></td></tr></table>";
 
-    document.getElementById("heading").innerHTML = "<font size=10 color='" + (time < 0 ? "blue" : "red") + "'><b>Time " + (time < 0 ? "Since " : "Until ") + name + "</b></font>";
+    document.getElementById("heading").innerHTML = "<font size=10 color='" + (time < 0 ? change_color : flash_color) + "'><b>Time " + (time < 0 ? "Since " : "Until ") + name + "</b></font>";
     document.getElementById("countdown").innerHTML = table.format(s[0][0], s[1][0], s[2][0], s[3][0], s[0][1], s[1][1], s[2][1], s[3][1]);
 }
 
