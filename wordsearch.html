@@ -7,6 +7,7 @@ table, th, td {
 }
 </style>
 <script>
+/** TO-DO: Make box background different colors, easy way to build matrix and add words */
 // http://thewordsearch.com/puzzle/37/school-life/
 var puzzle = [["P", "C", "T", "S", "R", "A", "B", "M", "A", "R", "K", "E", "R", "S"], ["G", "L", "I", "T", "T", "E", "R", "E", "N", "E", "C", "K", "R", "C"],["L", "A", "S", "S", "S", "A", "P", "M", "O", "C", "E", "M", "O", "L"], ["H", "S", "U", "D", "R", "A", "O", "B", "K", "C", "A", "L", "B", "E"], ["O", "G", "T", "K", "C", "I", "T", "S", "E", "U", "L", "G", "O", "R"], ["M", "J", "O", "U", "R", "N", "A", "L", "N", "O", "A", "A", "N", "A"], ["E", "X", "J", "E", "B", "A", "C", "K", "P", "A", "C", "K", "B", "S"], ["W", "B", "B", "E", "P", "E", "N", "C", "I", "L", "S", "O", "R", "E"], ["O", "C", "R", "G", "O", "S", "H", "A", "R", "P", "E", "N", "E", "R"], ["R", "S", "R", "L", "U", "N", "C", "H", "B", "O", "X", "R", "O", "G"], ["K", "K", "E", "B", "A", "E", "C", "R", "A", "Y", "O", "N", "S", "E"], ["S", "O", "S", "C", "I", "S", "S", "O", "R", "S", "G", "K", "T", "B"], ["R", "O", "T", "A", "L", "U", "C", "L", "A", "C", "J", "S", "N", "A"], ["E", "B", "C", "L", "E", "E", "O", "L", "S", "P", "E", "N", "S", "I"]];
 var words = ["ERASER", "CALCULATOR", "CRAYONS", "JOURNAL", "SHARPENER", "BLACKBOARD", "GLITTER", "GLUESTICK", "PENCILS", "MARKERS", "COMPASS", "SCISSORS", "LUNCHBOX", "HOMEWORK", "BOOKS", "PENS", "BACKPACK"];
@@ -28,6 +29,9 @@ for (var i = 0; i < puzzle.length; i++) {
 
 function $(id) { // shortcut for document.getElementById
     return document.getElementById(id);
+}
+
+function buildTable() {
 }
 
 function findWords() { 
@@ -287,12 +291,16 @@ function onLoad() {
         table.push("</tr>");
     }
     table.push("</table>");
-    $("output").innerHTML = table.join("");
+    $("puzzle").innerHTML = table.join("");
 }
 </script>
 </head>
 
 <body onload="onLoad()">
-    <div id="output"></div>
+    <b>Create Puzzle:</b><br>
+    Rows: <input id="rows" type="number" min="0" step="1"><br>
+    Columns: <input id="cols" type="number" min="0" step="1"><br>
+    <button onclick="buildTable()">Create!</button>
+    <div id="puzzle"></div>
 </body>
 </html>
