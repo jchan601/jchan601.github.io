@@ -526,8 +526,8 @@ function loadJeopardy(url) {
             }
         }
         var xhr = new XMLHttpRequest(), resp; 
-        xhr.open('GET', url, false); 
-        xhr.send(null); 
+        xhr.open('GET', url, true); 
+        xhr.send(null);
         if (xhr.status === 200) {
             var resp = xhr.responseText;
             if (resp === "") {
