@@ -518,7 +518,7 @@ function loadJeopardy(url) {
     if (url === true) {
         jeopardy = defaultJeopardy;
     } else {
-        var url = url ? url : encodeURIComponent($("url").value);
+        var url = url ? url : encodeURI($("url").value);
         if (url.substring(0, 7).toLowerCase() !== "http://" && url.substring(0, 8).toLowerCase() !== "https://") {
             url = "https://raw.githubusercontent.com/jchan601/jchan601.github.io/master/jeopardy/games/" + url;
             if (url.slice(url.lastIndexOf("/")).indexOf(".") === -1) {
