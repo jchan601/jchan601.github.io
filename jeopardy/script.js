@@ -514,9 +514,40 @@ function display() {
     $("display").innerHTML = "<table style='width:100%; height:90%' class='game'><tr style='height:90%'><td colspan=2 onclick='back()'><center><strong><font color='#FFF2C6' size=7>" + text + "</font></strong></center></td></tr></table>";
 }
 
+function initJeopardy() {
+    if (jeopardy.hasOwnProperty("categories")) { // otherwise it failed to load
+        if (jeopardy.hasOwnProperty("randDailyDouble") && !isNaN(jeopardy.randDailyDouble)) {
+            for (var i = 0; i < jeopardy.randDailyDouble; i++) {
+                while (true) {
+                    var categories = jeopardy.categories,
+                        questions = categories[rand(0, categories.length)].questions;
+                    if (questions.length === 5) {
+                        var array = [0, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4],
+                            question = questions[array[rand(0, array.length)]];
+                        if (!question.hasOwnProperty("dailyDouble") || question.dailyDouble != true) {
+                            question.dailyDouble = true;
+                            break;
+                        }
+                    } else {
+                        var question = questions[rand(0, questions.length)];
+                        if (question.dailyDouble != true) {
+                            question.dailyDouble = true;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        createJeopardyBoard();
+    } else {
+        alert("Error: Failed to create Jeopardy board");
+    }
+}
+
 function loadJeopardy(type, data) {
     if (type === "default") {
         jeopardy = defaultJeopardy;
+        initJeopardy();
     } else if (type === "url") {
         var url = data ? data : encodeURI($("url").value);
         if (url.substring(0, 7).toLowerCase() !== "http://" && url.substring(0, 8).toLowerCase() !== "https://") {
@@ -545,6 +576,7 @@ function loadJeopardy(type, data) {
             }
             try {
                 jeopardy = JSON.parse(resp);
+                initJeopardy();
             } catch (e) {
                 alert("Error: Couldn't parse JSON string")
                 return;
@@ -563,6 +595,7 @@ function loadJeopardy(type, data) {
             fr.onload = function() {
                 try {
                     jeopardy = JSON.parse(fr.result);
+                    initJeopardy();
                 } catch (e) {
                     alert("Error: Couldn't parse JSON string")
                     return;
@@ -570,32 +603,6 @@ function loadJeopardy(type, data) {
             };
             fr.readAsText(file);
         }
-    }
-    
-    if (jeopardy.hasOwnProperty("categories")) { // otherwise it failed to load
-        if (jeopardy.hasOwnProperty("randDailyDouble") && !isNaN(jeopardy.randDailyDouble)) {
-            for (var i = 0; i < jeopardy.randDailyDouble; i++) {
-                while (true) {
-                    var categories = jeopardy.categories,
-                        questions = categories[rand(0, categories.length)].questions;
-                    if (questions.length === 5) {
-                        var array = [0, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4],
-                            question = questions[array[rand(0, array.length)]];
-                        if (!question.hasOwnProperty("dailyDouble") || question.dailyDouble != true) {
-                            question.dailyDouble = true;
-                            break;
-                        }
-                    } else {
-                        var question = questions[rand(0, questions.length)];
-                        if (question.dailyDouble != true) {
-                            question.dailyDouble = true;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        createJeopardyBoard();
     }
 }
 
