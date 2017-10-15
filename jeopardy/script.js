@@ -514,43 +514,15 @@ function display() {
     $("display").innerHTML = "<table style='width:100%; height:90%' class='game'><tr style='height:90%'><td colspan=2 onclick='back()'><center><strong><font color='#FFF2C6' size=7>" + text + "</font></strong></center></td></tr></table>";
 }
 
-function loadJeopardy(url) {
-    if (url === true) {
-        jeopardy = defaultJeopardy;
-    } else {
-        var url = url ? url : encodeURI($("url").value);
-        if (url.substring(0, 7).toLowerCase() !== "http://" && url.substring(0, 8).toLowerCase() !== "https://") {
-            url = "https://raw.githubusercontent.com/jchan601/jchan601.github.io/master/jeopardy/games/" + url;
-            if (url.slice(url.lastIndexOf("/")).indexOf(".") === -1) {
-                url += ".json";
-            }
-        }
-        var xhr = new XMLHttpRequest(), resp; 
-        xhr.open('GET', url, true); 
-        xhr.send(null);
-        if (xhr.status === 200) {
-            var resp = xhr.responseText;
-            if (resp === "") {
-                alert("Error: Couldn't retrieve data from URL");
-                return;
-            }
-            try {
-                jeopardy = JSON.parse(resp);
-            } catch (e) {
-                alert("Error: Couldn't parse JSON string")
-                return;
-            }
-        } else {
-            alert("Error: Couldn't access URL");
-        }
-    }
+function loadJSON(json) {
+    jeopardy = json;
     if (jeopardy.hasOwnProperty("randDailyDouble") && !isNaN(jeopardy.randDailyDouble)) {
         for (var i = 0; i < jeopardy.randDailyDouble; i++) {
             while (true) {
                 var categories = jeopardy.categories,
                     questions = categories[rand(0, categories.length)].questions;
                 if (questions.length === 5) {
-                    var array = [0, 1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4],
+                    var array = [0, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4, 4],
                         question = questions[array[rand(0, array.length)]];
                     if (!question.hasOwnProperty("dailyDouble") || question.dailyDouble != true) {
                         question.dailyDouble = true;
@@ -569,21 +541,85 @@ function loadJeopardy(url) {
     createJeopardyBoard();
 }
 
+function loadJeopardy(type, data) {
+    if (type === "default") {
+        jeopardy = defaultJeopardy;
+    } else if (type === "url") {
+        var url = data ? data : encodeURI($("url").value);
+        if (url.substring(0, 7).toLowerCase() !== "http://" && url.substring(0, 8).toLowerCase() !== "https://") {
+            url = "https://raw.githubusercontent.com/jchan601/jchan601.github.io/master/jeopardy/games/" + url;
+            if (url.slice(url.lastIndexOf("/")).indexOf(".") === -1) {
+                url += ".json";
+            }
+        } else {
+            url = "https://cors-anywhere.herokuapp.com/" + url;
+        }
+        var xhr = new XMLHttpRequest();
+        if ("withCredentials" in xhr){
+            xhr.open('GET', url, true);
+        } else if (typeof XDomainRequest != "undefined"){
+            xhr = new XDomainRequest();
+            xhr.open('GET', url);
+        } else {
+            alert("Error: CORS is not supported on this browser, cannot load URL");
+            return;
+        }
+        xhr.onload = function() {
+            var resp = xhr.responseText;
+            if (resp === "") {
+                alert("Error: Couldn't retrieve data from URL");
+                return;
+            }
+            try {
+                var json = JSON.parse(resp);
+                loadJSON(json);
+            } catch (e) {
+                alert("Error: Couldn't parse JSON string")
+                return;
+            }
+        };
+        xhr.onerror = function() {
+            alert("Error: Couldn't access URL");
+        };
+        xhr.send();
+    } else if (type === "file") {
+        if (typeof window.FileReader !== "function") {
+            alert("Error: File could not be read because the file API isn't supported on this browser yet.");
+        } else {
+            var file = $("file").files[0];
+            var fr = new FileReader();
+            fr.onload = function() {
+                try {
+                    var json = JSON.parse(fr.result);
+                    loadJSON(json);
+                } catch (e) {
+                    alert("Error: Couldn't parse JSON string")
+                    return;
+                }
+            };
+            fr.readAsText(file);
+        }
+    }
+}
+
 function onLoad() {
     for (var x = 0; x < 3; x++) {
         addTeam();
     }
-    $("display").innerHTML = "<table style='width:100%; height:90%' class='game'><tr style='height:90%'><td colspan=2><center><strong><font color='#FDE151' size=7>JEOPARDY!</font><br/><br/><a href='javascript:;' style='color:#E5915C; font-size:1.67em;' onclick='loadJeopardy(true)'>Load Default</a><br/><br/><font color='#E5915C' size=5>Load from URL:</font> <input type='url' id='url'/></font> <button onclick='loadJeopardy()'>Submit</button></strong></center></td></tr></table>";
+    $("display").innerHTML = "<table style='width:100%; height:90%' class='game'><tr style='height:90%'><td colspan=2><center><strong><font color='#FDE151' size=7>JEOPARDY!</font><br/><br/><a href='javascript:;' style='color:#E5915C; font-size:1.67em;' onclick='loadJeopardy(\"default\")'>Load Default</a><br/><br/><font color='#E5915C' size=5>Load from URL:</font> <input type='url' id='url'/></font> <button onclick='loadJeopardy(\"url\")'>Submit</button><br/><br/><font color='#E5915C' size=5>Load from File:</font> <input type='file' id='file' style='background-color: #1B26EE; color: white;' accept='.txt,.json'/></font> <button onclick='loadJeopardy(\"file\")'>Submit</button></strong></center></td></tr></table>";
     updateScoreBoard();
 	if (location.search !== "") {
 		var args = decodeURIComponent(location.search.substr(1)).split("&");
 		var obj = {};
 		for (var i = 0; i < args.length; i++) {
-			var params = args[i].split("=");
-			obj[params[0].toLowerCase()] = params[1];
-		};
+            var params = args[i];
+            var pos = params.indexOf("=");
+            var key = params.substring(0, pos);
+            var value = params.substr(pos + 1);
+			obj[key] = value;
+		}
         if (obj.hasOwnProperty("url")) {
-            loadJeopardy(obj.url);
+            loadJeopardy("url", obj.url);
         }
     }
 }
