@@ -553,7 +553,7 @@ function loadJeopardy(type, data) {
     } else if (type === "url") {
         var url = data ? data : encodeURI($("url").value);
         if (url.substring(0, 7).toLowerCase() !== "http://" && url.substring(0, 8).toLowerCase() !== "https://") {
-            url = "https://raw.githubusercontent.com/jchan601/jchan601.github.io/master/jeopardy/games/" + url;
+            url = "https://raw.githubusercontent.com/justinc646/justinc646.github.io/master/jeopardy/games/" + url;
             if (url.slice(url.lastIndexOf("/")).indexOf(".") === -1) {
                 url += ".json";
             }

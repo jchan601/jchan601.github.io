@@ -40,7 +40,7 @@ function createTimer() {
 
 function onLoad() {
     var xhr = new XMLHttpRequest(), out = ["<ul>"];
-    xhr.open('GET', 'https://api.github.com/repos/jchan601/jchan601.github.io/contents/timers', false);
+    xhr.open('GET', 'https://api.github.com/repos/justinc646/justinc646.github.io/contents/timers', false);
     xhr.send(null);
     if (xhr.status === 200) {
         var files = JSON.parse(xhr.responseText);
