@@ -1,3 +1,5 @@
+// Use node-fetch?
+
 var currentMode = null,
     time = null,
     clock = 0,

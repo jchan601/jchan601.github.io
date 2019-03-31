@@ -1,0 +1,190 @@
+{
+    "categories": [
+        {
+            "name": "FILL IN THE BLANK CANVAS",
+            "questions": [
+                {
+                    "value": 200,
+                    "question": "Van Gogh's \"Self-Portrait with Pipe and Bandaged ____\"",
+                    "answer": "Ear"
+                },
+                {
+                    "value": 400,
+                    "question": "Jonathan Buttall is thought to be Gainsborough's model for \"The ____ Boy\"",
+                    "answer": "Blue"
+                },
+                {
+                    "value": 600,
+                    "question": "Seurat got to the point in \"A ____ Afternoon on the Island of La Grande Jatte\"",
+                    "answer": "Sunday"
+                },
+                {
+                    "value": 800,
+                    "question": "Duchamp caused a scandal with his \"Nude Descending a ____, No. 2\"",
+                    "answer": "Staircase"
+                },
+                {
+                    "value": 1000,
+                    "question": "Dali gave it a name that stuck: \"The Persistence of ____\"",
+                    "answer": "Memory"
+                }
+            ]
+        },
+        {
+            "name": "MOVIE CAMEOS",
+            "questions": [
+                {
+                    "value": 200,
+                    "question": "Dan Patrick's good friend Adam Sandler has cast Patrick in 9 of his films, including \"Grown Ups 2\" in which Patrick played a gym teacher dressed as this 1980s Celtics legend",
+                    "answer": "Larry Bird"
+                },
+                {
+                    "value": 400,
+                    "question": "In \"Twilight\" this author has a cameo as a customer in a diner with a veggie plate",
+                    "answer": "Stephenie Meyer"
+                },
+                {
+                    "value": 600,
+                    "question": "Well, Al Michaels didn't win an Oscar playing myself in this 1996 movie but Cuba Gooding Jr. did for his performance as a wide receiver for the Cardinals",
+                    "answer": "<i>Jerry Maguire</i>"
+                },
+                {
+                    "value": 800,
+                    "question": "Julia Roberts played this title crusader in a 2000 film while the real woman had a cameo as a waitress",
+                    "answer": "Erin Brockovich"
+                },
+                {
+                    "value": 1000,
+                    "question": "From \"Rebecca\" on, this director appeared in all of his films; he sat next to Cary Grant on a bus in \"To Catch a Thief\"",
+                    "answer": "Alfred Hitchcock"
+                }
+            ]
+        },
+        {
+            "name": "ANAGRAMMED FORMER WORLD LEADERS",
+            "questions": [
+                {
+                    "value": 200,
+                    "question": "A sari wearer:<br/>HI, GRAND INDIA!",
+                    "answer": "Indira Gandhi"
+                },
+                {
+                    "value": 400,
+                    "question": "In Italy:<br/>VIRILE SLOB COUSIN",
+                    "answer": "Silvio Berlusconi"
+                },
+                {
+                    "value": 600,
+                    "question": "Uh oh! Panama!:<br/>GENUINE AMORAL",
+                    "answer": "Manuel Noriega"
+                },
+                {
+                    "value": 800,
+                    "question": "He Laboured over Britain:<br/>BRAINY LOT",
+                    "answer": "Tony Blair"
+                },
+                {
+                    "value": 1000,
+                    "question": "Late Israeli leader:<br/>SOLAR HERNIA",
+                    "answer": "Ariel Sharon"
+                }
+            ]
+        },
+        {
+            "name": "NUT-TRITION",
+            "questions": [
+                {
+                    "value": 200,
+                    "question": "Almonds are an excellent source of fiber & this bone-building element--got milk?",
+                    "answer": "Calcium"
+                },
+                {
+                    "value": 400,
+                    "question": "These biggies from the Amazon basin have many health benefits, but with their high selenium content, too many can be harmful",
+                    "answer": "Brazil Nuts"
+                },
+                {
+                    "value": 600,
+                    "question": "A key ingredient in pesto, these nuts are an excellent source of vitamin E",
+                    "answer": "Pine Nuts"
+                },
+                {
+                    "value": 800,
+                    "question": "Pistachios get their green color mostly from lutein, which is essential to this one of the 5 senses",
+                    "answer": "Vision"
+                },
+                {
+                    "value": 1000,
+                    "question": "Have some hazelnuts before bed; they're high in this sleep-aiding amino acid that's also found in turkey",
+                    "answer": "Tryptophan"
+                }
+            ]
+        },
+        {
+            "name": "CEREMONIES",
+            "questions": [
+                {
+                    "value": 200,
+                    "question": "This Christian sacrament, a holy ceremony, is also called Eucharist",
+                    "answer": "communion"
+                },
+                {
+                    "value": 400,
+                    "question": "A ceremony on November 19, 1863 dedicated a cemetery in this town",
+                    "answer": "Gettysburg",
+                    "dailyDouble": true
+                },
+                {
+                    "value": 600,
+                    "question": "Vice presidents are often sent to this type of ceremony overseas; Al Gore attended Mitterrand's in 1996",
+                    "answer": "Funerals"
+                },
+                {
+                    "value": 800,
+                    "question": "Giant scissors are mainly used for this type of ceremony at the grand opening of a new facility",
+                    "answer": "Ribbon Cutting"
+                },
+                {
+                    "value": 1000,
+                    "question": "An accolade, a ceremonial tap on the shoulder with a sword, is followed by the words \"I dub thee\" this",
+                    "answer": "Knight"
+                }
+            ]
+        },
+        {
+            "name": "THE NEW YORK TIMES CROSSWORD",
+            "questions": [
+                {
+                    "value": 200,
+                    "question": "Monday had a presidential theme; one clue was to this \"supply-side fiscal policy popularized in the 1980s\"",
+                    "answer": "Reaganomics"
+                },
+                {
+                    "value": 400,
+                    "question": "On Tuesday we had some hidden Bobs; you'll find Dylan in this \"classic board game with a peppermint forest\"",
+                    "answer": "Candy Land"
+                },
+                {
+                    "value": 600,
+                    "question": "On Wednesday you had to know compound words where each half could also have \"dead\" before it--there was airline, seahorse & this response to \"top on official stationery\"",
+                    "answer": "letterhead"
+                },
+                {
+                    "value": 800,
+                    "question": "On Thursday we rolled the D-I-C-E, as in these, \"racy books named after a Victorian garment\"",
+                    "answer": "bodice ripper"
+                },
+                {
+                    "value": 1000,
+                    "question": "On Friday there's no theme, so you just have to know this 10-letter \"TV host who followed Jimmy Fallon on late night\"",
+                    "answer": "Seth Meyers"
+                }
+            ]
+        }
+    ],
+    "final": {
+        "category": "AMERICANA",
+        "question": "While working for a plastics company, Don Featherstone created this iconic lawn decor, basing it on photos in National Geographic",
+        "answer": "A Pink Flamingo"
+    }
+}
