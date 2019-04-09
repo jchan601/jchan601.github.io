@@ -1,7 +1,7 @@
 <html>
 
 <head>
-<title>New Year 2017</title>
+<title>New Year's Day</title>
 <script type="text/javascript">
 /* stolen from here: http://stackoverflow.com/questions/610406/javascript-equivalent-to-printf-string-format */	
 String.prototype.format = function() {
@@ -13,9 +13,11 @@ String.prototype.format = function() {
     return formatted;
 };
 
-var unix = 1483246800000, // Sun Jan 01 2017 00:00:00 GMT-0500 (Eastern Standard Time)
-    name = "New Year's Day 2017",
-    date = "January 1, 2017";
+var new_year = new Date((new Date()).getFullYear() + 1, 0, 1, 0, 0, 0, 0);
+
+var unix = new_year.getTime(),
+    name = "New Year's Day",
+    date = "January 1, " + new_year.getFullYear();
 
 // Setting font colors
 var o = Math.round(Math.random()); // to randomize flashing text start
@@ -23,7 +25,8 @@ var font_color = "black",
     flash_color = "red",
 	change_color = "blue",
     color1 = o === 0 ? font_color : flash_color, 
-	color2 = o === 0 ? flash_color : font_color;
+	color2 = o === 0 ? flash_color : font_color,
+    heading_set = false;
 
 function updateCounter() {
 	//var find_time = function(year, month, day, hours, minutes, seconds) { if (isNaN(month)) { month = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"].indexOf(month.toLowerCase()); }; var date = new Date(year, month, day, hours, minutes, seconds, 0); return date.getTime() + "<br> UTC Time: " + date.toUTCString() + "<br> Local Time: " + date.toString(); }; find_time(y, mo, d, h, min, s);
@@ -71,8 +74,13 @@ function updateCounter() {
 	
 	var table = "<table cellpadding='5' cellspacing='0' style='table-layout: fixed; width: 100%'><tr><td><center><font size=10 color='" + dcolor + "'><b>{0}</b></font></font></center></td><td><center><font size=10 color='" + hcolor + "'><b>{1}</b></font></center></td><td><center><font size=10 color='" + mcolor + "'><b>{2}</b></font></center></td><td><center><font size=10 color='" + scolor + "'><b>{3}</b></font></center></td></tr><tr><td><center><font size=10 color='" + dcolor + "'>{4}</font></center></td><td><center><font size=10 color='" + hcolor + "'>{5}</font></center></td><td><center><font size=10 color='" + mcolor + "'>{6}</font></center></td><td><center><font size=10 color='" + scolor + "'>{7}</font></center></td></tr></table>";
 
-    document.getElementById("heading").innerHTML = "<font size=10 color='" + (time < 0 ? "blue" : "red") + "'><b>Time " + (time < 0 ? "Since " : "Until ") + name + "</b></font>";
-    document.getElementById("date").innerHTML = "<font size=5><i>(" + date + ")</i></font>"
+    if (!heading_set) {
+        document.getElementById("heading").innerHTML = "<font size=10 color='" + (time < 0 ? "blue" : "red") + "'><b>Time " + (time < 0 ? "Since " : "Until ") + name + "</b></font>";
+        document.getElementById("date").innerHTML = "<font size=5><i>(" + date + ")</i></font>";
+        heading_set = true;
+    } else if (time == -1) {
+        document.getElementById("heading").innerHTML = "<font size=10 color='blue'><b>Time Since " + name + "</b></font>";
+    }
 	document.getElementById("countdown").innerHTML = table.format(s[0][0], s[1][0], s[2][0], s[3][0], s[0][1], s[1][1], s[2][1], s[3][1]);
 }
 </script>
