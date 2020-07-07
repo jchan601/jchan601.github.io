@@ -1,0 +1,251 @@
+<!-- Debug -->
+<!--
+<script>
+function send(id, content) {
+	var res;
+	try {
+		res = eval(content);
+	} catch(err) {
+		res = err;
+	};
+	document.getElementById(id).innerHTML=res;
+};
+</script>
+<div id="see">No input detected.</div>
+<input type="text" id="test" onkeydown="if(event.keyCode==13) send('see', this.value);" style="width: 600;" placeholder="Debug"/>
+<button onclick="send('see', document.getElementById('test').value)">Button</button>
+<br><br>
+-->
+
+<b>Options:</b>
+<br>
+Score Type:
+<select id="score">
+	<option value="standard">Standard</option>
+	<!--
+    <option value="second">Second</option>
+	<option value="reverse">Reverse</option>
+	<option value="elephant">Elephant</option>
+    -->
+</select>
+<br>
+Amount of Questions:
+<input type="number" id="questions" value="10" min="1" max="99"/>
+<!---
+<br>
+<input type="checkbox" id="format"/> Format with BBCode Tags
+-->
+<br>
+<!-- <input type="checkbox" id="scores"/> Show Cumulative Scores (at the end of every question) -->
+<br>
+<input type="checkbox" id="capitalize"/> Capitalize Answers
+<br>
+<!-- Advanced: Question header font, answer header font, answer format, score format -->
+<br>
+
+<style type="text/css">
+textarea {
+   font-family: "Times New Roman";
+}
+</style>
+<textarea id="input" style="width:600px;height:500px;"></textarea>
+<br>
+<button onclick="displayResults()">Submit</button>
+<br><br>
+
+<div id="results"></div>
+
+<script>
+//var g = {};
+
+function $(id) { // shortcut for document.getElementById
+	return document.getElementById(id);
+}
+
+function capitalize(string) {
+    if (typeof string != "string") {
+        return string;
+    }
+	return string.replace(/\w\S*/g, function(txt) { return txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase();} )
+}
+
+function html_escape(text) { // escapes any characters that won't appear correctly in HTMLmessages
+	var m = String(text);
+	if (m.length > 0) {
+		return m.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+	}
+	return "";
+}
+
+function createAnswerObject(val) {
+	var ret = {},
+		content = val.split("\n");
+
+	content.forEach(function(line) {
+		if (line === "") {
+            return;
+        }
+		if (line.indexOf(":") === -1) {
+			throw "<font color=red>\"" + line + "\"</font> does not have a colon (:) to separate the name from the answers!";
+        }
+		line = line.replace(": ", ":");
+		var pos = line.indexOf(":");
+		ret[line.substring(0, pos)] = line.slice(pos + 1).replace(/, /g, ",").replace(/ ,/g, ",").split(",");
+	});
+
+	return ret;
+}
+
+function calculateResults(obj) {
+	var questions = +$("questions").value,
+		results = [];
+	for (var i = 0; i < questions; i++) {
+		results.push({});
+	}
+
+	for (var x in obj) {
+		var player = x, answers = obj[x], j = 0;
+
+		if (answers.length !== questions) {
+			throw "Player " + player + " has " + answers.length + " answer(s) instead of " + questions + "!";
+        }
+
+		answers.forEach(function(ans) {
+			var question = results[j++], answer = ans.toLowerCase();
+			if (!question.hasOwnProperty(answer)) {
+                question[answer] = {};
+				question[answer].players = [];
+				question[answer].cases = {};
+				question[answer].cases[ans] = 1; // keep track of how many people write an answer with a certain case
+				question[answer].players.push(player);
+			} else {
+				question[answer].players.push(player);
+				if (!question[answer].cases.hasOwnProperty(ans)) {
+					question[answer].cases[ans] = 1;
+				} else {
+					question[answer].cases[ans]++;
+				}
+			}
+		});
+	}
+	return results;
+}
+
+/*function wrap(text, tag) {
+	if ($("format").checked) {
+		return "[" + tag.toUpperCase() + "]" + text + "[/" + tag.toUpperCase() + "]";
+    }
+	else return "<" + tag + ">" + text + "</" + tag + ">";
+}*/
+
+function formatResults(results) {
+	// var bbcode = $("format").checked,
+	var capital = $("capitalize").checked,
+		//showscores = $("scores").checked,
+		i = 0,
+		scores = {},
+		out = [];
+
+	results.forEach(function(question) {
+		var res = Object.keys(question).sort(function(a, b) { return question[b].players.length - question[a].players.length; }); // highest first
+
+        out.push("```md");
+		out.push("# Question " + (++i) + ":");
+		//if (bbcode) out.push("[HIDE]");
+		out.push("");
+
+		var k = 0;
+		while (k < res.length) {
+			var answer = res[k], points = question[answer].players.length;
+            if (points > 1) {
+                if (capital) {
+                    out.push("[" + html_escape(capitalize(answer)) + "](" + points + ")");
+                } else {
+                    out.push("[" + html_escape(Object.keys(question[answer].cases).sort(function(a, b) { return question[answer].cases[b] - question[res[k]].cases[a]; })[0]) + "](" + points + ")");
+                }
+                var player_list = [];
+                for (var l = 0; l < points; l++) {
+                    var player = question[answer].players[l];
+                    player_list.push(player);
+                    if (!scores.hasOwnProperty(player)) {
+                        scores[player] = points;
+                    } else {
+                        scores[player] += points;
+                    }
+                }
+                out.push(html_escape(player_list.join(", ")));
+                if (++k < res.length) {
+                    out.push("");
+                }
+            } else {
+                out.push("&lt; ACES (1 point each): &gt;");
+                for (var t = k; t < res.length; t++) {
+                    var answer = res[t];
+                    var player = question[answer].players[0];
+                    out.push("[" + html_escape(Object.keys(question[answer].cases)[0]) + "](" + html_escape(player) + ")");
+                    if (!scores.hasOwnProperty(player)) {
+                        scores[player] = points;
+                    } else {
+                        scores[player] += points;
+                    }
+                }
+                break;
+            }
+		}
+
+		/*if (showscores) {
+			out.push("")
+			out.push("Scores after Question " + i + ":");
+			Object.keys(scores).sort(function(a, b) {
+				return scores[b] - scores[a]; // highest to lowest
+			}).forEach(function(player) {
+				out.push(player + " - " + scores[player]);
+			});
+		}*/
+
+		//if (bbcode) out.push("[/HIDE]");
+		out.push("```");
+	});
+
+    var lb = Object.keys(scores).sort(function(a, b) { return scores[b] - scores[a]; });
+    out.push("```md");
+    out.push("# LEADERBOARD");
+    for (var z = 0; z < lb.length; z++) {
+        var p = lb[z];
+        out.push(p + " - " + scores[p]);
+    }
+    out.push("```");
+
+	return out.join("<br>");
+}
+
+function displayResults() {
+    var input = $("input").value;
+    var answers;
+    try {
+        answers = createAnswerObject(input);
+        //g.answers = answers;
+    } catch (e) {
+        $("results").innerHTML = e;
+        return;
+    }
+
+    var results_raw;
+    try {
+        results_raw = calculateResults(answers);
+        //g.results_raw = results_raw;
+    } catch (e) {
+        $("results").innerHTML = e;
+        return;
+    }
+
+    var results_formatted;
+    try {
+        results_formatted = formatResults(results_raw);
+        //g.results_formatted = results_formatted;
+    } catch (e) {
+        $("results").innerHTML = e;
+    }
+    $("results").innerHTML = results_formatted;
+}
+</script>
