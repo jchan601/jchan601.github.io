@@ -2,8 +2,9 @@
 
 <head>
 <title>Timer</title>
+<script type="text/javascript" src="../purify.min.js"></script>
 <script type="text/javascript">
-/* stolen from here: http://stackoverflow.com/questions/610406/javascript-equivalent-to-printf-string-format */	
+/* stolen from here: http://stackoverflow.com/questions/610406/javascript-equivalent-to-printf-string-format */
 String.prototype.format = function() {
     var formatted = this;
     for (var i = 0; i < arguments.length; i++) {
@@ -29,7 +30,7 @@ var font_color = "black",
 function updateCounter() {
     //var find_time = function(year, month, day, hours, minutes, seconds) { if (isNaN(month)) { month = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"].indexOf(month.toLowerCase()); }; var date = new Date(year, month, day, hours, minutes, seconds, 0); return date.getTime() + "<br> UTC Time: " + date.toUTCString() + "<br> Local Time: " + date.toString(); }; find_time(y, mo, d, h, min, s);
     var time = Math.floor((unix - new Date().getTime()) / 1000);
-    
+
     var n, t = time < 0 ? -time : time, s = [], d = [[24*60*60, "DAY"], [60*60, "HOUR"], [60, "MINUTE"], [1, "SECOND"]];
 
     for (var i = 0; i < d.length; ++i) {
@@ -42,7 +43,7 @@ function updateCounter() {
             s.push([0, d[i][1] + "S"]);
         }
     }
-    
+
     var scolor = time % 2 === 0 ? color1 : color2; // for making seconds column flash
     var mcolor = font_color, hcolor = font_color, dcolor = font_color;
     if (time < 0) {
@@ -69,7 +70,7 @@ function updateCounter() {
             }
         }
     }
-    
+
     var table = "<table cellpadding='5' cellspacing='0' style='table-layout: fixed; width: 100%'><tr><td><center><font size=10 color='" + dcolor + "'><b>{0}</b></font></font></center></td><td><center><font size=10 color='" + hcolor + "'><b>{1}</b></font></center></td><td><center><font size=10 color='" + mcolor + "'><b>{2}</b></font></center></td><td><center><font size=10 color='" + scolor + "'><b>{3}</b></font></center></td></tr><tr><td><center><font size=10 color='" + dcolor + "'>{4}</font></center></td><td><center><font size=10 color='" + hcolor + "'>{5}</font></center></td><td><center><font size=10 color='" + mcolor + "'>{6}</font></center></td><td><center><font size=10 color='" + scolor + "'>{7}</font></center></td></tr></table>";
 
     if (!heading_set || time == -1) {
@@ -91,7 +92,7 @@ function onLoad() {
             unix = parseInt(info.time, 10);
         }
         if (info.hasOwnProperty("name")) {
-            name = info.name.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            name = DOMPurify.sanitize(info.name.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"));
             if (!info.hasOwnProperty("title")) {
                 document.title = info.name;
             }
@@ -100,17 +101,17 @@ function onLoad() {
             document.title = info.title;
         }
         if (info.hasOwnProperty("date")) {
-            date = info.date;
+            date = DOMPurify.sanitize(info.date);
             document.getElementById("date").innerHTML = "<font size=5><i>(" + date + ")</i></font>"
         }
         if (info.hasOwnProperty("font_color")) {
-            font_color = info.font_color;
+            font_color = DOMPurify.sanitize(info.font_color);
         }
         if (info.hasOwnProperty("flash_color")) {
-            flash_color = info.flash_color;
+            flash_color = DOMPurify.sanitize(info.flash_color);
         }
         if (info.hasOwnProperty("change_color")) {
-            change_color = info.change_color;
+            change_color = DOMPurify.sanitize(info.change_color);
         }
         color1 = o === 0 ? font_color : flash_color,
         color2 = o === 0 ? flash_color : font_color;

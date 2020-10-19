@@ -22,10 +22,10 @@ function send(id, content) {
 Score Type:
 <select id="score">
 	<option value="standard">Standard</option>
-	<!--
 	<option value="second">Second Best</option>
+	<!--
 	<option value="elephant">Elephant</option>
-	-->
+  -->
 </select>
 <br>
 Amount of Questions:
@@ -60,6 +60,7 @@ Each line should be a name followed by a colon followed by a list of answers sep
 
 <div id="results"></div>
 
+<script type="text/javascript" src="purify.min.js"></script>
 <script>
 // Fake enum for Sheep scoring methods
 const Scoring = {
@@ -92,12 +93,12 @@ function html_escape(text) {
 
 function createAnswerObject(val) {
 	let ret = {},
-			content = val.split('\n');
+		content = val.split('\n');
 
 	content.forEach(function(line) {
 		if (line === '') return;
 		if (line.indexOf(':') === -1) {
-			throw '<font color=red>""'+ html_escape(line) + '""</font> does not have a colon (:) to separate the name from the answers!';
+			throw '<font color=red>"' + html_escape(line) + '"</font> does not have a colon (:) to separate the name from the answers!';
     }
 		line = line.replace(': ', ':');
 		let pos = line.indexOf(':');
@@ -119,7 +120,7 @@ function createQuestionArray(val, opt) {
 
 function calculateResults(obj, opt) {
 	let qamount = opt.qamount,
-			results = [];
+		results = [];
 	for (let i = 0; i < qamount; i++) {
 		results.push({});
 	}
@@ -163,9 +164,9 @@ function calculateResults(obj, opt) {
 function formatResults(results, questions, opt) {
 	// let bbcode = $('format').checked,
 	let capital = opt.capitalize,
-			i = 0,
-			scores = {},
-			out = [];
+		i = 0,
+		scores = {},
+		out = [];
 
 	results.forEach(function(question) {
 		// Put players with highest scores first
@@ -174,7 +175,7 @@ function formatResults(results, questions, opt) {
 					return question[b].players.length - question[a].players.length;
 				});
 
-    out.push('```md');
+		out.push('```md');
 		out.push('# Question ' + (i + 1) + ': ' + questions[i]);
 		//if (bbcode) out.push('[HIDE]');
 		out.push('');
@@ -187,15 +188,15 @@ function formatResults(results, questions, opt) {
                 if (capital) {
                     out.push('[' + html_escape(capitalize(answer)) + '](' + points + ')');
                 } else {
-                    out.push('[' +
-											html_escape(
-												Object.keys(question[answer].cases)
-													.sort(function(a, b) {
-														return question[answer].cases[b] - question[res[k]].cases[a];
-													})[0]
-											) +
-											'](' + points + ')'
-										);
+                  out.push('[' +
+										html_escape(
+											Object.keys(question[answer].cases)
+												.sort(function(a, b) {
+													return question[answer].cases[b] - question[res[k]].cases[a];
+												})[0]
+										) +
+										'](' + points + ')'
+									);
                 }
                 let player_list = [];
                 for (let l = 0; l < points; l++) {
@@ -252,7 +253,7 @@ function displayResults() {
 
   let answers, questions;
   try {
-      answers = createAnswerObject($('input').value);
+			answers = createAnswerObject($('input').value);
 			questions = createQuestionArray($('questions').value, opt);
       //document.answers = answers;
   } catch (error) {
@@ -276,6 +277,6 @@ function displayResults() {
   } catch (error) {
       $('results').innerHTML = error;
   }
-  $('results').innerHTML = results_formatted;
+  $('results').innerHTML = DOMPurify.sanitize(results_formatted);
 }
 </script>

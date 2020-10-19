@@ -1,0 +1,151 @@
+<body>
+  <b>Enter Data Here:</b>
+  <br>
+  <textarea id="input" style="width:600px;height:400px;"></textarea>
+  <br><br>
+  <b>Enter File Name Here:</b>
+  <br>
+  <input type="text" id="fileName"/>
+  <br><br>
+  <input type="checkbox" id="jsonp"/>I plan on using the "Load From URL" feature on <a href=".">this page</a>
+  <br><br>
+  <button onclick="convertToJSON()">Create JSON File</button>
+  <br><br>
+  <div id="error"></div>
+</body>
+
+<script>
+// Stolen from https://stackoverflow.com/a/33542499
+function createFile(filename, data, mimeType) {
+  let blob = new Blob([data], { type: mimeType });
+  if (window.navigator.msSaveOrOpenBlob) {
+    window.navigator.msSaveBlob(blob, filename);
+  } else {
+    let elem = window.document.createElement('a');
+    elem.href = window.URL.createObjectURL(blob, { oneTimeOnly: true });
+    elem.download = filename;
+    document.body.appendChild(elem);
+    elem.click();
+    document.body.removeChild(elem);
+    window.URL.revokeObjectURL(blob);
+  }
+}
+
+let configAttributes = {
+  timer: 'number',
+  randDailyDouble: 'number'
+};
+function createJeopardyObject(input) {
+  let gameData = {
+    categories: []
+  };
+  let categoryInput = input;
+
+  // Configuration data would come before *****, question data is after
+  // Having the configurations data is optional
+  if (input.indexOf('\n*****\n') !== -1) {
+    let data = categoryInput.split('\n*****\n');
+    categoryInput = data[1];
+
+    let configData = data[0].split('\n').filter(line => line !== '');
+    for (let i = 0; i < configData.length; i++) {
+      let pair = configData[i];
+      let e = pair.indexOf('=');
+      if (e === -1) {
+        throw 'Configuration data is missing a "=". Correct usage is key=value';
+      }
+      let key = pair.substring(0, e).trim().toLowerCase();
+      if (e === pair.length - 1) {
+        throw `Configuration data for ${key} is missing a value. Correct usage is key=value`;
+      }
+      if (!configAttributes.hasOwnProperty(key)) {
+        throw `"${key}" is not a recognized configuration value`;
+      }
+      let value = pair.substring(e + 1).trim();
+      if (configAttributes[key] === 'number') {
+        if (isNaN(value)) {
+          throw `Value "${value}" for ${key} is not valid. ${value} must be a number`;
+        } else {
+          gameData[key] = parseInt(value, 10);
+        }
+      } else {
+        gameData[key] = value;
+      }
+    }
+  }
+
+  // Final Jeopardy! question comes after +++++, other questions before
+  // Having a Final Jeopardy! question is optional
+  if (categoryInput.indexOf('\n+++++\n') !== -1) {
+    let data = categoryInput.split('\n+++++\n');
+    categoryInput = data[0];
+
+    let finalData = data[1].split('\n').filter(line => line !== '');
+    if (finalData.length != 3) {
+      throw 'Could not parse "Final Jeopardy!" data. "Final Jeopardy!" data must have 3 lines: 1st line should be the category, 2nd line should be the question, 3rd line should be the answer';
+    } else {
+      gameData.final = {
+        category: finalData[0],
+        question: finalData[1],
+        answer: finalData[2]
+      }
+    }
+  }
+
+  let categoryData = categoryInput.split('-----\n').filter(line => line !== '');
+  for (let i = 0; i < categoryData.length; i++) {
+    let questionData = categoryData[i].split('\n\n'); // The category's questions are separated by 2 newlines
+    if (questionData.length < 2) {
+      throw `Category ${i + 1} must have at least 1 question. 1st line of category should be its name, followed by 2 newlines (hint Enter twice), followed by the category's questions; each question is separated by two newlines`;
+    }
+    if (questionData[0].indexOf('\n') !== -1) {
+      throw `Category ${i + 1} (${JSON.stringify(questionData[0])}) has newlines (Categories should not have newlines). Use the &lt;br&gt; tag instead if necessary`;
+    }
+    let category = {
+      name: questionData[0], // First line in a category should be its name
+      questions: []
+    };
+    for (let j = 1; j < questionData.length; j++) {
+      let question = questionData[j].split('\n').filter(line => line !== '');
+      if (question.length !== 3 && question.length !== 4) {
+        throw `Could not parse data for Question ${j + 1} of Category ${i + 1} (${category.name}). Each question must have 3 or 4 lines: 1st line value, 2nd line should be the question, 3rd line should be the answer, 4th line (optional) is whether the question is a Daily Double`;
+      }
+      let q = {
+        value: parseInt(question[0], 10),
+        question: question[1],
+        answer: question[2]
+      };
+      if (question.length === 4 && question[3].toLowerCase() === '$dailydouble') {
+        q.dailyDouble = true;
+      }
+      category.questions.push(q);
+    }
+    gameData.categories.push(category);
+  }
+
+  return gameData;
+}
+
+function convertToJSON() {
+  let input = document.getElementById('input').value;
+  let gameData;
+  try {
+    gameData = createJeopardyObject(input);
+    document.getElementById('error').innerHTML = '';
+  } catch (error) {
+    document.getElementById('error').innerHTML = `<font color="red"><b>Error:</b> ${error}</font>`;
+    return;
+  }
+
+  let jsonp = document.getElementById('jsonp').checked;
+
+  let fileName = document.getElementById('fileName').value;
+  if (fileName === '') {
+    fileName = jsonp ? 'jeopardy.js' : 'jeopardy.json';
+  }
+  let data = jsonp ? 'parseResponse(' + JSON.stringify(gameData, null, 4) + ')' : JSON.stringify(gameData, null, 4);
+  let mimeType = jsonp ? 'application/javascript' : 'application/json';
+
+  createFile(fileName, data, mimeType);
+}
+</script>

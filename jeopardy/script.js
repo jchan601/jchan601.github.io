@@ -1,5 +1,3 @@
-// Use node-fetch?
-
 var currentMode = null,
     time = null,
     clock = 0,
@@ -12,10 +10,12 @@ var currentMode = null,
     finalWagers = [],
     jeopardy = {},
     alphabet = "abcdefghijklmnopqrstuvwxyz",
+    loaded = false,
     colors = ["#00FFFF", "#00FF00", "#FF00FF", "#ADD8E6", "#C0C0C0", "#95B9C7", "#6698FF", "#CDFFFF", "#ADDFFF", "#7FFFD4", "#52D017", "#99C68E", "#7FE817", "#5EFB6E", "#8AFB17", "#CCFB5D", "#B1FB17", "#FFFF00", "#FFF380", "#FFE87C", "#EDDA74", "#F5F5DC", "#FFDB58", "#FFD801", "#FDD017", "#E9AB17", "#FFA62F", "#FFCBA4", "#E8A317", "#D4A017", "#FFA500", "#F87217", "#FF8040", "#F9966B", "#FF7F50", "#FF0000", "#E77471", "#E8ADAA", "#FCDFFF", "#FAAFBE", "#F778A1", "#F660AB", "#F52887", "#F433FF", "#A74AC7", "#8E35EF", "#8467D7", "#C45AEC", "#E238EC", "#E9CFEC", "#E3E4FA", "#FEFCFF", "#FFFFFF"],
     defaultJeopardy = {"timer":20,"categories":[{"name":"FILL IN THE BLANK CANVAS","questions":[{"value":200,"question":"Van Gogh's \"Self-Portrait with Pipe and Bandaged ____\"","answer":"Ear"},{"value":400,"question":"Jonathan Buttall is thought to be Gainsborough's model for \"The ____ Boy\"","answer":"Blue"},{"value":600,"question":"Seurat got to the point in \"A ____ Afternoon on the Island of La Grande Jatte\"","answer":"Sunday"},{"value":800,"question":"Duchamp caused a scandal with his \"Nude Descending a ____, No. 2\"","answer":"Staircase"},{"value":1000,"question":"Dali gave it a name that stuck: \"The Persistence of ____\"","answer":"Memory"}]},{"name":"MOVIE CAMEOS","questions":[{"value":200,"question":"Dan Patrick's good friend Adam Sandler has cast Patrick in 9 of his films, including \"Grown Ups 2\" in which Patrick played a gym teacher dressed as this 1980s Celtics legend","answer":"Larry Bird"},{"value":400,"question":"In \"Twilight\" this author has a cameo as a customer in a diner with a veggie plate","answer":"Stephenie Meyer"},{"value":600,"question":"Well, Al Michaels didn't win an Oscar playing myself in this 1996 movie but Cuba Gooding Jr. did for his performance as a wide receiver for the Cardinals","answer":"<i>Jerry Maguire</i>"},{"value":800,"question":"Julia Roberts played this title crusader in a 2000 film while the real woman had a cameo as a waitress","answer":"Erin Brockovich"},{"value":1000,"question":"From \"Rebecca\" on, this director appeared in all of his films; he sat next to Cary Grant on a bus in \"To Catch a Thief\"","answer":"Alfred Hitchcock"}]},{"name":"ANAGRAMMED FORMER WORLD LEADERS","questions":[{"value":200,"question":"A sari wearer:<br/>HI, GRAND INDIA!","answer":"Indira Gandhi"},{"value":400,"question":"In Italy:<br/>VIRILE SLOB COUSIN","answer":"Silvio Berlusconi"},{"value":600,"question":"Uh oh! Panama!:<br/>GENUINE AMORAL","answer":"Manuel Noriega"},{"value":800,"question":"He Laboured over Britain:<br/>BRAINY LOT","answer":"Tony Blair"},{"value":1000,"question":"Late Israeli leader:<br/>SOLAR HERNIA","answer":"Ariel Sharon"}]},{"name":"NUT-TRITION","questions":[{"value":200,"question":"Almonds are an excellent source of fiber & this bone-building element--got milk?","answer":"Calcium"},{"value":400,"question":"These biggies from the Amazon basin have many health benefits, but with their high selenium content, too many can be harmful","answer":"Brazil Nuts"},{"value":600,"question":"A key ingredient in pesto, these nuts are an excellent source of vitamin E","answer":"Pine Nuts"},{"value":800,"question":"Pistachios get their green color mostly from lutein, which is essential to this one of the 5 senses","answer":"Vision"},{"value":1000,"question":"Have some hazelnuts before bed; they're high in this sleep-aiding amino acid that's also found in turkey","answer":"Tryptophan"}]},{"name":"CEREMONIES","questions":[{"value":200,"question":"This Christian sacrament, a holy ceremony, is also called Eucharist","answer":"communion"},{"value":400,"question":"A ceremony on November 19, 1863 dedicated a cemetery in this town","answer":"Gettysburg","dailyDouble":true},{"value":600,"question":"Vice presidents are often sent to this type of ceremony overseas; Al Gore attended Mitterrand's in 1996","answer":"Funerals"},{"value":800,"question":"Giant scissors are mainly used for this type of ceremony at the grand opening of a new facility","answer":"Ribbon Cutting"},{"value":1000,"question":"An accolade, a ceremonial tap on the shoulder with a sword, is followed by the words \"I dub thee\" this","answer":"Knight"}]},{"name":"THE NEW YORK TIMES CROSSWORD","questions":[{"value":200,"question":"Monday had a presidential theme; one clue was to this \"supply-side fiscal policy popularized in the 1980s\"","answer":"Reaganomics"},{"value":400,"question":"On Tuesday we had some hidden Bobs; you'll find Dylan in this \"classic board game with a peppermint forest\"","answer":"Candy Land"},{"value":600,"question":"On Wednesday you had to know compound words where each half could also have \"dead\" before it--there was airline, seahorse & this response to \"top on official stationery\"","answer":"letterhead"},{"value":800,"question":"On Thursday we rolled the D-I-C-E, as in these, \"racy books named after a Victorian garment\"","answer":"bodice ripper"},{"value":1000,"question":"On Friday there's no theme, so you just have to know this 10-letter \"TV host who followed Jimmy Fallon on late night\"","answer":"Seth Meyers"}]}],"final":{"category":"AMERICANA","question":"While working for a plastics company, Don Featherstone created this iconic lawn decor, basing it on photos in National Geographic","answer":"A Pink Flamingo"}};
-    
+
 // Shamelessly stolen from http://stackoverflow.com/questions/610406/javascript-equivalent-to-printf-string-format
+// Can use template strings with `` instead since ES6...
 String.prototype.format = function() {
     var formatted = this;
     for (var i = 0; i < arguments.length; i++) {
@@ -61,7 +61,7 @@ function setWager(id) {
 function handleDailyDouble(id) {
     var category = jeopardy.categories[Math.floor(id / 10)],
         question = category.questions[id % 10];
-    $("display").innerHTML = "<table style='width:100%; height:90%' class='game'><th><img src='daily_double.png' onclick='setWager(" + id + ")'/><br/><br/><font color='#E5915C' size=5>Enter Wager:&nbsp;$&nbsp;</font><input type='number' id='dailyDouble' step='100' min='0' max='17800' value='" + question.value + "'/></th></table>";
+    $("display").innerHTML = "<table style='width:100%; height:90%' class='game'><th><img src='daily_double.png' onclick='setWager(" + id + ")'/><br/><br/><font color='#E5915C' size=5>Enter Wager:&nbsp;$&nbsp;</font><input type='number' id='dailyDouble' step='100' min='0' max='17800' value='" + DOMPurify.sanitize(question.value) + "'/></th></table>";
 }
 
 function startTimer() {
@@ -117,9 +117,9 @@ function showQuestion(id) {
         return;
     }
     if (!question.hasOwnProperty("choices") && !Array.isArray(question.choices)) {
-        out.push("<center><strong><font color='#FFF2C6' size=7>" + question.question + "</font></strong></center>");
+        out.push("<center><strong><font color='#FFF2C6' size=7>" + DOMPurify.sanitize(question.question) + "</font></strong></center>");
     } else {
-        out.push("<strong><font color='#FFF2C6' size=7>" + question.question + "</font></strong><br/>");
+        out.push("<strong><font color='#FFF2C6' size=7>" + DOMPurify.sanitize(question.question) + "</font></strong><br/>");
         /*var size = 6, string = "";
         if (question.choices.join("").length > 56 * question.choices.length - 10) {
             size = 6;
@@ -165,7 +165,7 @@ function addPoints(team) {
     if (currentMode === "answer") {
         teams[team].points += pointsAdd;
         updateScoreBoard();
-        createJeopardyBoard();
+        // createJeopardyBoard();
     } else if (currentMode === "final_answer") {
         teams[team].points += finalWagers[team] * pointsAdd;
         updateScoreBoard();
@@ -188,7 +188,7 @@ function showAnswer(id) {
             out.push(alphabet[i] + ". ");
         }
     }
-    out.push(answer + "</font></strong></center></td></tr>");
+    out.push(DOMPurify.sanitize(answer) + "</font></strong></center></td></tr>");
     out.push("<tr><th onclick='editPoints(" + id + ", \"+\")'><font color='green' size=5><b>+</b></font></th>");
     out.push("<th onclick='editPoints(" + id + ", \"-\")'><font color='red' size=5><b>&#8210;</b></font></th></tr>"); // Dash
     out.push("</table>");
@@ -281,11 +281,11 @@ function handleFinalJeopardy(num) {
         case 2:
             currentMode = "final_question";
             setFinalWagers();
-            $("display").innerHTML = out.format(onclick, question.question, "");
+            $("display").innerHTML = out.format(onclick, DOMPurify.sanitize(question.question), "");
             break;
         case 3:
             currentMode = "final_answer";
-            $("display").innerHTML =  out.format(onclick, question.answer, "<tr><th onclick='editPoints(\"final\", \"+\")'><font color='green' size=5><b>+</b></font></th><th onclick='editPoints(\"final\", \"-\")'><font color='red' size=5><b>&#8210;</b></font></th></tr>");
+            $("display").innerHTML =  out.format(onclick, DOMPurify.sanitize(question.answer), "<tr><th onclick='editPoints(\"final\", \"+\")'><font color='green' size=5><b>+</b></font></th><th onclick='editPoints(\"final\", \"-\")'><font color='red' size=5><b>&#8210;</b></font></th></tr>");
             break;
         default:
             end();
@@ -293,7 +293,7 @@ function handleFinalJeopardy(num) {
 }
 
 function nextRound() {
-    if (jeopardy.hasOwnProperty("final") && typeof currentMode === "string" && currentMode.indexOf("final") === -1) { 
+    if (jeopardy.hasOwnProperty("final") && typeof currentMode === "string" && currentMode.indexOf("final") === -1) {
         handleFinalJeopardy(0);
     } else {
         end();
@@ -337,7 +337,7 @@ function back() {
             break;
         case "end":
         case "final_answer_display":
-            if (jeopardy.hasOwnProperty("final")) { 
+            if (jeopardy.hasOwnProperty("final")) {
                 handleFinalJeopardy(3);
             } else {
                 showAnswer(lastQ);
@@ -377,7 +377,7 @@ function createJeopardyBoard() {
                 break;
             }
         }
-        out.push("<th style='width:" + width + "%'><font color='" + color + "' size=" + size + ">" + name + "</font></th>");
+        out.push("<th style='width:" + width + "%'><font color='" + color + "' size=" + size + ">" + DOMPurify.sanitize(name) + "</font></th>");
     }
     out.push("</tr>");
     for (var i = 0; i < categories[0].questions.length; i++) { // each category should have the same amount of questions
@@ -386,7 +386,7 @@ function createJeopardyBoard() {
             var id = j * 10 + i,
                 value = categories[j].questions[i].value,
                 color = usedQs.indexOf(id) !== -1 ? "#0A1186" : "#E5915C";
-            out.push("<th onclick='showQuestion(" + id + ")'><font color='" + color + "' size=10>$" + value + "</font></th>");
+            out.push("<th onclick='showQuestion(" + id + ")'><font color='" + color + "' size=10>$" + DOMPurify.sanitize(value) + "</font></th>");
         }
         out.push("</tr>");
     }
@@ -401,15 +401,17 @@ function updateScoreBoard() {
         if (team.color === "#000000") {
             team.color = colors[rand(0, colors.length)];
         }
-        out.push("<th onclick='addPoints(" + i + ")'><font color='" + team.color + "'>" + team.name + "</font></th>");
+        out.push("<th onclick='addPoints(" + i + ")'><font color='" + DOMPurify.sanitize(team.color) + "'>" + DOMPurify.sanitize(team.name) + "</font></th>");
     }
     out.push("<th style='width:15%' rowspan=2>");
     out.push("<a href='javascript:;' style='color:#E5915C' onclick='back()'>Back</a> &nbsp;&nbsp;&nbsp;");
     out.push("<a href='javascript:;' style='color:#E5915C' onclick='nextRound()'>Skip</a> &nbsp;&nbsp;&nbsp;");
-    out.push("<a href='javascript:;' style='color:#E5915C' onclick='end()'>End</a><br/>");
-    out.push("<a href='javascript:;' style='color:#E5915C' onclick='editTeams()'>Edit</a> &nbsp;");
-    out.push("<a href='javascript:;' style='color:#E5915C' onclick='display()'>Display</a> &nbsp;")
-    out.push("<a href='javascript:;' style='color:#E5915C' onclick='test_eval()'>Eval</a></th></tr><tr>");
+    out.push("<br>");
+    out.push("<a href='javascript:;' style='color:#E5915C' onclick='end()'>End</a> &nbsp;&nbsp;&nbsp;&nbsp;");
+    out.push("<a href='javascript:;' style='color:#E5915C' onclick='editTeams()'>Edit</a> &nbsp;&nbsp;&nbsp;");
+    //out.push("<a href='javascript:;' style='color:#E5915C' onclick='display()'>Display</a> &nbsp;")
+    //out.push("<a href='javascript:;' style='color:#E5915C' onclick='test_eval()'>Eval</a>");
+    out.push("</th></tr><tr>");
     for (var i = 0; i < teams.length; i++) {
         var color = teams[i].points < 0 ? "#FF0000" : "#DBFEF8";
         out.push("<td><center><font color='" + color + "'>" + teams[i].points + "</font></center></td>");
@@ -451,7 +453,7 @@ function editTeams() {
         for (var i = 0; i < teams.length; i++) {
             var team = teams[i],
                 name, color,
-                input = $("team" + i).value, 
+                input = $("team" + i).value,
                 points = parseInt($("points" + i).value, 10);
             var lastIndex = input.lastIndexOf(" | ");
             if (lastIndex !== -1) {
@@ -463,10 +465,10 @@ function editTeams() {
             }
             if (team.name !== name) {
                 team.name = name;
-            } 
+            }
             if (color && team.color !== color) {
                 team.color = color;
-            } 
+            }
             if (team.points !== points) {
                 team.points = points;
             }
@@ -513,7 +515,7 @@ function display() {
         currentMode += "_display";
     }
     var text = prompt("Enter text to display", "");
-    $("display").innerHTML = "<table style='width:100%; height:90%' class='game'><tr style='height:90%'><td colspan=2 onclick='back()'><center><strong><font color='#FFF2C6' size=7>" + text + "</font></strong></center></td></tr></table>";
+    $("display").innerHTML = "<table style='width:100%; height:90%' class='game'><tr style='height:90%'><td colspan=2 onclick='back()'><center><strong><font color='#FFF2C6' size=7>" + DOMPurify.sanitize(text) + "</font></strong></center></td></tr></table>";
 }
 
 function initJeopardy() {
@@ -546,48 +548,36 @@ function initJeopardy() {
     }
 }
 
-function loadJeopardy(type, data) {
+function parseResponse(obj) {
+    loaded = true;
+    jeopardy = obj;
+    initJeopardy();
+}
+
+function loadJeopardy(type) {
     if (type === "default") {
         jeopardy = defaultJeopardy;
         initJeopardy();
     } else if (type === "url") {
-        var url = data ? data : encodeURI($("url").value);
-        if (url.substring(0, 7).toLowerCase() !== "http://" && url.substring(0, 8).toLowerCase() !== "https://") {
-            url = "https://raw.githubusercontent.com/justinc646/justinc646.github.io/master/jeopardy/games/" + url;
-            if (url.slice(url.lastIndexOf("/")).indexOf(".") === -1) {
-                url += ".json";
-            }
+        // Stolen from https://www.geeksforgeeks.org/javascript-jsonp/ and https://stackoverflow.com/a/44325793
+        let scriptElement = document.createElement("script");
+      	scriptElement.setAttribute("src", $("url").value + "?callback=parseResponse");
+      	scriptElement.setAttribute("id", "jsonp");
+
+        let onError = () => alert(`Error: Couldn't load from ${$("url").value}`);
+        let onLoad = () => { if (!loaded) { alert("Error: Couldn't parse data. Make sure to use JSONP. If using plain JSON, add \"parseResponse(\" before the JSON data and \")\" after the data"); } };
+        scriptElement.setAttribute("onError", onError);
+        scriptElement.setAttribute("onload", onLoad);
+        scriptElement.addEventListener("error", onError);
+        scriptElement.addEventListener("load", onLoad);
+
+      	let oldScriptElement = document.getElementById("jsonp");
+      	let head = document.getElementsByTagName("head")[0];
+      	if (oldScriptElement == null) {
+            head.appendChild(scriptElement);
         } else {
-            url = "https://cors-anywhere.herokuapp.com/" + url;
+            head.replaceChild(scriptElement, oldScriptElement);
         }
-        var xhr = new XMLHttpRequest();
-        if ("withCredentials" in xhr){
-            xhr.open('GET', url, true);
-        } else if (typeof XDomainRequest != "undefined"){
-            xhr = new XDomainRequest();
-            xhr.open('GET', url);
-        } else {
-            alert("Error: CORS is not supported on this browser, cannot load URL");
-            return;
-        }
-        xhr.onload = function() {
-            var resp = xhr.responseText;
-            if (resp === "") {
-                alert("Error: Couldn't retrieve data from URL");
-                return;
-            }
-            try {
-                jeopardy = JSON.parse(resp);
-                initJeopardy();
-            } catch (e) {
-                alert("Error: Couldn't parse JSON string")
-                return;
-            }
-        };
-        xhr.onerror = function() {
-            alert("Error: Couldn't access URL");
-        };
-        xhr.send();
     } else if (type === "file") {
         if (typeof window.FileReader !== "function") {
             alert("Error: File could not be read because the file API isn't supported on this browser yet.");
@@ -595,8 +585,13 @@ function loadJeopardy(type, data) {
             var file = $("file").files[0];
             var fr = new FileReader();
             fr.onload = function() {
+                let json = fr.result;
+                // Remove parseResponse() in case the file generated by the text-to-json page was incorrectly saved as jsonp
+                if (json.substring(0, 14) === "parseResponse(" && json[json.length - 1] === ")") {
+                  json = json.substring(14, json.length - 1);
+                }
                 try {
-                    jeopardy = JSON.parse(fr.result);
+                    jeopardy = JSON.parse(json);
                     initJeopardy();
                 } catch (e) {
                     alert("Error: Couldn't parse JSON string")
@@ -609,23 +604,9 @@ function loadJeopardy(type, data) {
 }
 
 function onLoad() {
-    for (var x = 0; x < 3; x++) {
-        addTeam();
-    }
-    $("display").innerHTML = "<table style='width:100%; height:90%' class='game'><tr style='height:90%'><td colspan=2><center><strong><font color='#FDE151' size=7>JEOPARDY!</font><br/><br/><a href='javascript:;' style='color:#E5915C; font-size:1.67em;' onclick='loadJeopardy(\"default\")'>Load Default</a><br/><br/><font color='#E5915C' size=5>Load from URL:</font> <input type='url' id='url'/></font> <button onclick='loadJeopardy(\"url\")'>Submit</button><br/><br/><font color='#E5915C' size=5>Load from File:</font> <input type='file' id='file' style='background-color: #1B26EE; color: white;' accept='.txt,.json'/></font> <button onclick='loadJeopardy(\"file\")'>Submit</button></strong></center></td></tr></table>";
-    updateScoreBoard();
-	if (location.search !== "") {
-		var args = decodeURIComponent(location.search.substr(1)).split("&");
-		var obj = {};
-		for (var i = 0; i < args.length; i++) {
-            var params = args[i];
-            var pos = params.indexOf("=");
-            var key = params.substring(0, pos);
-            var value = params.substr(pos + 1);
-			obj[key] = value;
-		}
-        if (obj.hasOwnProperty("url")) {
-            loadJeopardy("url", obj.url);
-        }
-    }
+  for (var x = 0; x < 3; x++) {
+      addTeam();
+  }
+  $("display").innerHTML = "<table style='width:100%; height:90%' class='game'><tr style='height:90%'><td colspan=2><center><strong><font color='#FDE151' size=7>JEOPARDY!</font><br/><br/><a href='javascript:;' style='color:#E5915C; font-size:1.67em;' onclick='loadJeopardy(\"default\")'>Load Default</a><br/><br/><font color='#E5915C' size=5>Load From URL:</font> <input type='url' id='url'/></font> <button onclick='loadJeopardy(\"url\")'>Submit</button><br/><br/><font color='#E5915C' size=5>Load From File:</font> <input type='file' id='file' style='background-color: #1B26EE; color: white;' accept='.txt,.json'/></font> <button onclick='loadJeopardy(\"file\")'>Submit</button></strong></center></td></tr></table>";
+  updateScoreBoard();
 }
