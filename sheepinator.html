@@ -82,7 +82,7 @@ function capitalize(string) {
 	return string.replace(/\w\S*/g, function(txt) { return txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase();} )
 }
 
-// escapes any characters that won't appear correctly in HTMLmessages
+// escapes any characters that won't appear correctly in HTML messages
 function html_escape(text) {
 	let m = String(text);
 	if (m.length > 0) {
@@ -170,10 +170,12 @@ function formatResults(results, questions, opt) {
 
 	results.forEach(function(question) {
 		// Put players with highest scores first
-		let res = Object.keys(question)
-				.sort(function(a, b) {
-					return question[b].players.length - question[a].players.length;
-				});
+		let res = Object.keys(question).sort((a, b) => question[b].players.length - question[a].players.length);
+
+		let maxScore, invalids = [];
+		if (opt.scoring === Scoring.SECOND) {
+			maxScore = question[res[0]].players.length;
+		}
 
 		out.push('```md');
 		out.push('# Question ' + (i + 1) + ': ' + questions[i]);
@@ -184,62 +186,90 @@ function formatResults(results, questions, opt) {
 		let k = 0;
 		while (k < res.length) {
 			let answer = res[k], points = question[answer].players.length;
-            if (points > 1) {
-                if (capital) {
-                    out.push('[' + html_escape(capitalize(answer)) + '](' + points + ')');
-                } else {
-                  out.push('[' +
-										html_escape(
-											Object.keys(question[answer].cases)
-												.sort(function(a, b) {
-													return question[answer].cases[b] - question[res[k]].cases[a];
-												})[0]
-										) +
-										'](' + points + ')'
-									);
-                }
-                let player_list = [];
-                for (let l = 0; l < points; l++) {
-                    let player = question[answer].players[l];
-                    player_list.push(player);
-                    if (!scores.hasOwnProperty(player)) {
-                        scores[player] = points;
-                    } else {
-                        scores[player] += points;
-                    }
-                }
-                out.push(html_escape(player_list.join(', ')));
-                if (++k < res.length) {
-                    out.push('');
-                }
-            } else {
-                out.push('&lt; ACES (1 point each): &gt;');
-                for (let t = k; t < res.length; t++) {
-                    let answer = res[t];
-                    let player = question[answer].players[0];
-                    out.push('[' + html_escape(Object.keys(question[answer].cases)[0]) + '](' + html_escape(player) + ')');
-                    if (!scores.hasOwnProperty(player)) {
-                        scores[player] = points;
-                    } else {
-                        scores[player] += points;
-                    }
-                }
-                break;
-            }
+			if (opt.scoring === Scoring.SECOND && points === maxScore) {
+				invalids.push(answer);
+				k++;
+			} else if (points > 1) {
+        if (capital) {
+          out.push('[' + html_escape(capitalize(answer)) + '](' + points + ')');
+        } else {
+          out.push('[' +
+						html_escape(
+							Object.keys(question[answer].cases)
+								.sort(function(a, b) {
+										return question[answer].cases[b] - question[answer].cases[a];
+								})[0]
+						) +
+						'](' + points + ')'
+					);
+        }
+        let player_list = [];
+        for (let l = 0; l < points; l++) {
+          let player = question[answer].players[l];
+          player_list.push(player);
+          if (!scores.hasOwnProperty(player)) {
+            scores[player] = points;
+          } else {
+            scores[player] += points;
+          }
+        }
+        out.push(html_escape(player_list.join(', ')));
+        if (++k < res.length) {
+          out.push('');
+        }
+      } else {
+        out.push('&lt; ACES (1 point each): &gt;');
+        for (let t = k; t < res.length; t++) {
+          let answer = res[t];
+          let player = question[answer].players[0];
+					out.push('[' + html_escape(Object.keys(question[answer].cases)[0]) + '](' + html_escape(player) + ')');
+          if (!scores.hasOwnProperty(player)) {
+            scores[player] = points;
+          } else {
+            scores[player] += points;
+          }
+        }
+        break;
+      }
+		}
+
+		if (opt.scoring === Scoring.SECOND && invalids.length > 0) {
+			if (out[out.length - 1] !== '') {
+				out.push('');
+			}
+			out.push('&lt; INVALIDS (0 points): &gt;');
+			for (let u = 0; u < invalids.length; u++) {
+				let answer = invalids[u];
+				let players = question[answer].players;
+				out.push('[' +
+					html_escape(
+						Object.keys(question[answer].cases)
+							.sort(function(a, b) {
+									return question[answer].cases[b] - question[answer].cases[a];
+							})[0]
+						) + '](0)'
+				);
+				out.push(players.join(', '));
+				for (let v = 0; v < players.length; v++) {
+					if (!scores.hasOwnProperty(players[v])) {
+            scores[players[v]] = 0;
+          }
+				}
+			}
 		}
 
 		//if (bbcode) out.push('[/HIDE]');
 		out.push('```');
 	});
 
-    let lb = Object.keys(scores).sort(function(a, b) { return scores[b] - scores[a]; });
-    out.push('```md');
-    out.push('# LEADERBOARD');
-    for (let z = 0; z < lb.length; z++) {
-        let p = lb[z];
-        out.push(p + ' - ' + scores[p]);
-    }
-    out.push('```');
+  let lb = Object.keys(scores).sort(function(a, b) { return scores[b] - scores[a]; });
+  out.push('```md');
+  out.push('# LEADERBOARD');
+  for (let z = 0; z < lb.length; z++) {
+    let p = lb[z];
+    out.push(p + ' - ' + scores[p]);
+  }
+  out.push('```');
 
 	return out.join('<br>');
 }
@@ -253,30 +283,30 @@ function displayResults() {
 
   let answers, questions;
   try {
-			answers = createAnswerObject($('input').value);
-			questions = createQuestionArray($('questions').value, opt);
-      //document.answers = answers;
+		answers = createAnswerObject($('input').value);
+		questions = createQuestionArray($('questions').value, opt);
+    //document.answers = answers;
   } catch (error) {
-      $('results').innerHTML = error;
-      return;
+    $('results').innerHTML = error;
+    return;
   }
 
   let results_raw;
   try {
-      results_raw = calculateResults(answers, opt);
-      //document.results_raw = results_raw;
+    results_raw = calculateResults(answers, opt);
+    //document.results_raw = results_raw;
   } catch (error) {
-      $('results').innerHTML = error;
-      return;
+    $('results').innerHTML = error;
+    return;
   }
 
  	let results_formatted;
   try {
-      results_formatted = formatResults(results_raw, questions, opt);
-      //document.results_formatted = results_formatted;
+    results_formatted = formatResults(results_raw, questions, opt);
+    //document.results_formatted = results_formatted;
   } catch (error) {
-      $('results').innerHTML = error;
+    $('results').innerHTML = error;
   }
-  $('results').innerHTML = DOMPurify.sanitize(results_formatted);
+  $('results').innerHTML = DOMPurify.sanitize(results_formatted);;
 }
 </script>
